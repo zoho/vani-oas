@@ -1,0 +1,1282 @@
+{
+  "components": {
+    "schemas": {
+      "GetRelationEvidenceRequest": {
+        "type": "object",
+        "properties": {
+          "relation_context": {"$ref": "#/components/schemas/RelationContext"},
+          "target_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "source_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "relation_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "RELATION_TYPE_UNSPECIFIED",
+                "CONNECTED_BY_EDGE",
+                "CO_CONTAINED",
+                "SAME_STRUCTURE",
+                "PARENT",
+                "CHILD",
+                "ANCESTOR",
+                "DESCENDANT",
+                "SIBLING"
+              ]
+            }
+          }
+        }
+      },
+      "GetDistanceBetweenObjectsRequest": {
+        "type": "object",
+        "properties": {
+          "target_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "source_object": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "GetTraversalIndexResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/TraversalIndexResult"},
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "effective_scope": {"$ref": "#/components/schemas/ContainerScope"}
+        }
+      },
+      "SpatialComputationScope": {
+        "type": "object",
+        "x-vani-oneof-groups": [{
+          "members": [
+            "container_scope",
+            "absolute_bounds",
+            "percent_bounds"
+          ],
+          "name": "mode"
+        }],
+        "properties": {
+          "percent_bounds": {"$ref": "#/components/schemas/PercentBounds"},
+          "container_scope": {"$ref": "#/components/schemas/ContainerScope"},
+          "absolute_bounds": {"$ref": "#/components/schemas/Bounds"}
+        }
+      },
+      "GetTraversalSequenceResult": {
+        "type": "object",
+        "properties": {"objects": {
+          "type": "array",
+          "items": {"$ref": "#/components/schemas/ObjectRef"}
+        }}
+      },
+      "AgentError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "AGENT_ERROR_CODE_UNSPECIFIED",
+              "INVALID_ARGUMENT",
+              "SPACE_NOT_FOUND",
+              "ZONE_NOT_FOUND",
+              "FRAME_NOT_FOUND",
+              "OBJECT_NOT_FOUND",
+              "NO_EMPTY_REGION",
+              "NO_VISUAL_NEIGHBOR",
+              "PLACEMENT_CONFLICT",
+              "UNSUPPORTED_OPERATION",
+              "INTERNAL_ERROR"
+            ]
+          },
+          "message": {"type": "string"}
+        }
+      },
+      "ContainerScope": {
+        "type": "object",
+        "properties": {"scope_type": {
+          "type": "string",
+          "enum": [
+            "SCOPE_TYPE_UNSPECIFIED",
+            "ZONE_ROOT",
+            "FRAME_ROOT",
+            "GROUP_ROOT"
+          ]
+        }}
+      },
+      "GetTraversalWindowResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/GetTraversalWindowResult"},
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "effective_scope": {"$ref": "#/components/schemas/ContainerScope"}
+        }
+      },
+      "GetTraversalWindowResult": {
+        "type": "object",
+        "properties": {
+          "before_objects": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/ObjectRef"}
+          },
+          "after_objects": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/ObjectRef"}
+          },
+          "meta": {"$ref": "#/components/schemas/TraversalWindowResult"}
+        }
+      },
+      "Bounds": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "format": "float",
+            "type": "string"
+          },
+          "width": {
+            "format": "float",
+            "type": "string"
+          },
+          "y": {
+            "format": "float",
+            "type": "string"
+          },
+          "height": {
+            "format": "float",
+            "type": "string"
+          }
+        }
+      },
+      "GetObjectAncestorsRequest": {
+        "type": "object",
+        "properties": {
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "max_levels": {
+            "format": "int32",
+            "type": "string"
+          },
+          "object": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "VaniEnvelope": {
+        "description": "Standard Vani response envelope.",
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Operation payload. Narrowed per endpoint where a response schema is declared.",
+            "type": "object"
+          },
+          "message": {"type": "string"},
+          "request_uri": {"type": "string"},
+          "status": {
+            "description": "success or error",
+            "type": "string"
+          }
+        },
+        "required": ["status"]
+      },
+      "GetTraversalSequenceResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/GetTraversalSequenceResult"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "VaniError": {
+        "description": "Standard Vani error envelope.",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {"details": {
+              "description": "Error code and message, plus any context keys (edition_id, space_id, ...).",
+              "additionalProperties": true,
+              "type": "object",
+              "properties": {
+                "sdk_error_code": {
+                  "description": "Raw SDK code, present when the error was not mapped.",
+                  "type": "string"
+                },
+                "error_code": {"type": "string"},
+                "message": {"type": "string"}
+              }
+            }}
+          },
+          "request_uri": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      },
+      "TraversalIndexResult": {
+        "type": "object",
+        "properties": {"index_path": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "string"
+          }
+        }}
+      },
+      "RelationContext": {
+        "type": "object",
+        "properties": {"containment_context_type": {
+          "type": "string",
+          "enum": [
+            "CONTAINMENT_CONTEXT_TYPE_UNSPECIFIED",
+            "GROUP",
+            "FRAME"
+          ]
+        }}
+      },
+      "TraversalWindowResult": {
+        "type": "object",
+        "properties": {"anchor_index_path": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "string"
+          }
+        }}
+      },
+      "GetObjectParentsRequest": {
+        "type": "object",
+        "properties": {
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "object": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "FindRelatedObjectsRequest": {
+        "type": "object",
+        "properties": {
+          "relation_context": {"$ref": "#/components/schemas/RelationContext"},
+          "relation_query": {"type": "string"},
+          "max_depth": {
+            "format": "int32",
+            "type": "string"
+          },
+          "scope": {"$ref": "#/components/schemas/SpatialComputationScope"},
+          "anchor": {"$ref": "#/components/schemas/ObjectRef"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "relation_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "RELATION_TYPE_UNSPECIFIED",
+                "CONNECTED_BY_EDGE",
+                "CO_CONTAINED",
+                "SAME_STRUCTURE",
+                "PARENT",
+                "CHILD",
+                "ANCESTOR",
+                "DESCENDANT",
+                "SIBLING"
+              ]
+            }
+          },
+          "max_results": {
+            "format": "int32",
+            "type": "string"
+          }
+        }
+      },
+      "PercentBounds": {
+        "type": "object",
+        "properties": {
+          "right_pct": {
+            "format": "float",
+            "type": "string"
+          },
+          "top_pct": {
+            "format": "float",
+            "type": "string"
+          },
+          "bottom_pct": {
+            "format": "float",
+            "type": "string"
+          },
+          "left_pct": {
+            "format": "float",
+            "type": "string"
+          }
+        }
+      },
+      "RequestContext": {
+        "type": "object",
+        "properties": {
+          "zone_id": {"type": "string"},
+          "validate_only": {"type": "boolean"},
+          "actor_id": {"type": "string"},
+          "base_revision_id": {"type": "string"},
+          "space_id": {"type": "string"},
+          "request_id": {"type": "string"}
+        }
+      },
+      "ObjectRef": {
+        "type": "object",
+        "properties": {
+          "zone_id": {"type": "string"},
+          "object_id": {"type": "string"},
+          "frame_id": {"type": "string"}
+        }
+      }
+    },
+    "securitySchemes": {"iam-oauth2-schema": {
+      "flows": {"authorizationCode": {
+        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+        "scopes": {
+          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
+          "Vani.documents.READ": "Read document content, metadata, and attachments",
+          "Vani.projects.CREATE": "Create new projects and initialize project settings",
+          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.teams.CREATE": "Create new teams and assign team memberships",
+          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+          "Vani.editions.CREATE": "Create new document editions and version snapshots",
+          "Vani.projects.DELETE": "Delete projects and associated project data",
+          "Vani.portal.CREATE": "Create new portal resources and configurations",
+          "Vani.projects.READ": "Read project details, settings, and project metadata",
+          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.teams.DELETE": "Delete teams and remove team memberships",
+          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+        }
+      }},
+      "type": "oauth2"
+    }}
+  },
+  "servers": [{
+    "variables": {"dc": {
+      "default": "com",
+      "description": "Data-centre TLD for your edition.",
+      "enum": [
+        "com",
+        "ae",
+        "ca",
+        "com.au",
+        "com.cn",
+        "eu",
+        "in",
+        "jp",
+        "sa",
+        "sg",
+        "uk"
+      ]
+    }},
+    "description": "Vani API server. Select the data centre your edition is hosted in.",
+    "url": "https://api.app.vanihq.{dc}"
+  }],
+  "openapi": "3.1.0",
+  "paths": {
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/index": {"get": {
+      "summary": "Get hierarchical index path of an object within the zone traversal order",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getTraversalIndex",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetTraversalIndexResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "traversal_query",
+          "description": "`traversal_query` \u2014 JSON-encoded traversal query: {object:{object_id, frame_id}, traversal_scope?:{scope_type}, filter?:{object_types[], include_hidden, include_locked}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Traversal"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/adjacent-elements": {"get": {
+      "summary": "Get the elements adjacent to an anchor, with distance and direction",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getVisualNavigationAdjacentElements",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "nav_query",
+          "description": "`nav_query` \u2014 JSON-encoded navigation query: {anchor:{object_id, frame_id?}, max_results?:int, scope?, filter?:{object_types?:[], include_hidden?:bool, include_locked?:bool}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Visual Navigation"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/find": {"get": {
+      "summary": "Find related objects using deterministic relation filters and optional semantic hint",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getRelationshipFind",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/FindRelatedObjectsRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/FindRelatedObjectsRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "relationship_query",
+          "description": "`relationship_query` \u2014 JSON-encoded relationship query: {anchor:{object_id, frame_id}, relation_types?:[], relation_query?:string, max_depth?:int, max_results?:int}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Relationships"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/sequence": {"get": {
+      "summary": "Get ordered traversal neighbors from an anchor point in the zone",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getTraversalSequence",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetTraversalSequenceResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "traversal_query",
+          "description": "`traversal_query` \u2014 JSON-encoded traversal query: {anchor:{object_id, frame_id}, direction?, filter?:{object_types[], include_hidden, include_locked}, max_results?:int, wrap?:bool}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Traversal"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/window": {"get": {
+      "summary": "Get before/after context window around an anchor object in the zone",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getTraversalWindow",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetTraversalWindowResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "traversal_query",
+          "description": "`traversal_query` \u2014 JSON-encoded traversal query: {anchor:{object_id, frame_id}, traversal_scope?:{scope_type}, filter?:{object_types[], include_hidden, include_locked}, before_count?:int, after_count?:int, wrap?:bool}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Traversal"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/descendants": {"get": {
+      "summary": "Get hierarchical descendants of a container via BFS traversal",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getRelationshipDescendants",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "relationship_query",
+          "description": "`relationship_query` \u2014 JSON-encoded relationship query: {object:{zone_id, frame_id?, object_id?}, object_types?:[], max_depth?:int, max_results?:int}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Relationships"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/ancestors": {"get": {
+      "summary": "Get ancestor chain for an object in the zone hierarchy",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getRelationshipAncestors",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetObjectAncestorsRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetObjectAncestorsRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "relationship_query",
+          "description": "`relationship_query` \u2014 JSON-encoded relationship query: {object:{object_id}, max_levels?:int}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Relationships"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/children": {"get": {
+      "summary": "Get direct children of a container object",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getRelationshipChildren",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "relationship_query",
+          "description": "`relationship_query` \u2014 JSON-encoded relationship query: {object:{zone_id, frame_id?, object_id?}, object_types?:[], max_results?:int}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Relationships"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/distance": {"get": {
+      "summary": "Get the geometric distance between two objects",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getVisualNavigationDistance",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetDistanceBetweenObjectsRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetDistanceBetweenObjectsRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "nav_query",
+          "description": "`nav_query` \u2014 JSON-encoded navigation query: {source_object:{object_id, frame_id?}, target_object:{object_id, frame_id?}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Visual Navigation"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/connected": {"get": {
+      "summary": "Get objects connected to anchor through connector graph traversal",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getRelationshipConnected",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "relationship_query",
+          "description": "`relationship_query` \u2014 JSON-encoded relationship query: {anchor:{object_id, frame_id}, direction?, scope?, max_depth?:int, max_results?:int}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Relationships"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/parents": {"get": {
+      "summary": "Get direct parent of an object in the zone hierarchy",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getRelationshipParents",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetObjectParentsRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetObjectParentsRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "relationship_query",
+          "description": "`relationship_query` \u2014 JSON-encoded relationship query: {object:{object_id, frame_id}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Relationships"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/evidence": {"get": {
+      "summary": "Get deterministic relation evidence between two objects",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getRelationshipEvidence",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetRelationEvidenceRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetRelationEvidenceRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "relationship_query",
+          "description": "`relationship_query` \u2014 JSON-encoded relationship query: {source_object:{object_id, frame_id}, target_object:{object_id, frame_id}, relation_types?:[]}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Relationships"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/sequence": {"get": {
+      "summary": "Get the visually ordered neighbours of an anchor object",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getVisualNavigationSequence",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "nav_query",
+          "description": "`nav_query` \u2014 JSON-encoded navigation query: {anchor:{object_id, frame_id?}, direction, max_results?:int, wrap?:bool, filter?:{object_types?:[], include_hidden?:bool, include_locked?:bool}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Visual Navigation"]
+    }}
+  },
+  "info": {
+    "contact": {
+      "name": "Vani API Support",
+      "url": "https://www.vanihq.com/resources/api/doc/"
+    },
+    "description": "Traverse the zone hierarchy, resolve relationships, and navigate visually between objects.",
+    "title": "Navigation & Relationships",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Relationships",
+      "description": "Resolve parents, children, ancestors, descendants, and connected objects."
+    },
+    {
+      "name": "Traversal",
+      "description": "Walk the zone in index, sequence, and windowed order."
+    },
+    {
+      "name": "Visual Navigation",
+      "description": "Find adjacent elements, geometric distances, and visual ordering."
+    }
+  ]
+}

@@ -1,0 +1,643 @@
+{
+  "components": {
+    "schemas": {
+      "AgentApplyTextStyleRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "ApplyTextStyle payload",
+            "type": "object",
+            "properties": {
+              "all_text": {
+                "description": "Apply style to entire flattened text when true",
+                "type": "boolean"
+              },
+              "portion_style": {
+                "description": "Optional portion style patch",
+                "type": "object",
+                "properties": {
+                  "fontweight": {
+                    "description": "Optional font weight token",
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  "size": {
+                    "description": "Optional portion font size",
+                    "type": "number"
+                  },
+                  "color": {
+                    "description": "Optional text color patch",
+                    "type": "object",
+                    "properties": {
+                      "hsb": {
+                        "description": "HSB color value",
+                        "type": "object",
+                        "properties": {
+                          "saturation": {
+                            "description": "Saturation 0-1",
+                            "type": "number"
+                          },
+                          "brightness": {
+                            "description": "Brightness 0-1",
+                            "type": "number"
+                          },
+                          "hue": {
+                            "description": "Hue in degrees",
+                            "type": "number"
+                          }
+                        }
+                      },
+                      "hex": {
+                        "description": "Hex color value",
+                        "type": "object",
+                        "properties": {"value": {
+                          "description": "Hex color literal such as #8B4513",
+                          "type": "string",
+                          "maxLength": 50
+                        }}
+                      },
+                      "rgb": {
+                        "description": "RGB color value",
+                        "type": "object",
+                        "properties": {
+                          "red": {
+                            "description": "Red channel 0-255",
+                            "type": "integer"
+                          },
+                          "green": {
+                            "description": "Green channel 0-255",
+                            "type": "integer"
+                          },
+                          "blue": {
+                            "description": "Blue channel 0-255",
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "underline": {
+                    "description": "Optional underline toggle",
+                    "type": "boolean"
+                  },
+                  "strike": {
+                    "description": "Optional strike toggle",
+                    "type": "boolean"
+                  },
+                  "italic": {
+                    "description": "Optional italic toggle",
+                    "type": "boolean"
+                  },
+                  "font_name": {
+                    "description": "Optional font family/style patch",
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "description": "Font display name",
+                        "type": "string",
+                        "maxLength": 500
+                      },
+                      "style": {
+                        "description": "Optional font style token",
+                        "type": "string",
+                        "maxLength": 200
+                      }
+                    }
+                  }
+                }
+              },
+              "range": {
+                "description": "Apply style within selected range",
+                "type": "object",
+                "properties": {
+                  "start_index": {
+                    "description": "Inclusive start index on flattened text (>= 0)",
+                    "type": "integer"
+                  },
+                  "end_index": {
+                    "description": "Exclusive end index on flattened text (> start_index)",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "start_index",
+                  "end_index"
+                ]
+              },
+              "paragraph_style": {
+                "description": "Optional paragraph style patch",
+                "type": "object",
+                "properties": {
+                  "spacing": {
+                    "description": "Optional paragraph spacing patch",
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "description": "Optional space before paragraph, in points (>= 0)",
+                        "type": "integer"
+                      },
+                      "line": {
+                        "description": "Optional line-height multiplier (e.g. 1.5 = 150%)",
+                        "type": "number"
+                      },
+                      "after": {
+                        "description": "Optional space after paragraph, in points (>= 0)",
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  "level": {
+                    "description": "Optional paragraph level",
+                    "type": "integer"
+                  },
+                  "halign": {
+                    "description": "Optional paragraph alignment token",
+                    "type": "string",
+                    "maxLength": 50
+                  }
+                }
+              }
+            }
+          },
+          "object": {
+            "description": "Target text-bearing object",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "required": [
+          "object",
+          "payload"
+        ]
+      },
+      "ApplyTextStyleResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/ApplyTextStyleResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "object": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "AgentError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "AGENT_ERROR_CODE_UNSPECIFIED",
+              "INVALID_ARGUMENT",
+              "SPACE_NOT_FOUND",
+              "ZONE_NOT_FOUND",
+              "FRAME_NOT_FOUND",
+              "OBJECT_NOT_FOUND",
+              "NO_EMPTY_REGION",
+              "NO_VISUAL_NEIGHBOR",
+              "PLACEMENT_CONFLICT",
+              "UNSUPPORTED_OPERATION",
+              "INTERNAL_ERROR"
+            ]
+          },
+          "message": {"type": "string"}
+        }
+      },
+      "ApplyTextStyleResult": {
+        "type": "object",
+        "properties": {
+          "affected_paragraph_count": {
+            "format": "int32",
+            "type": "string"
+          },
+          "affected_portion_count": {
+            "format": "int32",
+            "type": "string"
+          }
+        }
+      },
+      "AgentEditTextRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "EditText payload",
+            "type": "object",
+            "properties": {
+              "cursor": {
+                "description": "Cursor-scoped insert/delete mutation",
+                "type": "object",
+                "properties": {
+                  "cursor_index": {
+                    "description": "Cursor index on flattened text",
+                    "type": "integer"
+                  },
+                  "text": {
+                    "description": "Text to insert (required when operation=CURSOR_TEXT_OPERATION_INSERT_TEXT)",
+                    "type": "string",
+                    "maxLength": 500000
+                  },
+                  "operation": {
+                    "description": "Cursor mutation operation",
+                    "type": "string",
+                    "maxLength": 50,
+                    "enum": [
+                      "CURSOR_TEXT_OPERATION_UNSPECIFIED",
+                      "CURSOR_TEXT_OPERATION_INSERT_TEXT",
+                      "CURSOR_TEXT_OPERATION_INSERT_NEWLINE",
+                      "CURSOR_TEXT_OPERATION_DELETE_NEWLINE"
+                    ]
+                  }
+                },
+                "required": [
+                  "cursor_index",
+                  "operation"
+                ]
+              },
+              "all_text": {
+                "description": "Full-text replace/delete mutation",
+                "type": "object",
+                "properties": {
+                  "replacement_text": {
+                    "description": "Replacement text (required when operation=ALL_TEXT_OPERATION_REPLACE)",
+                    "type": "string",
+                    "maxLength": 500000
+                  },
+                  "operation": {
+                    "description": "Full-text mutation operation",
+                    "type": "string",
+                    "maxLength": 50,
+                    "enum": [
+                      "ALL_TEXT_OPERATION_UNSPECIFIED",
+                      "ALL_TEXT_OPERATION_REPLACE",
+                      "ALL_TEXT_OPERATION_DELETE"
+                    ]
+                  }
+                },
+                "required": ["operation"]
+              },
+              "range": {
+                "description": "Range-scoped replace/delete mutation",
+                "type": "object",
+                "properties": {
+                  "replacement_text": {
+                    "description": "Replacement text (required when operation=RANGE_TEXT_OPERATION_REPLACE)",
+                    "type": "string",
+                    "maxLength": 500000
+                  },
+                  "range": {
+                    "description": "Target range in flattened text",
+                    "type": "object",
+                    "properties": {
+                      "start_index": {
+                        "description": "Inclusive start index on flattened text (>= 0)",
+                        "type": "integer"
+                      },
+                      "end_index": {
+                        "description": "Exclusive end index on flattened text (> start_index)",
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "start_index",
+                      "end_index"
+                    ]
+                  },
+                  "operation": {
+                    "description": "Range mutation operation",
+                    "type": "string",
+                    "maxLength": 50,
+                    "enum": [
+                      "RANGE_TEXT_OPERATION_UNSPECIFIED",
+                      "RANGE_TEXT_OPERATION_REPLACE",
+                      "RANGE_TEXT_OPERATION_DELETE"
+                    ]
+                  }
+                },
+                "required": [
+                  "range",
+                  "operation"
+                ]
+              }
+            }
+          },
+          "object": {
+            "description": "Target text-bearing object",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "required": [
+          "object",
+          "payload"
+        ]
+      },
+      "MutationMetadata": {
+        "type": "object",
+        "properties": {"new_revision_id": {"type": "string"}}
+      },
+      "VaniEnvelope": {
+        "description": "Standard Vani response envelope.",
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Operation payload. Narrowed per endpoint where a response schema is declared.",
+            "type": "object"
+          },
+          "message": {"type": "string"},
+          "request_uri": {"type": "string"},
+          "status": {
+            "description": "success or error",
+            "type": "string"
+          }
+        },
+        "required": ["status"]
+      },
+      "VaniError": {
+        "description": "Standard Vani error envelope.",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {"details": {
+              "description": "Error code and message, plus any context keys (edition_id, space_id, ...).",
+              "additionalProperties": true,
+              "type": "object",
+              "properties": {
+                "sdk_error_code": {
+                  "description": "Raw SDK code, present when the error was not mapped.",
+                  "type": "string"
+                },
+                "error_code": {"type": "string"},
+                "message": {"type": "string"}
+              }
+            }}
+          },
+          "request_uri": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      },
+      "EditTextResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/EditTextResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "object": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "TextRange": {
+        "type": "object",
+        "properties": {
+          "start_index": {
+            "format": "int32",
+            "type": "string"
+          },
+          "end_index": {
+            "format": "int32",
+            "type": "string"
+          }
+        }
+      },
+      "EditTextResult": {
+        "type": "object",
+        "properties": {"applied_range": {"$ref": "#/components/schemas/TextRange"}}
+      },
+      "ObjectRef": {
+        "type": "object",
+        "properties": {
+          "zone_id": {"type": "string"},
+          "object_id": {"type": "string"},
+          "frame_id": {"type": "string"}
+        }
+      }
+    },
+    "securitySchemes": {"iam-oauth2-schema": {
+      "flows": {"authorizationCode": {
+        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+        "scopes": {
+          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
+          "Vani.documents.READ": "Read document content, metadata, and attachments",
+          "Vani.projects.CREATE": "Create new projects and initialize project settings",
+          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.teams.CREATE": "Create new teams and assign team memberships",
+          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+          "Vani.editions.CREATE": "Create new document editions and version snapshots",
+          "Vani.projects.DELETE": "Delete projects and associated project data",
+          "Vani.portal.CREATE": "Create new portal resources and configurations",
+          "Vani.projects.READ": "Read project details, settings, and project metadata",
+          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.teams.DELETE": "Delete teams and remove team memberships",
+          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+        }
+      }},
+      "type": "oauth2"
+    }}
+  },
+  "servers": [{
+    "variables": {"dc": {
+      "default": "com",
+      "description": "Data-centre TLD for your edition.",
+      "enum": [
+        "com",
+        "ae",
+        "ca",
+        "com.au",
+        "com.cn",
+        "eu",
+        "in",
+        "jp",
+        "sa",
+        "sg",
+        "uk"
+      ]
+    }},
+    "description": "Vani API server. Select the data centre your edition is hosted in.",
+    "url": "https://api.app.vanihq.{dc}"
+  }],
+  "openapi": "3.1.0",
+  "paths": {
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/text/edit": {"post": {
+      "summary": "Canonical text mutation API for replace/insert/delete/split/merge operations",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentEditTextRequest"}}}
+      },
+      "operationId": "editText",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/EditTextResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Text"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/text/style": {"post": {
+      "summary": "Apply portion and or paragraph style to selected text scope",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentApplyTextStyleRequest"}}}
+      },
+      "operationId": "applyTextStyle",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/ApplyTextStyleResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Text"]
+    }}
+  },
+  "info": {
+    "contact": {
+      "name": "Vani API Support",
+      "url": "https://www.vanihq.com/resources/api/doc/"
+    },
+    "description": "Read and mutate text on any text-bearing object, including styling.",
+    "title": "Text",
+    "version": "1.0.0"
+  },
+  "tags": [{
+    "name": "Text",
+    "description": "Mutate and style text on any text-bearing object."
+  }]
+}

@@ -1,0 +1,3951 @@
+{
+  "components": {
+    "schemas": {
+      "SpatialBatchGetOccupiedBoundsRequest": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "minItems": 1,
+            "maxItems": 50,
+            "description": "requests. Max length: 2000000 (required)",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object_types": {
+                  "maxItems": 20,
+                  "description": "object types. Max length: 500",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "maxLength": 5000000
+                  }
+                },
+                "include_hidden": {
+                  "description": "include hidden",
+                  "type": "boolean"
+                },
+                "scope": {
+                  "description": "scope. Max length: 1000",
+                  "type": "object",
+                  "properties": {
+                    "percent_bounds": {
+                      "description": "percent bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "right_pct": {
+                          "description": "right pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "top_pct": {
+                          "description": "top pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "bottom_pct": {
+                          "description": "bottom pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "left_pct": {
+                          "description": "left pct. Max length: 30",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "absolute_bounds": {
+                      "description": "absolute bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "description": "X coordinate",
+                          "type": "number"
+                        },
+                        "width": {
+                          "description": "Width",
+                          "type": "number"
+                        },
+                        "y": {
+                          "description": "Y coordinate",
+                          "type": "number"
+                        },
+                        "height": {
+                          "description": "Height",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "scope_type": {
+                      "description": "scope type. Allowed values: SCOPE_TYPE_UNSPECIFIED, SCOPE_TYPE_ZONE, SCOPE_TYPE_FRAME. Max length: 50",
+                      "type": "string",
+                      "maxLength": 50,
+                      "enum": [
+                        "SCOPE_TYPE_UNSPECIFIED",
+                        "SCOPE_TYPE_ZONE",
+                        "SCOPE_TYPE_FRAME"
+                      ]
+                    },
+                    "frame_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "frame id. Max length: 200",
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  }
+                },
+                "include_locked": {
+                  "description": "include locked",
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "request_item_ids": {
+            "maxItems": 50,
+            "description": "Optional correlation IDs echoed back in response",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 5000000
+            }
+          }
+        },
+        "required": ["requests"]
+      },
+      "AgentCreateConnectionPayload": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "Shared connector options payload (connector_type, source_side, target_side)",
+            "type": "object",
+            "properties": {
+              "connector_type": {
+                "default": "LINE",
+                "description": "Preferred connector type; defaults to LINE",
+                "type": "string",
+                "maxLength": 10,
+                "enum": [
+                  "LINE",
+                  "ELBOW",
+                  "CURVE"
+                ]
+              },
+              "target_side": {
+                "description": "Preferred target endpoint side; UNKNOWN_SIDE lets server auto-resolve",
+                "type": "string",
+                "maxLength": 20,
+                "enum": [
+                  "UNKNOWN_SIDE",
+                  "NORTH",
+                  "EAST",
+                  "SOUTH",
+                  "WEST"
+                ]
+              },
+              "source_side": {
+                "description": "Preferred source endpoint side; UNKNOWN_SIDE lets server auto-resolve",
+                "type": "string",
+                "maxLength": 20,
+                "enum": [
+                  "UNKNOWN_SIDE",
+                  "NORTH",
+                  "EAST",
+                  "SOUTH",
+                  "WEST"
+                ]
+              }
+            }
+          },
+          "target_object": {
+            "description": "Target endpoint object",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          },
+          "context": {
+            "description": "Request context with zone scope",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Target zone id (required)",
+                "type": "string",
+                "maxLength": 200
+              },
+              "validate_only": {
+                "description": "Validate/dry-run mode when true",
+                "type": "boolean"
+              },
+              "actor_id": {
+                "description": "Calling actor/agent id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "space_id": {
+                "description": "Target space id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "request_id": {
+                "description": "Client-supplied request correlation id",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["zone_id"]
+          },
+          "source_object": {
+            "description": "Source endpoint object",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "required": [
+          "context",
+          "source_object",
+          "target_object"
+        ]
+      },
+      "VaniEnvelope": {
+        "description": "Standard Vani response envelope.",
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Operation payload. Narrowed per endpoint where a response schema is declared.",
+            "type": "object"
+          },
+          "message": {"type": "string"},
+          "request_uri": {"type": "string"},
+          "status": {
+            "description": "success or error",
+            "type": "string"
+          }
+        },
+        "required": ["status"]
+      },
+      "VaniError": {
+        "description": "Standard Vani error envelope.",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {"details": {
+              "description": "Error code and message, plus any context keys (edition_id, space_id, ...).",
+              "additionalProperties": true,
+              "type": "object",
+              "properties": {
+                "sdk_error_code": {
+                  "description": "Raw SDK code, present when the error was not mapped.",
+                  "type": "string"
+                },
+                "error_code": {"type": "string"},
+                "message": {"type": "string"}
+              }
+            }}
+          },
+          "request_uri": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      },
+      "AgentAlignObjectsRequest": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "description": "Alignment mode: ALIGN_LEFT_EDGE, ALIGN_RIGHT_EDGE, ALIGN_TOP_EDGE, ALIGN_BOTTOM_EDGE, ALIGN_HORIZONTAL_CENTER, ALIGN_VERTICAL_CENTER, DISTRIBUTE_HORIZONTAL, DISTRIBUTE_VERTICAL",
+            "type": "string",
+            "maxLength": 50,
+            "enum": [
+              "ALIGN_MODE_UNSPECIFIED",
+              "ALIGN_LEFT_EDGE",
+              "ALIGN_RIGHT_EDGE",
+              "ALIGN_TOP_EDGE",
+              "ALIGN_BOTTOM_EDGE",
+              "ALIGN_HORIZONTAL_CENTER",
+              "ALIGN_VERTICAL_CENTER",
+              "DISTRIBUTE_HORIZONTAL",
+              "DISTRIBUTE_VERTICAL"
+            ]
+          },
+          "objects": {
+            "minItems": 2,
+            "maxItems": 500,
+            "description": "List of objects to align (minimum 2)",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "zone_id": {
+                  "description": "Zone containing the object",
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "object_id": {
+                  "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                  "description": "Object id in the frame",
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "frame_id": {
+                  "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                  "description": "Frame containing the object",
+                  "type": "string",
+                  "maxLength": 200
+                }
+              }
+            }
+          },
+          "target": {
+            "description": "Optional alignment target reference",
+            "type": "object",
+            "properties": {
+              "reference": {
+                "description": "Target reference type e.g. FIRST_OBJECT LAST_OBJECT PAGE_CENTER",
+                "type": "string",
+                "maxLength": 100
+              },
+              "target_bounds": {
+                "description": "Optional explicit target bounding box",
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "description": "X coordinate",
+                    "type": "integer"
+                  },
+                  "width": {
+                    "description": "Width",
+                    "type": "integer"
+                  },
+                  "y": {
+                    "description": "Y coordinate",
+                    "type": "integer"
+                  },
+                  "height": {
+                    "description": "Height",
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "objects",
+          "mode"
+        ]
+      },
+      "GetObjectTidyFeasibilityResponse": {
+        "type": "object",
+        "properties": {
+          "reason": {"type": "string"},
+          "max_movement": {
+            "format": "float",
+            "type": "string"
+          },
+          "needed": {"type": "boolean"},
+          "resolved_target_bounds": {"$ref": "#/components/schemas/Bounds"},
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "plan": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/TidyObjectPlanItem"}
+          }
+        }
+      },
+      "AgentPlaceFrameRelativeRequest": {
+        "type": "object",
+        "properties": {
+          "target_frame_id": {
+            "description": "ID of the reference frame",
+            "type": "string",
+            "maxLength": 500
+          },
+          "constraint": {
+            "description": "Optional placement constraint",
+            "type": "object",
+            "properties": {
+              "avoid_overlap": {
+                "description": "Whether to enforce non-overlapping placement",
+                "type": "boolean"
+              },
+              "gap": {
+                "description": "Minimum gap in pixels between objects",
+                "type": "integer"
+              }
+            }
+          },
+          "source_frame_id": {
+            "description": "ID of the frame to move",
+            "type": "string",
+            "maxLength": 500
+          },
+          "relation": {
+            "description": "Anchor relation defining placement direction",
+            "type": "string",
+            "maxLength": 100,
+            "enum": [
+              "ANCHOR_RELATION_UNSPECIFIED",
+              "ANCHOR_RELATION_RIGHT",
+              "ANCHOR_RELATION_LEFT",
+              "ANCHOR_RELATION_TOP",
+              "ANCHOR_RELATION_BOTTOM",
+              "ANCHOR_RELATION_CENTER",
+              "ANCHOR_RELATION_CENTER_HORIZONTAL",
+              "ANCHOR_RELATION_CENTER_VERTICAL"
+            ]
+          }
+        },
+        "required": [
+          "source_frame_id",
+          "target_frame_id",
+          "relation"
+        ]
+      },
+      "TidyFramesRequest": {
+        "type": "object",
+        "properties": {
+          "fixed_spacing": {
+            "format": "float",
+            "type": "string"
+          },
+          "frame_ids": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "direction": {
+            "type": "string",
+            "enum": [
+              "TIDY_DIRECTION_UNSPECIFIED",
+              "TIDY_DIRECTION_AUTO",
+              "TIDY_DIRECTION_HORIZONTAL",
+              "TIDY_DIRECTION_VERTICAL"
+            ]
+          },
+          "spacing_mode": {
+            "type": "string",
+            "enum": [
+              "TIDY_SPACING_MODE_UNSPECIFIED",
+              "TIDY_SPACING_MODE_AUTO",
+              "TIDY_SPACING_MODE_FIXED"
+            ]
+          },
+          "preserve_order": {"type": "boolean"},
+          "target": {"$ref": "#/components/schemas/FrameAlignTarget"}
+        }
+      },
+      "RequestContext": {
+        "type": "object",
+        "properties": {
+          "zone_id": {"type": "string"},
+          "validate_only": {"type": "boolean"},
+          "actor_id": {"type": "string"},
+          "base_revision_id": {"type": "string"},
+          "space_id": {"type": "string"},
+          "request_id": {"type": "string"}
+        }
+      },
+      "ObjectRef": {
+        "type": "object",
+        "properties": {
+          "zone_id": {"type": "string"},
+          "object_id": {"type": "string"},
+          "frame_id": {"type": "string"}
+        }
+      },
+      "GetOccupiedBoundsRequest": {
+        "type": "object",
+        "properties": {
+          "object_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "VANI_OBJECT_TYPE_UNSPECIFIED",
+                "VANI_OBJECT_TYPE_SHAPE",
+                "VANI_OBJECT_TYPE_CONNECTOR",
+                "VANI_OBJECT_TYPE_PICTURE",
+                "VANI_OBJECT_TYPE_GROUP_SHAPE",
+                "VANI_OBJECT_TYPE_DOMAIN_DIAGRAM",
+                "VANI_OBJECT_TYPE_DIAGRAM",
+                "VANI_OBJECT_TYPE_STRUCTURE",
+                "VANI_OBJECT_TYPE_STRUCTURE_MINDMAP",
+                "VANI_OBJECT_TYPE_STRUCTURE_KANBAN",
+                "VANI_OBJECT_TYPE_STRUCTURE_STACK",
+                "VANI_OBJECT_TYPE_TABLE",
+                "VANI_OBJECT_TYPE_CHART",
+                "VANI_OBJECT_TYPE_DATABASE_TABLE",
+                "VANI_OBJECT_TYPE_STICKY_NOTE"
+              ]
+            }
+          },
+          "include_hidden": {"type": "boolean"},
+          "scope": {"$ref": "#/components/schemas/SpatialScope"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "include_locked": {"type": "boolean"}
+        }
+      },
+      "AlignObjectsResponse": {
+        "type": "object",
+        "properties": {
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "objects": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/ObjectRef"}
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "GetFramePlacementFeasibilityRequest": {
+        "type": "object",
+        "properties": {
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "target_frame_id": {"type": "string"},
+          "constraint": {"$ref": "#/components/schemas/AnchoringConstraint"},
+          "source_frame_id": {"type": "string"},
+          "relation": {
+            "type": "string",
+            "enum": [
+              "ANCHOR_RELATION_UNSPECIFIED",
+              "ANCHOR_RELATION_LEFT",
+              "ANCHOR_RELATION_RIGHT",
+              "ANCHOR_RELATION_TOP",
+              "ANCHOR_RELATION_BOTTOM"
+            ]
+          }
+        }
+      },
+      "AlignFramesResponse": {
+        "type": "object",
+        "properties": {
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "frame_ids": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "FindEmptyRegionRequest": {
+        "type": "object",
+        "properties": {
+          "padding": {
+            "format": "float",
+            "type": "string"
+          },
+          "scope": {"$ref": "#/components/schemas/SpatialScope"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "required_width": {
+            "format": "float",
+            "type": "string"
+          },
+          "max_results": {
+            "format": "int32",
+            "type": "string"
+          },
+          "required_height": {
+            "format": "float",
+            "type": "string"
+          }
+        }
+      },
+      "GetObjectAlignmentStatusRequest": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "ALIGN_MODE_UNSPECIFIED",
+              "ALIGN_LEFT_EDGE",
+              "ALIGN_RIGHT_EDGE",
+              "ALIGN_TOP_EDGE",
+              "ALIGN_BOTTOM_EDGE",
+              "ALIGN_HORIZONTAL_CENTER",
+              "ALIGN_VERTICAL_CENTER",
+              "DISTRIBUTE_HORIZONTAL",
+              "DISTRIBUTE_VERTICAL"
+            ]
+          },
+          "objects": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/ObjectRef"}
+          },
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "target": {"$ref": "#/components/schemas/ObjectAlignTarget"}
+        }
+      },
+      "Bounds": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "format": "float",
+            "type": "string"
+          },
+          "width": {
+            "format": "float",
+            "type": "string"
+          },
+          "y": {
+            "format": "float",
+            "type": "string"
+          },
+          "height": {
+            "format": "float",
+            "type": "string"
+          }
+        }
+      },
+      "CandidateRegion": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "format": "float",
+            "type": "string"
+          },
+          "bounds": {"$ref": "#/components/schemas/Bounds"},
+          "rationale": {"type": "string"}
+        }
+      },
+      "GetObjectPlacementFeasibilityRequest": {
+        "type": "object",
+        "properties": {
+          "target_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "source_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "constraint": {"$ref": "#/components/schemas/AnchoringConstraint"},
+          "relation": {
+            "type": "string",
+            "enum": [
+              "ANCHOR_RELATION_UNSPECIFIED",
+              "ANCHOR_RELATION_LEFT",
+              "ANCHOR_RELATION_RIGHT",
+              "ANCHOR_RELATION_TOP",
+              "ANCHOR_RELATION_BOTTOM"
+            ]
+          }
+        }
+      },
+      "BatchSuggestPlacementResponse": {
+        "type": "object",
+        "properties": {
+          "responses": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/SuggestPlacementResponse"}
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "request_item_ids": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "BatchFindEmptyRegionResponse": {
+        "type": "object",
+        "properties": {
+          "responses": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/FindEmptyRegionResponse"}
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "request_item_ids": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "PlaceFrameRelativeResponse": {
+        "type": "object",
+        "properties": {
+          "final_bounds": {"$ref": "#/components/schemas/Bounds"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "source_frame_id": {"type": "string"}
+        }
+      },
+      "TidyFramePlanItem": {
+        "type": "object",
+        "properties": {
+          "final_bounds": {"$ref": "#/components/schemas/Bounds"},
+          "frame_id": {"type": "string"}
+        }
+      },
+      "AgentTidyFramesRequest": {
+        "type": "object",
+        "properties": {
+          "fixed_spacing": {
+            "description": "Fixed gap in pixels (used when spacing_mode is FIXED)",
+            "type": "integer"
+          },
+          "frame_ids": {
+            "minItems": 2,
+            "maxItems": 500,
+            "description": "List of frame UUIDs to tidy (minimum 2)",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          "direction": {
+            "description": "Distribution direction",
+            "type": "string",
+            "maxLength": 50,
+            "enum": [
+              "TIDY_DIRECTION_UNSPECIFIED",
+              "HORIZONTAL",
+              "VERTICAL"
+            ]
+          },
+          "spacing_mode": {
+            "description": "Spacing mode between frames",
+            "type": "string",
+            "maxLength": 50,
+            "enum": [
+              "SPACING_MODE_UNSPECIFIED",
+              "EQUAL",
+              "FIXED"
+            ]
+          },
+          "preserve_order": {
+            "description": "Whether to preserve original visual order",
+            "type": "boolean"
+          },
+          "target": {
+            "description": "Optional bounding area for tidy layout",
+            "type": "object",
+            "properties": {
+              "reference": {
+                "description": "Target reference type e.g. FIRST_OBJECT LAST_OBJECT PAGE_CENTER",
+                "type": "string",
+                "maxLength": 100
+              },
+              "target_bounds": {
+                "description": "Optional explicit target bounding box",
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "description": "X coordinate",
+                    "type": "integer"
+                  },
+                  "width": {
+                    "description": "Width",
+                    "type": "integer"
+                  },
+                  "y": {
+                    "description": "Y coordinate",
+                    "type": "integer"
+                  },
+                  "height": {
+                    "description": "Height",
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": ["frame_ids"]
+      },
+      "SpatialBatchPlacementFeasibilityRequest": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "minItems": 1,
+            "maxItems": 50,
+            "description": "requests. Max length: 2000000 (required)",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "padding": {
+                  "description": "padding. Max length: 30",
+                  "type": "number"
+                },
+                "near_object": {
+                  "description": "near object. Max length: 500",
+                  "type": "object",
+                  "properties": {
+                    "zone_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "Optional zone UUID",
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "object_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "Object ID",
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "frame_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "Optional frame UUID",
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  }
+                },
+                "object_type": {
+                  "description": "object type. Allowed values: VANI_OBJECT_TYPE_UNSPECIFIED, VANI_OBJECT_TYPE_FRAME, VANI_OBJECT_TYPE_TEXT, VANI_OBJECT_TYPE_PICTURE, VANI_OBJECT_TYPE_SHAPE, VANI_OBJECT_TYPE_CONNECTOR. Max length: 50",
+                  "type": "string",
+                  "maxLength": 50,
+                  "enum": [
+                    "VANI_OBJECT_TYPE_UNSPECIFIED",
+                    "VANI_OBJECT_TYPE_FRAME",
+                    "VANI_OBJECT_TYPE_TEXT",
+                    "VANI_OBJECT_TYPE_PICTURE",
+                    "VANI_OBJECT_TYPE_SHAPE",
+                    "VANI_OBJECT_TYPE_CONNECTOR"
+                  ]
+                },
+                "scope": {
+                  "description": "scope. Max length: 1000",
+                  "type": "object",
+                  "properties": {
+                    "percent_bounds": {
+                      "description": "percent bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "right_pct": {
+                          "description": "right pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "top_pct": {
+                          "description": "top pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "bottom_pct": {
+                          "description": "bottom pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "left_pct": {
+                          "description": "left pct. Max length: 30",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "absolute_bounds": {
+                      "description": "absolute bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "description": "X coordinate",
+                          "type": "number"
+                        },
+                        "width": {
+                          "description": "Width",
+                          "type": "number"
+                        },
+                        "y": {
+                          "description": "Y coordinate",
+                          "type": "number"
+                        },
+                        "height": {
+                          "description": "Height",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "scope_type": {
+                      "description": "scope type. Allowed values: SCOPE_TYPE_UNSPECIFIED, SCOPE_TYPE_ZONE, SCOPE_TYPE_FRAME. Max length: 50",
+                      "type": "string",
+                      "maxLength": 50,
+                      "enum": [
+                        "SCOPE_TYPE_UNSPECIFIED",
+                        "SCOPE_TYPE_ZONE",
+                        "SCOPE_TYPE_FRAME"
+                      ]
+                    },
+                    "frame_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "frame id. Max length: 200",
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  }
+                },
+                "required_width": {
+                  "description": "required width. Max length: 30 (required)",
+                  "type": "number"
+                },
+                "required_height": {
+                  "description": "required height. Max length: 30 (required)",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "required_width",
+                "required_height"
+              ]
+            }
+          },
+          "request_item_ids": {
+            "maxItems": 50,
+            "description": "Optional correlation IDs echoed back in response",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 5000000
+            }
+          }
+        },
+        "required": ["requests"]
+      },
+      "SuggestPlacementRequest": {
+        "type": "object",
+        "properties": {
+          "padding": {
+            "format": "float",
+            "type": "string"
+          },
+          "object_type": {
+            "type": "string",
+            "enum": [
+              "VANI_OBJECT_TYPE_UNSPECIFIED",
+              "VANI_OBJECT_TYPE_SHAPE",
+              "VANI_OBJECT_TYPE_CONNECTOR",
+              "VANI_OBJECT_TYPE_PICTURE",
+              "VANI_OBJECT_TYPE_GROUP_SHAPE",
+              "VANI_OBJECT_TYPE_DOMAIN_DIAGRAM",
+              "VANI_OBJECT_TYPE_DIAGRAM",
+              "VANI_OBJECT_TYPE_STRUCTURE",
+              "VANI_OBJECT_TYPE_STRUCTURE_MINDMAP",
+              "VANI_OBJECT_TYPE_STRUCTURE_KANBAN",
+              "VANI_OBJECT_TYPE_STRUCTURE_STACK",
+              "VANI_OBJECT_TYPE_TABLE",
+              "VANI_OBJECT_TYPE_CHART",
+              "VANI_OBJECT_TYPE_DATABASE_TABLE",
+              "VANI_OBJECT_TYPE_STICKY_NOTE"
+            ]
+          },
+          "near_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "scope": {"$ref": "#/components/schemas/SpatialScope"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "required_width": {
+            "format": "float",
+            "type": "string"
+          },
+          "max_results": {
+            "format": "int32",
+            "type": "string"
+          },
+          "required_height": {
+            "format": "float",
+            "type": "string"
+          }
+        }
+      },
+      "GetOccupiedBoundsResponse": {
+        "type": "object",
+        "properties": {
+          "occupied_bounds": {"$ref": "#/components/schemas/Bounds"},
+          "object_count": {
+            "format": "int32",
+            "type": "string"
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "AgentTidyObjectsRequest": {
+        "type": "object",
+        "properties": {
+          "fixed_spacing": {
+            "description": "Fixed gap in pixels (used when spacing_mode is FIXED)",
+            "type": "integer"
+          },
+          "objects": {
+            "minItems": 2,
+            "maxItems": 500,
+            "description": "List of objects to tidy (minimum 2)",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "zone_id": {
+                  "description": "Zone containing the object",
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "object_id": {
+                  "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                  "description": "Object id in the frame",
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "frame_id": {
+                  "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                  "description": "Frame containing the object",
+                  "type": "string",
+                  "maxLength": 200
+                }
+              }
+            }
+          },
+          "direction": {
+            "description": "Distribution direction",
+            "type": "string",
+            "maxLength": 50,
+            "enum": [
+              "TIDY_DIRECTION_UNSPECIFIED",
+              "HORIZONTAL",
+              "VERTICAL"
+            ]
+          },
+          "spacing_mode": {
+            "description": "Spacing mode between objects",
+            "type": "string",
+            "maxLength": 50,
+            "enum": [
+              "SPACING_MODE_UNSPECIFIED",
+              "EQUAL",
+              "FIXED"
+            ]
+          },
+          "preserve_order": {
+            "description": "Whether to preserve original visual order",
+            "type": "boolean"
+          },
+          "target": {
+            "description": "Optional bounding area for tidy layout",
+            "type": "object",
+            "properties": {
+              "reference": {
+                "description": "Target reference type e.g. FIRST_OBJECT LAST_OBJECT PAGE_CENTER",
+                "type": "string",
+                "maxLength": 100
+              },
+              "target_bounds": {
+                "description": "Optional explicit target bounding box",
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "description": "X coordinate",
+                    "type": "integer"
+                  },
+                  "width": {
+                    "description": "Width",
+                    "type": "integer"
+                  },
+                  "y": {
+                    "description": "Y coordinate",
+                    "type": "integer"
+                  },
+                  "height": {
+                    "description": "Height",
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": ["objects"]
+      },
+      "FindEmptyRegionResponse": {
+        "type": "object",
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/CandidateRegion"}
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "GetObjectsRequest": {
+        "type": "object",
+        "properties": {
+          "object_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "VANI_OBJECT_TYPE_UNSPECIFIED",
+                "VANI_OBJECT_TYPE_SHAPE",
+                "VANI_OBJECT_TYPE_CONNECTOR",
+                "VANI_OBJECT_TYPE_PICTURE",
+                "VANI_OBJECT_TYPE_GROUP_SHAPE",
+                "VANI_OBJECT_TYPE_DOMAIN_DIAGRAM",
+                "VANI_OBJECT_TYPE_DIAGRAM",
+                "VANI_OBJECT_TYPE_STRUCTURE",
+                "VANI_OBJECT_TYPE_STRUCTURE_MINDMAP",
+                "VANI_OBJECT_TYPE_STRUCTURE_KANBAN",
+                "VANI_OBJECT_TYPE_STRUCTURE_STACK",
+                "VANI_OBJECT_TYPE_TABLE",
+                "VANI_OBJECT_TYPE_CHART",
+                "VANI_OBJECT_TYPE_DATABASE_TABLE",
+                "VANI_OBJECT_TYPE_STICKY_NOTE"
+              ]
+            }
+          },
+          "include_hidden": {"type": "boolean"},
+          "scope": {"$ref": "#/components/schemas/SpatialScope"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "max_results": {
+            "format": "int32",
+            "type": "string"
+          },
+          "include_locked": {"type": "boolean"}
+        }
+      },
+      "SpatialComputationScope": {
+        "type": "object",
+        "x-vani-oneof-groups": [{
+          "members": [
+            "container_scope",
+            "absolute_bounds",
+            "percent_bounds"
+          ],
+          "name": "mode"
+        }],
+        "properties": {
+          "percent_bounds": {"$ref": "#/components/schemas/PercentBounds"},
+          "container_scope": {"$ref": "#/components/schemas/ContainerScope"},
+          "absolute_bounds": {"$ref": "#/components/schemas/Bounds"}
+        }
+      },
+      "SpatialBatchFindEmptyRegionRequest": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "minItems": 1,
+            "maxItems": 50,
+            "description": "requests. Max length: 2000000 (required)",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "padding": {
+                  "description": "padding. Max length: 30",
+                  "type": "number"
+                },
+                "scope": {
+                  "description": "scope. Max length: 1000",
+                  "type": "object",
+                  "properties": {
+                    "percent_bounds": {
+                      "description": "percent bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "right_pct": {
+                          "description": "right pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "top_pct": {
+                          "description": "top pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "bottom_pct": {
+                          "description": "bottom pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "left_pct": {
+                          "description": "left pct. Max length: 30",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "absolute_bounds": {
+                      "description": "absolute bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "description": "X coordinate",
+                          "type": "number"
+                        },
+                        "width": {
+                          "description": "Width",
+                          "type": "number"
+                        },
+                        "y": {
+                          "description": "Y coordinate",
+                          "type": "number"
+                        },
+                        "height": {
+                          "description": "Height",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "scope_type": {
+                      "description": "scope type. Allowed values: SCOPE_TYPE_UNSPECIFIED, SCOPE_TYPE_ZONE, SCOPE_TYPE_FRAME. Max length: 50",
+                      "type": "string",
+                      "maxLength": 50,
+                      "enum": [
+                        "SCOPE_TYPE_UNSPECIFIED",
+                        "SCOPE_TYPE_ZONE",
+                        "SCOPE_TYPE_FRAME"
+                      ]
+                    },
+                    "frame_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "frame id. Max length: 200",
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  }
+                },
+                "required_width": {
+                  "description": "required width. Max length: 30 (required)",
+                  "type": "number"
+                },
+                "max_results": {
+                  "description": "max results. Max length: 10",
+                  "type": "integer"
+                },
+                "required_height": {
+                  "description": "required height. Max length: 30 (required)",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "required_width",
+                "required_height"
+              ]
+            }
+          },
+          "request_item_ids": {
+            "maxItems": 50,
+            "description": "Optional correlation IDs echoed back in response",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 5000000
+            }
+          }
+        },
+        "required": ["requests"]
+      },
+      "AgentError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "AGENT_ERROR_CODE_UNSPECIFIED",
+              "INVALID_ARGUMENT",
+              "SPACE_NOT_FOUND",
+              "ZONE_NOT_FOUND",
+              "FRAME_NOT_FOUND",
+              "OBJECT_NOT_FOUND",
+              "NO_EMPTY_REGION",
+              "NO_VISUAL_NEIGHBOR",
+              "PLACEMENT_CONFLICT",
+              "UNSUPPORTED_OPERATION",
+              "INTERNAL_ERROR"
+            ]
+          },
+          "message": {"type": "string"}
+        }
+      },
+      "MutationMetadata": {
+        "type": "object",
+        "properties": {"new_revision_id": {"type": "string"}}
+      },
+      "TidyObjectsRequest": {
+        "type": "object",
+        "properties": {
+          "fixed_spacing": {
+            "format": "float",
+            "type": "string"
+          },
+          "objects": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/ObjectRef"}
+          },
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "direction": {
+            "type": "string",
+            "enum": [
+              "TIDY_DIRECTION_UNSPECIFIED",
+              "TIDY_DIRECTION_AUTO",
+              "TIDY_DIRECTION_HORIZONTAL",
+              "TIDY_DIRECTION_VERTICAL"
+            ]
+          },
+          "spacing_mode": {
+            "type": "string",
+            "enum": [
+              "TIDY_SPACING_MODE_UNSPECIFIED",
+              "TIDY_SPACING_MODE_AUTO",
+              "TIDY_SPACING_MODE_FIXED"
+            ]
+          },
+          "preserve_order": {"type": "boolean"},
+          "target": {"$ref": "#/components/schemas/ObjectAlignTarget"}
+        }
+      },
+      "ObjectAlignTarget": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "enum": [
+              "OBJECT_ALIGN_REFERENCE_UNSPECIFIED",
+              "WITHIN_SELECTION",
+              "CURRENT_FRAME",
+              "TARGET_BOUNDS"
+            ]
+          },
+          "target_bounds": {"$ref": "#/components/schemas/Bounds"}
+        }
+      },
+      "ConnectionOptions": {
+        "type": "object",
+        "properties": {
+          "connector_type": {
+            "type": "string",
+            "enum": [
+              "LINE",
+              "ELBOW",
+              "CURVE"
+            ]
+          },
+          "target_side": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN_SIDE",
+              "NORTH",
+              "EAST",
+              "SOUTH",
+              "WEST"
+            ]
+          },
+          "source_side": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN_SIDE",
+              "NORTH",
+              "EAST",
+              "SOUTH",
+              "WEST"
+            ]
+          }
+        }
+      },
+      "AgentReconnectConnectionPayload": {
+        "type": "object",
+        "properties": {
+          "current_object": {
+            "description": "Existing endpoint object to be replaced",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          },
+          "new_object": {
+            "description": "New endpoint object",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          },
+          "payload": {
+            "description": "Shared reconnect options payload (new_side)",
+            "type": "object",
+            "properties": {"new_side": {
+              "description": "Preferred side on new_object; UNKNOWN_SIDE lets server choose",
+              "type": "string",
+              "maxLength": 20,
+              "enum": [
+                "UNKNOWN_SIDE",
+                "NORTH",
+                "EAST",
+                "SOUTH",
+                "WEST"
+              ]
+            }}
+          },
+          "connection_object": {
+            "description": "Existing connector object to reconnect",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          },
+          "context": {
+            "description": "Request context with zone scope",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Target zone id (required)",
+                "type": "string",
+                "maxLength": 200
+              },
+              "validate_only": {
+                "description": "Validate/dry-run mode when true",
+                "type": "boolean"
+              },
+              "actor_id": {
+                "description": "Calling actor/agent id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "space_id": {
+                "description": "Target space id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "request_id": {
+                "description": "Client-supplied request correlation id",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["zone_id"]
+          }
+        },
+        "required": [
+          "context",
+          "connection_object",
+          "current_object",
+          "new_object"
+        ]
+      },
+      "FrameAlignTarget": {
+        "type": "object",
+        "properties": {
+          "reference": {
+            "type": "string",
+            "enum": [
+              "FRAME_ALIGN_REFERENCE_UNSPECIFIED",
+              "WITHIN_SELECTION",
+              "TARGET_BOUNDS"
+            ]
+          },
+          "target_bounds": {"$ref": "#/components/schemas/Bounds"}
+        }
+      },
+      "SpatialBatchGetObjectsRequest": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "minItems": 1,
+            "maxItems": 50,
+            "description": "Array of GetObjects sub-requests",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object_types": {
+                  "maxItems": 20,
+                  "description": "object types. Max length: 500",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "maxLength": 5000000
+                  }
+                },
+                "include_hidden": {
+                  "description": "include hidden",
+                  "type": "boolean"
+                },
+                "scope": {
+                  "description": "scope. Max length: 1000",
+                  "type": "object",
+                  "properties": {
+                    "percent_bounds": {
+                      "description": "percent bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "right_pct": {
+                          "description": "right pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "top_pct": {
+                          "description": "top pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "bottom_pct": {
+                          "description": "bottom pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "left_pct": {
+                          "description": "left pct. Max length: 30",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "absolute_bounds": {
+                      "description": "absolute bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "description": "X coordinate",
+                          "type": "number"
+                        },
+                        "width": {
+                          "description": "Width",
+                          "type": "number"
+                        },
+                        "y": {
+                          "description": "Y coordinate",
+                          "type": "number"
+                        },
+                        "height": {
+                          "description": "Height",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "scope_type": {
+                      "description": "scope type. Allowed values: SCOPE_TYPE_UNSPECIFIED, SCOPE_TYPE_ZONE, SCOPE_TYPE_FRAME. Max length: 50",
+                      "type": "string",
+                      "maxLength": 50,
+                      "enum": [
+                        "SCOPE_TYPE_UNSPECIFIED",
+                        "SCOPE_TYPE_ZONE",
+                        "SCOPE_TYPE_FRAME"
+                      ]
+                    },
+                    "frame_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "frame id. Max length: 200",
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  }
+                },
+                "max_results": {
+                  "description": "max results. Max length: 10",
+                  "type": "integer"
+                },
+                "include_locked": {
+                  "description": "include locked",
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "request_item_ids": {
+            "maxItems": 50,
+            "description": "Optional correlation IDs echoed back in response",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 5000000
+            }
+          }
+        },
+        "required": ["requests"]
+      },
+      "BatchGetOccupiedBoundsResponse": {
+        "type": "object",
+        "properties": {
+          "responses": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/GetOccupiedBoundsResponse"}
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "request_item_ids": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "GetFrameTidyFeasibilityResponse": {
+        "type": "object",
+        "properties": {
+          "reason": {"type": "string"},
+          "max_movement": {
+            "format": "float",
+            "type": "string"
+          },
+          "needed": {"type": "boolean"},
+          "resolved_target_bounds": {"$ref": "#/components/schemas/Bounds"},
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "plan": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/TidyFramePlanItem"}
+          }
+        }
+      },
+      "GetPlacementFeasibilityResponse": {
+        "type": "object",
+        "properties": {
+          "reason": {"type": "string"},
+          "suggested_alternative": {"$ref": "#/components/schemas/CandidateRegion"},
+          "feasible": {"type": "boolean"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "ContainerScope": {
+        "type": "object",
+        "properties": {"scope_type": {
+          "type": "string",
+          "enum": [
+            "SCOPE_TYPE_UNSPECIFIED",
+            "ZONE_ROOT",
+            "FRAME_ROOT",
+            "GROUP_ROOT"
+          ]
+        }}
+      },
+      "SpatialBatchSuggestPlacementRequest": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "minItems": 1,
+            "maxItems": 50,
+            "description": "requests. Max length: 2000000 (required)",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "padding": {
+                  "description": "padding. Max length: 30",
+                  "type": "number"
+                },
+                "near_object": {
+                  "description": "near object. Max length: 500",
+                  "type": "object",
+                  "properties": {
+                    "zone_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "Optional zone UUID",
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "object_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "Object ID",
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "frame_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "Optional frame UUID",
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  }
+                },
+                "object_type": {
+                  "description": "object type. Allowed values: VANI_OBJECT_TYPE_UNSPECIFIED, VANI_OBJECT_TYPE_FRAME, VANI_OBJECT_TYPE_TEXT, VANI_OBJECT_TYPE_PICTURE, VANI_OBJECT_TYPE_SHAPE, VANI_OBJECT_TYPE_CONNECTOR. Max length: 50",
+                  "type": "string",
+                  "maxLength": 50,
+                  "enum": [
+                    "VANI_OBJECT_TYPE_UNSPECIFIED",
+                    "VANI_OBJECT_TYPE_FRAME",
+                    "VANI_OBJECT_TYPE_TEXT",
+                    "VANI_OBJECT_TYPE_PICTURE",
+                    "VANI_OBJECT_TYPE_SHAPE",
+                    "VANI_OBJECT_TYPE_CONNECTOR"
+                  ]
+                },
+                "scope": {
+                  "description": "scope. Max length: 1000",
+                  "type": "object",
+                  "properties": {
+                    "percent_bounds": {
+                      "description": "percent bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "right_pct": {
+                          "description": "right pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "top_pct": {
+                          "description": "top pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "bottom_pct": {
+                          "description": "bottom pct. Max length: 30",
+                          "type": "number"
+                        },
+                        "left_pct": {
+                          "description": "left pct. Max length: 30",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "absolute_bounds": {
+                      "description": "absolute bounds. Max length: 500",
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "description": "X coordinate",
+                          "type": "number"
+                        },
+                        "width": {
+                          "description": "Width",
+                          "type": "number"
+                        },
+                        "y": {
+                          "description": "Y coordinate",
+                          "type": "number"
+                        },
+                        "height": {
+                          "description": "Height",
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "scope_type": {
+                      "description": "scope type. Allowed values: SCOPE_TYPE_UNSPECIFIED, SCOPE_TYPE_ZONE, SCOPE_TYPE_FRAME. Max length: 50",
+                      "type": "string",
+                      "maxLength": 50,
+                      "enum": [
+                        "SCOPE_TYPE_UNSPECIFIED",
+                        "SCOPE_TYPE_ZONE",
+                        "SCOPE_TYPE_FRAME"
+                      ]
+                    },
+                    "frame_id": {
+                      "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                      "description": "frame id. Max length: 200",
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  }
+                },
+                "required_width": {
+                  "description": "required width. Max length: 30 (required)",
+                  "type": "number"
+                },
+                "max_results": {
+                  "description": "max results. Max length: 10",
+                  "type": "integer"
+                },
+                "required_height": {
+                  "description": "required height. Max length: 30 (required)",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "required_width",
+                "required_height"
+              ]
+            }
+          },
+          "request_item_ids": {
+            "maxItems": 50,
+            "description": "Optional correlation IDs echoed back in response",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 5000000
+            }
+          }
+        },
+        "required": ["requests"]
+      },
+      "BatchGetPlacementFeasibilityResponse": {
+        "type": "object",
+        "properties": {
+          "responses": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/GetPlacementFeasibilityResponse"}
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"},
+          "request_item_ids": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "GetFrameAlignmentStatusRequest": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "ALIGN_MODE_UNSPECIFIED",
+              "ALIGN_LEFT_EDGE",
+              "ALIGN_RIGHT_EDGE",
+              "ALIGN_TOP_EDGE",
+              "ALIGN_BOTTOM_EDGE",
+              "ALIGN_HORIZONTAL_CENTER",
+              "ALIGN_VERTICAL_CENTER",
+              "DISTRIBUTE_HORIZONTAL",
+              "DISTRIBUTE_VERTICAL"
+            ]
+          },
+          "frame_ids": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "target": {"$ref": "#/components/schemas/FrameAlignTarget"}
+        }
+      },
+      "AgentAlignFramesRequest": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "description": "Alignment mode: ALIGN_LEFT_EDGE, ALIGN_RIGHT_EDGE, ALIGN_TOP_EDGE, ALIGN_BOTTOM_EDGE, ALIGN_HORIZONTAL_CENTER, ALIGN_VERTICAL_CENTER, DISTRIBUTE_HORIZONTAL, DISTRIBUTE_VERTICAL",
+            "type": "string",
+            "maxLength": 50,
+            "enum": [
+              "ALIGN_MODE_UNSPECIFIED",
+              "ALIGN_LEFT_EDGE",
+              "ALIGN_RIGHT_EDGE",
+              "ALIGN_TOP_EDGE",
+              "ALIGN_BOTTOM_EDGE",
+              "ALIGN_HORIZONTAL_CENTER",
+              "ALIGN_VERTICAL_CENTER",
+              "DISTRIBUTE_HORIZONTAL",
+              "DISTRIBUTE_VERTICAL"
+            ]
+          },
+          "frame_ids": {
+            "minItems": 2,
+            "maxItems": 500,
+            "description": "List of frame UUIDs to align (minimum 2)",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          "target": {
+            "description": "Optional alignment target reference",
+            "type": "object",
+            "properties": {
+              "reference": {
+                "description": "Target reference type e.g. FIRST_OBJECT LAST_OBJECT PAGE_CENTER",
+                "type": "string",
+                "maxLength": 100
+              },
+              "target_bounds": {
+                "description": "Optional explicit target bounding box",
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "description": "X coordinate",
+                    "type": "integer"
+                  },
+                  "width": {
+                    "description": "Width",
+                    "type": "integer"
+                  },
+                  "y": {
+                    "description": "Y coordinate",
+                    "type": "integer"
+                  },
+                  "height": {
+                    "description": "Height",
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "frame_ids",
+          "mode"
+        ]
+      },
+      "AgentPlaceObjectRelativeRequest": {
+        "type": "object",
+        "properties": {
+          "target_object": {
+            "description": "Target object to place relative to",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          },
+          "source_object": {
+            "description": "Source object to move",
+            "type": "object",
+            "properties": {
+              "zone_id": {
+                "description": "Zone containing the object",
+                "type": "string",
+                "maxLength": 200
+              },
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Object id in the frame",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the object",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          },
+          "constraint": {
+            "description": "Optional placement constraint",
+            "type": "object",
+            "properties": {
+              "avoid_overlap": {
+                "description": "Whether to enforce non-overlapping placement",
+                "type": "boolean"
+              },
+              "gap": {
+                "description": "Minimum gap in pixels between objects",
+                "type": "integer"
+              }
+            }
+          },
+          "relation": {
+            "description": "Anchor relation defining placement direction",
+            "type": "string",
+            "maxLength": 100,
+            "enum": [
+              "ANCHOR_RELATION_UNSPECIFIED",
+              "ANCHOR_RELATION_RIGHT",
+              "ANCHOR_RELATION_LEFT",
+              "ANCHOR_RELATION_TOP",
+              "ANCHOR_RELATION_BOTTOM",
+              "ANCHOR_RELATION_CENTER",
+              "ANCHOR_RELATION_CENTER_HORIZONTAL",
+              "ANCHOR_RELATION_CENTER_VERTICAL"
+            ]
+          }
+        },
+        "required": [
+          "source_object",
+          "target_object",
+          "relation"
+        ]
+      },
+      "GetPlacementFeasibilityRequest": {
+        "type": "object",
+        "properties": {
+          "padding": {
+            "format": "float",
+            "type": "string"
+          },
+          "object_type": {
+            "type": "string",
+            "enum": [
+              "VANI_OBJECT_TYPE_UNSPECIFIED",
+              "VANI_OBJECT_TYPE_SHAPE",
+              "VANI_OBJECT_TYPE_CONNECTOR",
+              "VANI_OBJECT_TYPE_PICTURE",
+              "VANI_OBJECT_TYPE_GROUP_SHAPE",
+              "VANI_OBJECT_TYPE_DOMAIN_DIAGRAM",
+              "VANI_OBJECT_TYPE_DIAGRAM",
+              "VANI_OBJECT_TYPE_STRUCTURE",
+              "VANI_OBJECT_TYPE_STRUCTURE_MINDMAP",
+              "VANI_OBJECT_TYPE_STRUCTURE_KANBAN",
+              "VANI_OBJECT_TYPE_STRUCTURE_STACK",
+              "VANI_OBJECT_TYPE_TABLE",
+              "VANI_OBJECT_TYPE_CHART",
+              "VANI_OBJECT_TYPE_DATABASE_TABLE",
+              "VANI_OBJECT_TYPE_STICKY_NOTE"
+            ]
+          },
+          "near_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "scope": {"$ref": "#/components/schemas/SpatialScope"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "required_width": {
+            "format": "float",
+            "type": "string"
+          },
+          "required_height": {
+            "format": "float",
+            "type": "string"
+          }
+        }
+      },
+      "SpatialScope": {
+        "type": "object",
+        "x-vani-oneof-groups": [{
+          "members": [
+            "absolute_bounds",
+            "percent_bounds"
+          ],
+          "name": "region"
+        }],
+        "properties": {
+          "percent_bounds": {"$ref": "#/components/schemas/PercentBounds"},
+          "absolute_bounds": {"$ref": "#/components/schemas/Bounds"},
+          "scope_type": {
+            "type": "string",
+            "enum": [
+              "SCOPE_TYPE_UNSPECIFIED",
+              "SCOPE_TYPE_ZONE",
+              "SCOPE_TYPE_FRAME"
+            ]
+          },
+          "frame_id": {"type": "string"}
+        }
+      },
+      "AnchoringConstraint": {
+        "type": "object",
+        "properties": {
+          "keep_inside_container": {"type": "boolean"},
+          "avoid_overlap": {"type": "boolean"},
+          "cross_axis_alignment": {
+            "type": "string",
+            "enum": [
+              "CROSS_AXIS_ALIGNMENT_UNSPECIFIED",
+              "START",
+              "CENTER",
+              "END"
+            ]
+          },
+          "gap": {
+            "format": "float",
+            "type": "string"
+          },
+          "snap_to_grid": {"type": "boolean"}
+        }
+      },
+      "GetConnectionFeasibilityRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {"$ref": "#/components/schemas/ConnectionOptions"},
+          "target_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "source_object": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "PlaceObjectRelativeResponse": {
+        "type": "object",
+        "properties": {
+          "final_bounds": {"$ref": "#/components/schemas/Bounds"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "source_object": {"$ref": "#/components/schemas/ObjectRef"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "PercentBounds": {
+        "type": "object",
+        "properties": {
+          "right_pct": {
+            "format": "float",
+            "type": "string"
+          },
+          "top_pct": {
+            "format": "float",
+            "type": "string"
+          },
+          "bottom_pct": {
+            "format": "float",
+            "type": "string"
+          },
+          "left_pct": {
+            "format": "float",
+            "type": "string"
+          }
+        }
+      },
+      "TidyObjectPlanItem": {
+        "type": "object",
+        "properties": {
+          "final_bounds": {"$ref": "#/components/schemas/Bounds"},
+          "object": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "GetClearanceAroundObjectRequest": {
+        "type": "object",
+        "properties": {
+          "object_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "VANI_OBJECT_TYPE_UNSPECIFIED",
+                "VANI_OBJECT_TYPE_SHAPE",
+                "VANI_OBJECT_TYPE_CONNECTOR",
+                "VANI_OBJECT_TYPE_PICTURE",
+                "VANI_OBJECT_TYPE_GROUP_SHAPE",
+                "VANI_OBJECT_TYPE_DOMAIN_DIAGRAM",
+                "VANI_OBJECT_TYPE_DIAGRAM",
+                "VANI_OBJECT_TYPE_STRUCTURE",
+                "VANI_OBJECT_TYPE_STRUCTURE_MINDMAP",
+                "VANI_OBJECT_TYPE_STRUCTURE_KANBAN",
+                "VANI_OBJECT_TYPE_STRUCTURE_STACK",
+                "VANI_OBJECT_TYPE_TABLE",
+                "VANI_OBJECT_TYPE_CHART",
+                "VANI_OBJECT_TYPE_DATABASE_TABLE",
+                "VANI_OBJECT_TYPE_STICKY_NOTE"
+              ]
+            }
+          },
+          "include_hidden": {"type": "boolean"},
+          "scope": {"$ref": "#/components/schemas/SpatialComputationScope"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "include_locked": {"type": "boolean"},
+          "object": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "SuggestPlacementResponse": {
+        "type": "object",
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/CandidateRegion"}
+          },
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      }
+    },
+    "securitySchemes": {"iam-oauth2-schema": {
+      "flows": {"authorizationCode": {
+        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+        "scopes": {
+          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
+          "Vani.documents.READ": "Read document content, metadata, and attachments",
+          "Vani.projects.CREATE": "Create new projects and initialize project settings",
+          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.teams.CREATE": "Create new teams and assign team memberships",
+          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+          "Vani.editions.CREATE": "Create new document editions and version snapshots",
+          "Vani.projects.DELETE": "Delete projects and associated project data",
+          "Vani.portal.CREATE": "Create new portal resources and configurations",
+          "Vani.projects.READ": "Read project details, settings, and project metadata",
+          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.teams.DELETE": "Delete teams and remove team memberships",
+          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+        }
+      }},
+      "type": "oauth2"
+    }}
+  },
+  "servers": [{
+    "variables": {"dc": {
+      "default": "com",
+      "description": "Data-centre TLD for your edition.",
+      "enum": [
+        "com",
+        "ae",
+        "ca",
+        "com.au",
+        "com.cn",
+        "eu",
+        "in",
+        "jp",
+        "sa",
+        "sg",
+        "uk"
+      ]
+    }},
+    "description": "Vani API server. Select the data centre your edition is hosted in.",
+    "url": "https://api.app.vanihq.{dc}"
+  }],
+  "openapi": "3.1.0",
+  "paths": {
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/alignment-status": {"get": {
+      "summary": "Check whether selected frames already satisfy a requested alignment mode and optional target bounds",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getAnchoringFrameAlignmentStatus",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetFrameAlignmentStatusRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetFrameAlignmentStatusRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "anchoring_query",
+          "description": "`anchoring_query` \u2014 JSON-encoded anchoring query: {frame_ids:[], mode, target?:{reference, target_bounds?:{x,y,width,height}}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/tidy": {"post": {
+      "summary": "Apply tidy grid layout to selected frames using requested spacing and direction policy",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentTidyFramesRequest"}}}
+      },
+      "operationId": "createAnchoringFrameTidy",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetFrameTidyFeasibilityResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/suggest-placement/batch": {"post": {
+      "summary": "Get ranked placement candidates for several objects in one call",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SpatialBatchSuggestPlacementRequest"}}}
+      },
+      "operationId": "querySuggestedPlacementsBatch",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/BatchSuggestPlacementResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/tidy": {"post": {
+      "summary": "Apply tidy grid layout to selected objects using requested spacing and direction policy",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentTidyObjectsRequest"}}}
+      },
+      "operationId": "createAnchoringObjectTidy",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetObjectTidyFeasibilityResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/placement-feasibility": {"get": {
+      "summary": "Check whether a footprint fits within a scope without overlapping",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getSpatialSearchPlacementFeasibility",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetPlacementFeasibilityRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetPlacementFeasibilityRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "spatial_query",
+          "description": "`spatial_query` \u2014 JSON-encoded spatial query: {required_width, required_height, scope?, padding?, near_object?, object_type?}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/suggest-placement": {"get": {
+      "summary": "Get ranked placement candidates for a new object",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getSpatialSearchSuggestPlacement",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/SuggestPlacementRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/SuggestPlacementRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "spatial_query",
+          "description": "`spatial_query` \u2014 JSON-encoded spatial query: {required_width, required_height, scope?, padding?, max_results?, near_object?, object_type?}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/placement-feasibility": {"get": {
+      "summary": "Check whether a source frame can be placed relative to a target frame without violating constraints",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getAnchoringFramePlacementFeasibility",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetFramePlacementFeasibilityRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetFramePlacementFeasibilityRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "anchoring_query",
+          "description": "`anchoring_query` \u2014 JSON-encoded anchoring query: {source_frame_id, target_frame_id, relation, constraint?:{avoid_overlap?, gap?}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/align": {"post": {
+      "summary": "Align selected frames using a requested alignment mode and optional target bounds",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentAlignFramesRequest"}}}
+      },
+      "operationId": "createAnchoringFrameAlign",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/AlignFramesResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/place": {"post": {
+      "summary": "Move a source object relative to a target object using an anchor relation and optional placement constraints",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentPlaceObjectRelativeRequest"}}}
+      },
+      "operationId": "createAnchoringObjectPlace",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/PlaceObjectRelativeResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/alignment-status": {"get": {
+      "summary": "Check whether selected objects already satisfy a requested alignment mode and optional target bounds",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getAnchoringObjectAlignmentStatus",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetObjectAlignmentStatusRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetObjectAlignmentStatusRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "anchoring_query",
+          "description": "`anchoring_query` \u2014 JSON-encoded anchoring query: {objects:[{object_id, frame_id?}], mode, target?:{reference, target_bounds?:{x,y,width,height}}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/tidy-feasibility": {"get": {
+      "summary": "Preview the tidy grid layout for selected objects without applying it",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getAnchoringObjectTidyFeasibility",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/TidyObjectsRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/TidyObjectsRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "anchoring_query",
+          "description": "`anchoring_query` \u2014 JSON-encoded anchoring query: {objects:[{object_id, frame_id?}], direction?, spacing_mode?, fixed_spacing?, preserve_order?, target?:{reference, target_bounds?}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/empty-region/batch": {"post": {
+      "summary": "Get ranked empty regions for several footprints in one call",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SpatialBatchFindEmptyRegionRequest"}}}
+      },
+      "operationId": "queryEmptyRegionsBatch",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/BatchFindEmptyRegionResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/objects": {"get": {
+      "summary": "Get the objects within a spatial scope or region",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getSpatialSearchObjects",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetObjectsRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetObjectsRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "spatial_query",
+          "description": "`spatial_query` \u2014 JSON-encoded spatial query: {scope?, include_hidden?, include_locked?, max_results?, object_types?:[]}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/place": {"post": {
+      "summary": "Move a source frame relative to a target frame using an anchor relation and optional placement constraints",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentPlaceFrameRelativeRequest"}}}
+      },
+      "operationId": "createAnchoringFramePlace",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/PlaceFrameRelativeResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/occupied-bounds/batch": {"post": {
+      "summary": "Get union bounding boxes for several scopes in one call",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SpatialBatchGetOccupiedBoundsRequest"}}}
+      },
+      "operationId": "queryOccupiedBoundsBatch",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/BatchGetOccupiedBoundsResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/reconnect": {"post": {
+      "summary": "Move one end of an existing connection to another object",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentReconnectConnectionPayload"}}}
+      },
+      "operationId": "reconnectConnection",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Connections"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/align": {"post": {
+      "summary": "Align selected objects using a requested alignment mode and optional target bounds",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentAlignObjectsRequest"}}}
+      },
+      "operationId": "createAnchoringObjectAlign",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/AlignObjectsResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/feasibility": {"get": {
+      "summary": "Check whether a connection between two objects is feasible",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getConnectionFeasibility",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetConnectionFeasibilityRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetConnectionFeasibilityRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "connection_query",
+          "description": "`connection_query` \u2014 JSON-encoded connection query: {context?:{...}, source_object:{object_id, frame_id?}, target_object:{object_id, frame_id?}, payload?:{connector_type?, source_side?, target_side?}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Connections"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/empty-region": {"get": {
+      "summary": "Get ranked empty regions that fit a requested footprint",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getSpatialSearchEmptyRegion",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/FindEmptyRegionRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/FindEmptyRegionRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "spatial_query",
+          "description": "`spatial_query` \u2014 JSON-encoded spatial query: {required_width, required_height, scope?, padding?, max_results?}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/occupied-bounds": {"get": {
+      "summary": "Get the union bounding box of all objects in a scope",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getSpatialSearchOccupiedBounds",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetOccupiedBoundsRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetOccupiedBoundsRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "spatial_query",
+          "description": "`spatial_query` \u2014 JSON-encoded spatial query: {scope?, include_hidden?, include_locked?, object_types?:[]}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/clearance": {"get": {
+      "summary": "Get the directional gap distances around an object",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getSpatialSearchClearance",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetClearanceAroundObjectRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetClearanceAroundObjectRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "spatial_query",
+          "description": "`spatial_query` \u2014 JSON-encoded spatial query: {object:{object_id, frame_id?}, scope?:{container_scope?:{scope_type:ZONE_ROOT|FRAME_ROOT}, absolute_bounds?, percent_bounds?}, include_hidden?, include_locked?, object_types?:[VANI_OBJECT_TYPE_*]}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/objects/batch": {"post": {
+      "summary": "Run several object queries in one call",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SpatialBatchGetObjectsRequest"}}}
+      },
+      "operationId": "queryObjectsBatch",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Spatial Search"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/create": {"post": {
+      "summary": "Create a connection between two objects in a zone",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentCreateConnectionPayload"}}}
+      },
+      "operationId": "createConnection",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Connections"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/tidy-feasibility": {"get": {
+      "summary": "Preview the tidy grid layout for selected frames without applying it",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getAnchoringFrameTidyFeasibility",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/TidyFramesRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/TidyFramesRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "anchoring_query",
+          "description": "`anchoring_query` \u2014 JSON-encoded anchoring query: {frame_ids:[], direction?, spacing_mode?, fixed_spacing?, preserve_order?, target?:{reference, target_bounds?}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/placement-feasibility": {"get": {
+      "summary": "Check whether a source object can be placed relative to a target object without violating overlap or constraint rules",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getAnchoringObjectPlacementFeasibility",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetObjectPlacementFeasibilityRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetObjectPlacementFeasibilityRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "anchoring_query",
+          "description": "`anchoring_query` \u2014 JSON-encoded anchoring query: {source_object:{object_id, frame_id?}, target_object:{object_id, frame_id?}, relation, constraint?:{avoid_overlap?, gap?}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Anchoring"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/placement-feasibility/batch": {"post": {
+      "summary": "Check several footprints for fit in one call",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SpatialBatchPlacementFeasibilityRequest"}}}
+      },
+      "operationId": "queryPlacementFeasibilityBatch",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/BatchGetPlacementFeasibilityResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Spatial Search"]
+    }}
+  },
+  "info": {
+    "contact": {
+      "name": "Vani API Support",
+      "url": "https://www.vanihq.com/resources/api/doc/"
+    },
+    "description": "Deterministic placement, alignment, tidy layout, spatial queries, and connector routing.",
+    "title": "Layout & Placement",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Anchoring",
+      "description": "Place, align, and tidy frames and objects relative to one another, with feasibility previews."
+    },
+    {
+      "name": "Spatial Search",
+      "description": "Query occupied and empty regions, clearances, and ranked placement candidates."
+    },
+    {
+      "name": "Connections",
+      "description": "Create, re-route, and feasibility-check connectors between objects."
+    }
+  ]
+}

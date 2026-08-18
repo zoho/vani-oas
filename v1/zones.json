@@ -1,0 +1,971 @@
+{
+  "components": {
+    "schemas": {
+      "DuplicateZoneRequest": {
+        "type": "object",
+        "properties": {"duplicate_zone": {
+          "description": "duplicate zone. Max length: 11000 (required)",
+          "type": "object",
+          "properties": {
+            "destination_type": {
+              "description": "destination type. Allowed values: NEW_SPACE, SAME_SPACE, EXISTING_SPACE (required)",
+              "type": "string",
+              "enum": [
+                "NEW_SPACE",
+                "SAME_SPACE",
+                "EXISTING_SPACE"
+              ]
+            },
+            "space_name": {
+              "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]+)$",
+              "description": "space name",
+              "type": "string"
+            },
+            "deep_copy": {
+              "description": "deep copy",
+              "type": "boolean"
+            },
+            "zone_name": {
+              "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]+)$",
+              "description": "zone name",
+              "type": "string"
+            },
+            "version_id": {
+              "description": "version id",
+              "type": "string"
+            },
+            "team_id": {
+              "description": "team id",
+              "type": "string"
+            },
+            "copy_members": {
+              "description": "copy members",
+              "type": "boolean"
+            },
+            "destination_space_id": {
+              "description": "destination space id",
+              "type": "string"
+            },
+            "copy_comments": {
+              "description": "copy comments",
+              "type": "boolean"
+            }
+          },
+          "required": ["destination_type"]
+        }},
+        "required": ["duplicate_zone"]
+      },
+      "UpdateZoneMetaRequest": {
+        "type": "object",
+        "properties": {"zone_name": {
+          "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]+)$",
+          "description": "zone name (required)",
+          "type": "string"
+        }},
+        "required": ["zone_name"]
+      },
+      "VaniEnvelope": {
+        "description": "Standard Vani response envelope.",
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Operation payload. Narrowed per endpoint where a response schema is declared.",
+            "type": "object"
+          },
+          "message": {"type": "string"},
+          "request_uri": {"type": "string"},
+          "status": {
+            "description": "success or error",
+            "type": "string"
+          }
+        },
+        "required": ["status"]
+      },
+      "CreateZoneRequest": {
+        "type": "object",
+        "properties": {"create_zone": {
+          "description": "create zone. Max length: 11000 (required)",
+          "type": "object",
+          "properties": {
+            "zone_name": {
+              "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]+)$",
+              "description": "zone name (required)",
+              "type": "string"
+            },
+            "template_id": {
+              "description": "template id",
+              "type": "string"
+            }
+          },
+          "required": ["zone_name"]
+        }},
+        "required": ["create_zone"]
+      },
+      "VaniError": {
+        "description": "Standard Vani error envelope.",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {"details": {
+              "description": "Error code and message, plus any context keys (edition_id, space_id, ...).",
+              "additionalProperties": true,
+              "type": "object",
+              "properties": {
+                "sdk_error_code": {
+                  "description": "Raw SDK code, present when the error was not mapped.",
+                  "type": "string"
+                },
+                "error_code": {"type": "string"},
+                "message": {"type": "string"}
+              }
+            }}
+          },
+          "request_uri": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      },
+      "MoveZoneRequest": {
+        "type": "object",
+        "properties": {"move_zone": {
+          "description": "move zone. Max length: 11000 (required)",
+          "type": "object",
+          "properties": {
+            "destination_type": {
+              "description": "destination type. Allowed values: NEW_SPACE, EXISTING_SPACE (required)",
+              "type": "string",
+              "enum": [
+                "NEW_SPACE",
+                "EXISTING_SPACE"
+              ]
+            },
+            "space_name": {
+              "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]+)$",
+              "description": "space name",
+              "type": "string"
+            },
+            "deep_copy": {
+              "description": "deep copy",
+              "type": "boolean"
+            },
+            "team_id": {
+              "description": "team id",
+              "type": "string"
+            },
+            "destination_space_id": {
+              "description": "destination space id",
+              "type": "string"
+            },
+            "copy_comments": {
+              "description": "copy comments",
+              "type": "boolean"
+            }
+          },
+          "required": ["destination_type"]
+        }},
+        "required": ["move_zone"]
+      },
+      "UpdateZoneStateRequest": {
+        "type": "object",
+        "properties": {"zone_state": {
+          "description": "zone state. Allowed values: RESTORE, TRASH, DELETE (required)",
+          "type": "string",
+          "enum": [
+            "RESTORE",
+            "TRASH",
+            "DELETE"
+          ]
+        }},
+        "required": ["zone_state"]
+      },
+      "ShareZonesWithMembersRequest": {
+        "type": "object",
+        "properties": {"members_info": {
+          "minItems": 1,
+          "maxItems": 100,
+          "description": "members info. Max length: 11000 (required)",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "member_id": {
+                "description": "member id. Max length: 100 (required)",
+                "type": "string",
+                "maxLength": 100
+              },
+              "member_type": {
+                "description": "member type. Allowed values: USER, TEAM, ORG. Max length: 100 (required)",
+                "type": "string",
+                "maxLength": 100,
+                "enum": [
+                  "USER",
+                  "TEAM",
+                  "ORG"
+                ]
+              },
+              "role": {
+                "description": "role. Allowed values: EDITOR, COMMENTER, VIEWER, ORGANISER",
+                "type": "string",
+                "enum": [
+                  "EDITOR",
+                  "COMMENTER",
+                  "VIEWER",
+                  "ORGANISER"
+                ]
+              },
+              "resource_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "resource id (required)",
+                "type": "string"
+              },
+              "permission": {
+                "description": "permission. Allowed values: restricted, allowed",
+                "type": "string",
+                "enum": [
+                  "restricted",
+                  "allowed"
+                ]
+              }
+            },
+            "required": [
+              "member_id",
+              "member_type",
+              "resource_id"
+            ]
+          }
+        }},
+        "required": ["members_info"]
+      }
+    },
+    "securitySchemes": {"iam-oauth2-schema": {
+      "flows": {"authorizationCode": {
+        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+        "scopes": {
+          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
+          "Vani.documents.READ": "Read document content, metadata, and attachments",
+          "Vani.projects.CREATE": "Create new projects and initialize project settings",
+          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.teams.CREATE": "Create new teams and assign team memberships",
+          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+          "Vani.editions.CREATE": "Create new document editions and version snapshots",
+          "Vani.projects.DELETE": "Delete projects and associated project data",
+          "Vani.portal.CREATE": "Create new portal resources and configurations",
+          "Vani.projects.READ": "Read project details, settings, and project metadata",
+          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.teams.DELETE": "Delete teams and remove team memberships",
+          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+        }
+      }},
+      "type": "oauth2"
+    }}
+  },
+  "servers": [{
+    "variables": {"dc": {
+      "default": "com",
+      "description": "Data-centre TLD for your edition.",
+      "enum": [
+        "com",
+        "ae",
+        "ca",
+        "com.au",
+        "com.cn",
+        "eu",
+        "in",
+        "jp",
+        "sa",
+        "sg",
+        "uk"
+      ]
+    }},
+    "description": "Vani API server. Select the data centre your edition is hosted in.",
+    "url": "https://api.app.vanihq.{dc}"
+  }],
+  "openapi": "3.1.0",
+  "paths": {
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/move": {"post": {
+      "summary": "Move a zone to another space",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MoveZoneRequest"}}}
+      },
+      "operationId": "moveZone",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Zones"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/members": {"post": {
+      "summary": "Share zones in a space with members",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ShareZonesWithMembersRequest"}}}
+      },
+      "operationId": "shareZonesWithMembers",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Conditional Sharing"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones": {"post": {
+      "summary": "Create a new zone",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreateZoneRequest"}}}
+      },
+      "operationId": "createZone",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Zones"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/meta": {
+      "get": {
+        "summary": "Get zone metadata",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.projects.READ",
+          "Vani.spaces.READ"
+        ]}],
+        "operationId": "getZoneMeta",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "READ",
+        "parameters": [
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "edition_id",
+            "description": "The unique identifier of the edition",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "space_id",
+            "description": "The unique identifier of the space",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "zone_id",
+            "description": "The unique identifier of the zone",
+            "required": true
+          }
+        ],
+        "x-vani-read-only": true,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 30
+        },
+        "tags": ["Zones"]
+      },
+      "put": {
+        "summary": "Update zone metadata",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.projects.UPDATE",
+          "Vani.spaces.UPDATE"
+        ]}],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateZoneMetaRequest"}}}
+        },
+        "operationId": "updateZoneMeta",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "UPDATE",
+        "parameters": [
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "edition_id",
+            "description": "The unique identifier of the edition",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "space_id",
+            "description": "The unique identifier of the space",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "zone_id",
+            "description": "The unique identifier of the zone",
+            "required": true
+          }
+        ],
+        "x-vani-read-only": false,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 30
+        },
+        "tags": ["Zones"]
+      }
+    },
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/state": {"put": {
+      "summary": "Update zone state",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.UPDATE",
+        "Vani.spaces.UPDATE"
+      ]}],
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateZoneStateRequest"}}}
+      },
+      "operationId": "updateZoneState",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "UPDATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Zones"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/version": {"get": {
+      "summary": "Get the current version of a zone",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.documents.READ",
+        "Vani.zones.READ"
+      ]}],
+      "operationId": "getZoneVersion",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 1000,
+            "enum": [
+              "modified_by",
+              "version_id",
+              "version_time",
+              "description",
+              "uri"
+            ]
+          },
+          "in": "query",
+          "name": "fields",
+          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: modified_by, version_id, version_time, description, uri",
+          "required": false
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 6
+          },
+          "in": "query",
+          "name": "from",
+          "description": "The starting index from where the results should be fetched. Default value is 0",
+          "required": false
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 3
+          },
+          "in": "query",
+          "name": "limit",
+          "description": "The maximum number of results to return in the response. Default value is 20",
+          "required": false
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "query",
+          "name": "from_date",
+          "description": "Allows you to fetch only those Zone versions that have been created or modified since the given timestamp",
+          "required": false
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Zone Versions"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/meta": {"get": {
+      "summary": "Get metadata for all zones in a space",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "operationId": "getSpaceZonesMeta",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 1000,
+            "enum": [
+              "created_time",
+              "last_modified_time",
+              "zone_name",
+              "author_zuid",
+              "status",
+              "last_author_zuid",
+              "space_id",
+              "state_modified_time"
+            ]
+          },
+          "in": "query",
+          "name": "fields",
+          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: created_time, last_modified_time, zone_name, author_zuid, status, last_author_zuid, space_id, state_modified_time",
+          "required": false
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Zones"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/duplicate": {"post": {
+      "summary": "Duplicate a zone",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DuplicateZoneRequest"}}}
+      },
+      "operationId": "duplicateZone",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Zones"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/members/{member_id}": {
+      "post": {
+        "summary": "Share every zone in a space with a member",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.projects.CREATE",
+          "Vani.spaces.CREATE"
+        ]}],
+        "operationId": "shareAllZonesWithMember",
+        "responses": {
+          "201": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "CREATE",
+        "parameters": [
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "edition_id",
+            "description": "The unique identifier of the edition",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "space_id",
+            "description": "The unique identifier of the space",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "member_id",
+            "description": "The unique identifier of the member",
+            "required": true
+          }
+        ],
+        "x-vani-read-only": false,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 30
+        },
+        "tags": ["Conditional Sharing"]
+      },
+      "get": {
+        "summary": "Get the zones in a space shared with a member",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.projects.READ",
+          "Vani.spaces.READ"
+        ]}],
+        "operationId": "getZonesSharedWithMember",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "READ",
+        "parameters": [
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "edition_id",
+            "description": "The unique identifier of the edition",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "space_id",
+            "description": "The unique identifier of the space",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "member_id",
+            "description": "The unique identifier of the member",
+            "required": true
+          }
+        ],
+        "x-vani-read-only": true,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 60
+        },
+        "tags": ["Conditional Sharing"]
+      }
+    }
+  },
+  "info": {
+    "contact": {
+      "name": "Vani API Support",
+      "url": "https://www.vanihq.com/resources/api/doc/"
+    },
+    "description": "Zones (documents) within a space: lifecycle, metadata, versioning, and per-zone sharing.",
+    "title": "Zones",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Zones",
+      "description": "Create, duplicate, move, and update zones, and read their metadata."
+    },
+    {
+      "name": "Zone Versions",
+      "description": "Read the current version of a zone."
+    },
+    {
+      "name": "Conditional Sharing",
+      "description": "Share individual zones within a space with a specific member."
+    }
+  ]
+}

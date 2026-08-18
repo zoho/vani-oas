@@ -1,0 +1,232 @@
+{
+  "openapi": "3.1.0",
+  "files": [
+    {
+      "file": "bundled/vani-api.json",
+      "operations": 162,
+      "role": "bundled",
+      "paths": 122,
+      "schemas": 539,
+      "description": "REST API for Vani, Zoho's collaborative whiteboard. Manage editions, teams, spaces and zones; create and edit the objects on a zone canvas; and build whole structures \u2014 mindmaps, flowcharts, kanban boards and tables \u2014 in a single call.\n\nThis document contains every Vani API operation. The per-resource documents beside it (editions, teams, spaces, zones, canvas, and the rest) are subsets of this one. Generate a client from this file OR from the per-resource files, not both: they describe the same operations, so generating from both produces duplicate types.",
+      "title": "Vani API",
+      "tags": [
+        "Editions",
+        "Subscription",
+        "Templates",
+        "Teams",
+        "Team Members",
+        "Team Requests",
+        "Spaces",
+        "Space Members",
+        "Space Requests",
+        "Zones",
+        "Zone Versions",
+        "Conditional Sharing",
+        "Shapes",
+        "Connectors",
+        "Group Shapes",
+        "Frames",
+        "Shapes on Frame",
+        "Connectors on Frame",
+        "Group Shapes on Frame",
+        "Frames on Frame",
+        "Canvas Text",
+        "Search",
+        "External Share",
+        "Structured Creation",
+        "Anchoring",
+        "Spatial Search",
+        "Connections",
+        "Relationships",
+        "Traversal",
+        "Visual Navigation",
+        "Tables",
+        "Database Tables",
+        "Text",
+        "Data"
+      ]
+    },
+    {
+      "file": "editions.json",
+      "operations": 8,
+      "role": "resource",
+      "surface": "rest",
+      "paths": 6,
+      "schemas": 5,
+      "description": "Edition-level resources: the edition itself, its subscription, join requests, and templates.",
+      "title": "Editions",
+      "tags": [
+        "Editions",
+        "Subscription",
+        "Templates"
+      ]
+    },
+    {
+      "file": "teams.json",
+      "operations": 15,
+      "role": "resource",
+      "surface": "rest",
+      "paths": 11,
+      "schemas": 7,
+      "description": "Teams within an edition, their members, join requests, and role lookups.",
+      "title": "Teams",
+      "tags": [
+        "Teams",
+        "Team Members",
+        "Team Requests"
+      ]
+    },
+    {
+      "file": "spaces.json",
+      "operations": 17,
+      "role": "resource",
+      "surface": "rest",
+      "paths": 13,
+      "schemas": 10,
+      "description": "Spaces (projects) within an edition, their members, join requests, and role lookups.",
+      "title": "Spaces",
+      "tags": [
+        "Spaces",
+        "Space Members",
+        "Space Requests"
+      ]
+    },
+    {
+      "file": "zones.json",
+      "operations": 11,
+      "role": "resource",
+      "surface": "rest",
+      "paths": 9,
+      "schemas": 8,
+      "description": "Zones (documents) within a space: lifecycle, metadata, versioning, and per-zone sharing.",
+      "title": "Zones",
+      "tags": [
+        "Zones",
+        "Zone Versions",
+        "Conditional Sharing"
+      ]
+    },
+    {
+      "file": "canvas.json",
+      "operations": 34,
+      "role": "resource",
+      "surface": "rest",
+      "paths": 10,
+      "schemas": 16,
+      "description": "Create, read, update, and delete the objects on a zone canvas: shapes, connectors, group shapes, frames, and their text.",
+      "title": "Canvas Elements",
+      "tags": [
+        "Shapes",
+        "Connectors",
+        "Group Shapes",
+        "Frames",
+        "Shapes on Frame",
+        "Connectors on Frame",
+        "Group Shapes on Frame",
+        "Frames on Frame",
+        "Canvas Text"
+      ]
+    },
+    {
+      "file": "search.json",
+      "operations": 5,
+      "role": "resource",
+      "surface": "rest",
+      "paths": 5,
+      "schemas": 2,
+      "description": "Content search across a team's zones, frames, comments, and members.",
+      "title": "Search",
+      "tags": ["Search"]
+    },
+    {
+      "file": "external-share.json",
+      "operations": 6,
+      "role": "resource",
+      "surface": "rest",
+      "paths": 3,
+      "schemas": 4,
+      "description": "Publish a space externally and manage the resulting public share.",
+      "title": "External Share",
+      "tags": ["External Share"]
+    },
+    {
+      "file": "structures.json",
+      "operations": 5,
+      "role": "resource",
+      "surface": "sdk",
+      "paths": 5,
+      "schemas": 20,
+      "description": "Build whole structures in one call \u2014 mindmaps, flowcharts, kanban boards, stacks, and tables.",
+      "title": "Structures",
+      "tags": ["Structured Creation"]
+    },
+    {
+      "file": "layout.json",
+      "operations": 26,
+      "role": "resource",
+      "surface": "sdk",
+      "paths": 26,
+      "schemas": 58,
+      "description": "Deterministic placement, alignment, tidy layout, spatial queries, and connector routing.",
+      "title": "Layout & Placement",
+      "tags": [
+        "Anchoring",
+        "Spatial Search",
+        "Connections"
+      ]
+    },
+    {
+      "file": "navigation.json",
+      "operations": 13,
+      "role": "resource",
+      "surface": "sdk",
+      "paths": 13,
+      "schemas": 22,
+      "description": "Traverse the zone hierarchy, resolve relationships, and navigate visually between objects.",
+      "title": "Navigation & Relationships",
+      "tags": [
+        "Relationships",
+        "Traversal",
+        "Visual Navigation"
+      ]
+    },
+    {
+      "file": "tables.json",
+      "operations": 16,
+      "role": "resource",
+      "surface": "sdk",
+      "paths": 15,
+      "schemas": 53,
+      "description": "Cell, row, and column operations on table objects, and typed database_table records and schema.",
+      "title": "Tables",
+      "tags": [
+        "Tables",
+        "Database Tables"
+      ]
+    },
+    {
+      "file": "text.json",
+      "operations": 2,
+      "role": "resource",
+      "surface": "sdk",
+      "paths": 2,
+      "schemas": 12,
+      "description": "Read and mutate text on any text-bearing object, including styling.",
+      "title": "Text",
+      "tags": ["Text"]
+    },
+    {
+      "file": "data.json",
+      "operations": 4,
+      "role": "resource",
+      "surface": "sdk",
+      "paths": 4,
+      "schemas": 370,
+      "description": "Low-level batch read and mutation escape hatch over zones, frames, and objects.",
+      "title": "Data",
+      "tags": ["Data"]
+    }
+  ],
+  "title": "Vani API",
+  "version": "1.0.0"
+}

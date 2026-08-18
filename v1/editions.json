@@ -1,0 +1,629 @@
+{
+  "components": {
+    "schemas": {
+      "EditionVO": {
+        "type": "object",
+        "properties": {
+          "created_time": {"type": "string"},
+          "last_modified_time": {"type": "string"},
+          "edition_id": {"type": "string"},
+          "edition_type_name": {"type": "string"},
+          "edition_role_name": {"type": "string"},
+          "state": {"type": "string"},
+          "edition_name": {"type": "string"},
+          "edition_owner_id": {"type": "string"},
+          "is_default": {"type": "string"},
+          "uri": {"type": "string"}
+        }
+      },
+      "CreateTeamRequest": {
+        "type": "object",
+        "properties": {
+          "plan_type": {
+            "description": "plan type. Allowed values: FREE, TRIAL, TEAM_TRIAL",
+            "type": "string",
+            "enum": [
+              "FREE",
+              "TRIAL",
+              "TEAM_TRIAL"
+            ]
+          },
+          "description": {
+            "pattern": "^(?!\\s+$)(?!.*\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b)(?!.*\\+?(?:\\d[\\s.-]*){5,})[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+$",
+            "description": "description. Max length: 500",
+            "type": "string",
+            "maxLength": 500
+          },
+          "team_name": {
+            "pattern": "^(?!\\s+$)(?!.*\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b)(?!.*\\+?(?:\\d[\\s.-]*){5,})[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+$",
+            "description": "team name. Max length: 100 (required)",
+            "type": "string",
+            "maxLength": 100
+          },
+          "from_integration": {
+            "description": "from integration. Allowed values: MICROSOFT_TEAMS, GOOGLE_WORKSPACE, ZOHO_SHOW, ZOHO_MAIL, GOOGLE_MEET",
+            "type": "string",
+            "enum": [
+              "MICROSOFT_TEAMS",
+              "GOOGLE_WORKSPACE",
+              "ZOHO_SHOW",
+              "ZOHO_MAIL",
+              "GOOGLE_MEET"
+            ]
+          }
+        },
+        "required": ["team_name"]
+      },
+      "VaniEnvelope": {
+        "description": "Standard Vani response envelope.",
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Operation payload. Narrowed per endpoint where a response schema is declared.",
+            "type": "object"
+          },
+          "message": {"type": "string"},
+          "request_uri": {"type": "string"},
+          "status": {
+            "description": "success or error",
+            "type": "string"
+          }
+        },
+        "required": ["status"]
+      },
+      "VaniError": {
+        "description": "Standard Vani error envelope.",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {"details": {
+              "description": "Error code and message, plus any context keys (edition_id, space_id, ...).",
+              "additionalProperties": true,
+              "type": "object",
+              "properties": {
+                "sdk_error_code": {
+                  "description": "Raw SDK code, present when the error was not mapped.",
+                  "type": "string"
+                },
+                "error_code": {"type": "string"},
+                "message": {"type": "string"}
+              }
+            }}
+          },
+          "request_uri": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      },
+      "EditionRequestStatusRequest": {
+        "type": "object",
+        "properties": {"enabled": {
+          "description": "enabled (required)",
+          "type": "boolean"
+        }},
+        "required": ["enabled"]
+      }
+    },
+    "securitySchemes": {"iam-oauth2-schema": {
+      "flows": {"authorizationCode": {
+        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+        "scopes": {
+          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
+          "Vani.documents.READ": "Read document content, metadata, and attachments",
+          "Vani.projects.CREATE": "Create new projects and initialize project settings",
+          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.teams.CREATE": "Create new teams and assign team memberships",
+          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+          "Vani.editions.CREATE": "Create new document editions and version snapshots",
+          "Vani.projects.DELETE": "Delete projects and associated project data",
+          "Vani.portal.CREATE": "Create new portal resources and configurations",
+          "Vani.projects.READ": "Read project details, settings, and project metadata",
+          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.teams.DELETE": "Delete teams and remove team memberships",
+          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+        }
+      }},
+      "type": "oauth2"
+    }}
+  },
+  "servers": [{
+    "variables": {"dc": {
+      "default": "com",
+      "description": "Data-centre TLD for your edition.",
+      "enum": [
+        "com",
+        "ae",
+        "ca",
+        "com.au",
+        "com.cn",
+        "eu",
+        "in",
+        "jp",
+        "sa",
+        "sg",
+        "uk"
+      ]
+    }},
+    "description": "Vani API server. Select the data centre your edition is hosted in.",
+    "url": "https://api.app.vanihq.{dc}"
+  }],
+  "openapi": "3.1.0",
+  "paths": {
+    "/vani/api/v1/editions/{edition_id}/templates": {"get": {
+      "summary": "Get the templates available in an edition",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.portal.READ",
+        "Vani.editions.READ"
+      ]}],
+      "operationId": "getTemplates",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 1000,
+            "enum": [
+              "id",
+              "description",
+              "name",
+              "is_available_for_edition"
+            ]
+          },
+          "in": "query",
+          "name": "fields",
+          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: id, description, name, is_available_for_edition",
+          "required": false
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 6
+          },
+          "in": "query",
+          "name": "from",
+          "description": "The starting index from where the results should be fetched. Default value is 0",
+          "required": false
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 3
+          },
+          "in": "query",
+          "name": "limit",
+          "description": "The maximum number of results to return in the response. Default value is 20",
+          "required": false
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Templates"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/requests/status": {
+      "get": {
+        "summary": "Get edition request status",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.portal.READ",
+          "Vani.editions.READ"
+        ]}],
+        "operationId": "getEditionRequestStatus",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "READ",
+        "parameters": [{
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        }],
+        "x-vani-read-only": true,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 60
+        },
+        "tags": ["Editions"]
+      },
+      "put": {
+        "summary": "Approve or reject an edition join request",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.portal.UPDATE",
+          "Vani.editions.UPDATE"
+        ]}],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/EditionRequestStatusRequest"}}}
+        },
+        "operationId": "updateEditionRequestStatus",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "UPDATE",
+        "parameters": [{
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        }],
+        "x-vani-read-only": false,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 30
+        },
+        "tags": ["Editions"]
+      }
+    },
+    "/vani/api/v1/editions/{edition_id}/subscription": {"get": {
+      "summary": "Get the edition's subscription details",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.portal.READ",
+        "Vani.editions.READ"
+      ]}],
+      "operationId": "getSubscription",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 1000,
+            "enum": [
+              "status",
+              "members_count",
+              "edition_id",
+              "purchase_date",
+              "plan_name",
+              "plan_type",
+              "expiry_date"
+            ]
+          },
+          "in": "query",
+          "name": "fields",
+          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: status, members_count, edition_id, purchase_date, plan_name, plan_type, expiry_date",
+          "required": false
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Subscription"]
+    }},
+    "/vani/api/v1/editions/{edition_id}": {"get": {
+      "summary": "Get an edition",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.portal.READ",
+        "Vani.editions.READ"
+      ]}],
+      "operationId": "getEdition",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {
+                "type": "object",
+                "properties": {"edition_info": {"$ref": "#/components/schemas/EditionVO"}}
+              }}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 1000,
+            "enum": [
+              "state",
+              "created_time",
+              "last_modified_time",
+              "edition_type_name",
+              "edition_name",
+              "edition_role_name",
+              "edition_id",
+              "edition_owner_id",
+              "is_default",
+              "uri"
+            ]
+          },
+          "in": "query",
+          "name": "fields",
+          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: state, created_time, last_modified_time, edition_type_name, edition_name, edition_role_name, edition_id, edition_owner_id, is_default, uri",
+          "required": false
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Editions"]
+    }},
+    "/vani/api/v1/editions/{edition_id}/templates/{template_id}": {"get": {
+      "summary": "Get a template",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.portal.READ",
+        "Vani.editions.READ"
+      ]}],
+      "operationId": "getTemplate",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "template_id",
+          "description": "The unique identifier of the template",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 1000,
+            "enum": [
+              "id",
+              "description",
+              "name",
+              "is_available_for_edition"
+            ]
+          },
+          "in": "query",
+          "name": "fields",
+          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: id, description, name, is_available_for_edition",
+          "required": false
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 500
+      },
+      "tags": ["Templates"]
+    }},
+    "/vani/api/v1/editions": {
+      "post": {
+        "summary": "Create a new edition",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.portal.CREATE",
+          "Vani.editions.CREATE"
+        ]}],
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreateTeamRequest"}}}
+        },
+        "operationId": "createEdition",
+        "responses": {
+          "201": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "CREATE",
+        "x-vani-read-only": false,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 10
+        },
+        "tags": ["Editions"]
+      },
+      "get": {
+        "summary": "Get all editions the user belongs to",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.portal.READ",
+          "Vani.editions.READ"
+        ]}],
+        "operationId": "getEditions",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"allOf": [
+              {"$ref": "#/components/schemas/VaniEnvelope"},
+              {
+                "type": "object",
+                "properties": {"data": {
+                  "type": "object",
+                  "properties": {"editions_info": {
+                    "type": "array",
+                    "items": {"$ref": "#/components/schemas/EditionVO"}
+                  }}
+                }}
+              }
+            ]}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "READ",
+        "parameters": [{
+          "schema": {
+            "type": "string",
+            "maxLength": 1000,
+            "enum": [
+              "state",
+              "created_time",
+              "last_modified_time",
+              "edition_type_name",
+              "edition_name",
+              "edition_role_name",
+              "edition_id",
+              "edition_owner_id",
+              "is_default",
+              "uri"
+            ]
+          },
+          "in": "query",
+          "name": "fields",
+          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: state, created_time, last_modified_time, edition_type_name, edition_name, edition_role_name, edition_id, edition_owner_id, is_default, uri",
+          "required": false
+        }],
+        "x-vani-read-only": true,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 60
+        },
+        "tags": ["Editions"]
+      }
+    }
+  },
+  "info": {
+    "contact": {
+      "name": "Vani API Support",
+      "url": "https://www.vanihq.com/resources/api/doc/"
+    },
+    "description": "Edition-level resources: the edition itself, its subscription, join requests, and templates.",
+    "title": "Editions",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Editions",
+      "description": "Read and create editions, and check edition join-request status."
+    },
+    {
+      "name": "Subscription",
+      "description": "Read the edition's subscription details."
+    },
+    {
+      "name": "Templates",
+      "description": "List and read the templates available in an edition."
+    }
+  ]
+}

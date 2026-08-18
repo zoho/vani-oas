@@ -1,0 +1,2104 @@
+{
+  "components": {
+    "schemas": {
+      "GetParagraphTextPayload": {
+        "type": "object",
+        "properties": {"range": {"$ref": "#/components/schemas/ParagraphIndexRange"}}
+      },
+      "GetCellTextResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/GetTextResult"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "UnmergeCellResult": {
+        "type": "object",
+        "properties": {
+          "anchor_cell": {"$ref": "#/components/schemas/TableCellRef"},
+          "unmerged_range": {"$ref": "#/components/schemas/CellRectRange"}
+        }
+      },
+      "VaniEnvelope": {
+        "description": "Standard Vani response envelope.",
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Operation payload. Narrowed per endpoint where a response schema is declared.",
+            "type": "object"
+          },
+          "message": {"type": "string"},
+          "request_uri": {"type": "string"},
+          "status": {
+            "description": "success or error",
+            "type": "string"
+          }
+        },
+        "required": ["status"]
+      },
+      "VaniError": {
+        "description": "Standard Vani error envelope.",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {"details": {
+              "description": "Error code and message, plus any context keys (edition_id, space_id, ...).",
+              "additionalProperties": true,
+              "type": "object",
+              "properties": {
+                "sdk_error_code": {
+                  "description": "Raw SDK code, present when the error was not mapped.",
+                  "type": "string"
+                },
+                "error_code": {"type": "string"},
+                "message": {"type": "string"}
+              }
+            }}
+          },
+          "request_uri": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      },
+      "CellRectRange": {
+        "type": "object",
+        "properties": {
+          "end_column_index": {
+            "format": "int32",
+            "type": "string"
+          },
+          "start_column_index": {
+            "format": "int32",
+            "type": "string"
+          },
+          "start_row_index": {
+            "format": "int32",
+            "type": "string"
+          },
+          "end_row_index": {
+            "format": "int32",
+            "type": "string"
+          }
+        }
+      },
+      "GetParagraphTextResult": {
+        "type": "object",
+        "properties": {"paragraphs": {
+          "type": "array",
+          "items": {"$ref": "#/components/schemas/ParagraphTextItem"}
+        }}
+      },
+      "AgentDeleteRowsRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "DeleteRows payload",
+            "type": "object",
+            "properties": {"range": {
+              "description": "Row range to delete",
+              "type": "object",
+              "properties": {
+                "start_index": {
+                  "description": "Inclusive start table index (row or column)",
+                  "type": "integer"
+                },
+                "end_index": {
+                  "description": "Exclusive end table index",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "start_index",
+                "end_index"
+              ]
+            }},
+            "required": ["range"]
+          },
+          "table": {
+            "description": "Table object reference",
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Table object id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the table (optional; auto-resolved if omitted)",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["object_id"]
+          }
+        },
+        "required": [
+          "table",
+          "payload"
+        ]
+      },
+      "GetCellParagraphCountResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/GetParagraphCountResult"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "GetCellParagraphCountRequest": {
+        "type": "object",
+        "properties": {
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "cell": {"$ref": "#/components/schemas/TableCellRef"},
+          "table": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "GetTextLengthResult": {
+        "type": "object",
+        "properties": {"length": {
+          "format": "int32",
+          "type": "string"
+        }}
+      },
+      "RequestContext": {
+        "type": "object",
+        "properties": {
+          "zone_id": {"type": "string"},
+          "validate_only": {"type": "boolean"},
+          "actor_id": {"type": "string"},
+          "base_revision_id": {"type": "string"},
+          "space_id": {"type": "string"},
+          "request_id": {"type": "string"}
+        }
+      },
+      "ObjectRef": {
+        "type": "object",
+        "properties": {
+          "zone_id": {"type": "string"},
+          "object_id": {"type": "string"},
+          "frame_id": {"type": "string"}
+        }
+      },
+      "GetCellTextLengthRequest": {
+        "type": "object",
+        "properties": {
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "cell": {"$ref": "#/components/schemas/TableCellRef"},
+          "table": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "GetCellTextLengthResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/GetTextLengthResult"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "ParagraphIndexRange": {
+        "type": "object",
+        "properties": {
+          "end_paragraph_index": {
+            "format": "int32",
+            "type": "string"
+          },
+          "start_paragraph_index": {
+            "format": "int32",
+            "type": "string"
+          }
+        }
+      },
+      "AgentInsertColumnsRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "InsertColumns payload",
+            "type": "object",
+            "properties": {
+              "anchor_index": {
+                "description": "Anchor column index in [0, column_count - 1]",
+                "type": "integer"
+              },
+              "count": {
+                "description": "Number of columns to insert (> 0)",
+                "type": "integer"
+              },
+              "position": {
+                "description": "Insert position relative to anchor_index",
+                "type": "string",
+                "maxLength": 40,
+                "enum": [
+                  "INSERT_POSITION_UNSPECIFIED",
+                  "BEFORE",
+                  "AFTER"
+                ]
+              }
+            },
+            "required": ["anchor_index"]
+          },
+          "table": {
+            "description": "Table object reference",
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Table object id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the table (optional; auto-resolved if omitted)",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["object_id"]
+          }
+        },
+        "required": [
+          "table",
+          "payload"
+        ]
+      },
+      "GetTextPayload": {
+        "type": "object",
+        "x-vani-oneof-groups": [{
+          "members": [
+            "range",
+            "all_text"
+          ],
+          "name": "target"
+        }],
+        "properties": {
+          "all_text": {"type": "boolean"},
+          "range": {"$ref": "#/components/schemas/TextRange"}
+        }
+      },
+      "GetCellTextRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {"$ref": "#/components/schemas/GetCellTextPayload"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "cell": {"$ref": "#/components/schemas/TableCellRef"},
+          "table": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "TextRange": {
+        "type": "object",
+        "properties": {
+          "start_index": {
+            "format": "int32",
+            "type": "string"
+          },
+          "end_index": {
+            "format": "int32",
+            "type": "string"
+          }
+        }
+      },
+      "SetCellTextResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/SetCellTextResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "MergeCellsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/MergeCellsResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "AgentUnmergeCellRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "UnmergeCell payload. Must contain 'cell' ({row_index, column_index}) \u2014 do NOT use 'range'. Example: {\"cell\": {\"row_index\": 0, \"column_index\": 1}}",
+            "type": "object",
+            "properties": {"cell": {
+              "description": "Any cell within the merged region to unmerge, specified as {row_index, column_index}. This must be a 'cell' object \u2014 do NOT use a 'range' object here.",
+              "type": "object",
+              "properties": {
+                "row_index": {
+                  "description": "Zero-based row index",
+                  "type": "integer"
+                },
+                "column_index": {
+                  "description": "Zero-based column index",
+                  "type": "integer"
+                }
+              }
+            }},
+            "required": ["cell"]
+          },
+          "table": {
+            "description": "Table object reference",
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Table object id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the table (optional; auto-resolved if omitted)",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["object_id"]
+          }
+        },
+        "required": [
+          "table",
+          "payload"
+        ]
+      },
+      "EditCellTextResult": {
+        "type": "object",
+        "properties": {"text": {"$ref": "#/components/schemas/EditTextResult"}}
+      },
+      "DeleteRowsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/TableSizeResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "GetTextResult": {
+        "type": "object",
+        "properties": {"text": {"type": "string"}}
+      },
+      "GetTableSizeRequest": {
+        "type": "object",
+        "properties": {
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "table": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "GetCellParagraphTextRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {"$ref": "#/components/schemas/GetCellParagraphTextPayload"},
+          "context": {"$ref": "#/components/schemas/RequestContext"},
+          "cell": {"$ref": "#/components/schemas/TableCellRef"},
+          "table": {"$ref": "#/components/schemas/ObjectRef"}
+        }
+      },
+      "GetCellParagraphTextResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/GetParagraphTextResult"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "AgentMergeCellsRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "MergeCells payload",
+            "type": "object",
+            "properties": {"range": {
+              "description": "Rectangular cell range to merge",
+              "type": "object",
+              "properties": {
+                "end_column_index": {
+                  "description": "Exclusive end column index",
+                  "type": "integer"
+                },
+                "start_column_index": {
+                  "description": "Inclusive start column index",
+                  "type": "integer"
+                },
+                "start_row_index": {
+                  "description": "Inclusive start row index",
+                  "type": "integer"
+                },
+                "end_row_index": {
+                  "description": "Exclusive end row index",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "start_row_index",
+                "end_row_index",
+                "start_column_index",
+                "end_column_index"
+              ]
+            }},
+            "required": ["range"]
+          },
+          "table": {
+            "description": "Table object reference",
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Table object id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the table (optional; auto-resolved if omitted)",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["object_id"]
+          }
+        },
+        "required": [
+          "table",
+          "payload"
+        ]
+      },
+      "AgentError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "AGENT_ERROR_CODE_UNSPECIFIED",
+              "INVALID_ARGUMENT",
+              "SPACE_NOT_FOUND",
+              "ZONE_NOT_FOUND",
+              "FRAME_NOT_FOUND",
+              "OBJECT_NOT_FOUND",
+              "NO_EMPTY_REGION",
+              "NO_VISUAL_NEIGHBOR",
+              "PLACEMENT_CONFLICT",
+              "UNSUPPORTED_OPERATION",
+              "INTERNAL_ERROR"
+            ]
+          },
+          "message": {"type": "string"}
+        }
+      },
+      "MergeCellsResult": {
+        "type": "object",
+        "properties": {
+          "anchor_cell": {"$ref": "#/components/schemas/TableCellRef"},
+          "merged_range": {"$ref": "#/components/schemas/CellRectRange"}
+        }
+      },
+      "MutationMetadata": {
+        "type": "object",
+        "properties": {"new_revision_id": {"type": "string"}}
+      },
+      "TableCellRef": {
+        "type": "object",
+        "properties": {
+          "row_index": {
+            "format": "int32",
+            "type": "string"
+          },
+          "column_index": {
+            "format": "int32",
+            "type": "string"
+          }
+        }
+      },
+      "DeleteColumnsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/TableSizeResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "GetCellParagraphTextPayload": {
+        "type": "object",
+        "properties": {"text": {"$ref": "#/components/schemas/GetParagraphTextPayload"}}
+      },
+      "ParagraphTextItem": {
+        "type": "object",
+        "properties": {
+          "paragraph_index": {
+            "format": "int32",
+            "type": "string"
+          },
+          "text": {"type": "string"}
+        }
+      },
+      "EditCellTextResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/EditCellTextResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "AgentDatabaseTableReorderColumnsRequest": {
+        "type": "object",
+        "properties": {
+          "column_ids": {
+            "minItems": 1,
+            "maxItems": 2000,
+            "description": "Every existing column id in the new order; no column specs echoed",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 5000000
+            }
+          },
+          "object_id": {
+            "description": "Database table object id",
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "object_id",
+          "column_ids"
+        ]
+      },
+      "GetTableSizeResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/TableSizeResult"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "AgentSetCellTextRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "SetCellText payload",
+            "type": "object",
+            "properties": {"text": {
+              "description": "Full replacement text for the cell",
+              "type": "string",
+              "maxLength": 500000
+            }},
+            "required": ["text"]
+          },
+          "cell": {
+            "description": "Target cell reference",
+            "type": "object",
+            "properties": {
+              "row_index": {
+                "description": "Zero-based row index",
+                "type": "integer"
+              },
+              "column_index": {
+                "description": "Zero-based column index",
+                "type": "integer"
+              }
+            }
+          },
+          "table": {
+            "description": "Table object reference",
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Table object id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the table (optional; auto-resolved if omitted)",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["object_id"]
+          }
+        },
+        "required": [
+          "table",
+          "cell",
+          "payload"
+        ]
+      },
+      "TableSizeResult": {
+        "type": "object",
+        "properties": {
+          "column_count": {
+            "format": "int32",
+            "type": "string"
+          },
+          "row_count": {
+            "format": "int32",
+            "type": "string"
+          }
+        }
+      },
+      "AgentDeleteColumnsRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "DeleteColumns payload",
+            "type": "object",
+            "properties": {"range": {
+              "description": "Column range to delete",
+              "type": "object",
+              "properties": {
+                "start_index": {
+                  "description": "Inclusive start table index (row or column)",
+                  "type": "integer"
+                },
+                "end_index": {
+                  "description": "Exclusive end table index",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "start_index",
+                "end_index"
+              ]
+            }},
+            "required": ["range"]
+          },
+          "table": {
+            "description": "Table object reference",
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Table object id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the table (optional; auto-resolved if omitted)",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["object_id"]
+          }
+        },
+        "required": [
+          "table",
+          "payload"
+        ]
+      },
+      "AgentInsertRowsRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "InsertRows payload",
+            "type": "object",
+            "properties": {
+              "anchor_index": {
+                "description": "Anchor row index in [0, row_count - 1]",
+                "type": "integer"
+              },
+              "count": {
+                "description": "Number of rows to insert (> 0)",
+                "type": "integer"
+              },
+              "position": {
+                "description": "Insert position relative to anchor_index",
+                "type": "string",
+                "maxLength": 40,
+                "enum": [
+                  "INSERT_POSITION_UNSPECIFIED",
+                  "BEFORE",
+                  "AFTER"
+                ]
+              }
+            },
+            "required": ["anchor_index"]
+          },
+          "table": {
+            "description": "Table object reference",
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Table object id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the table (optional; auto-resolved if omitted)",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["object_id"]
+          }
+        },
+        "required": [
+          "table",
+          "payload"
+        ]
+      },
+      "GetParagraphCountResult": {
+        "type": "object",
+        "properties": {"paragraph_count": {
+          "format": "int32",
+          "type": "string"
+        }}
+      },
+      "GetCellTextPayload": {
+        "type": "object",
+        "properties": {"text": {"$ref": "#/components/schemas/GetTextPayload"}}
+      },
+      "InsertRowsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/TableSizeResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "EditTextResult": {
+        "type": "object",
+        "properties": {"applied_range": {"$ref": "#/components/schemas/TextRange"}}
+      },
+      "UnmergeCellResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/UnmergeCellResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "InsertColumnsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {"$ref": "#/components/schemas/TableSizeResult"},
+          "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
+          "error": {"$ref": "#/components/schemas/AgentError"}
+        }
+      },
+      "SetCellTextResult": {
+        "type": "object",
+        "properties": {"length": {
+          "format": "int32",
+          "type": "string"
+        }}
+      },
+      "AgentEditCellTextRequest": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "EditCellText payload",
+            "type": "object",
+            "properties": {"text": {
+              "description": "Text mutation payload (exactly one of range, cursor, or all_text)",
+              "type": "object",
+              "properties": {
+                "cursor": {
+                  "description": "Cursor-scoped insert/delete mutation",
+                  "type": "object",
+                  "properties": {
+                    "cursor_index": {
+                      "description": "Cursor index on flattened text",
+                      "type": "integer"
+                    },
+                    "text": {
+                      "description": "Text to insert (required when operation=CURSOR_TEXT_OPERATION_INSERT_TEXT)",
+                      "type": "string",
+                      "maxLength": 500000
+                    },
+                    "operation": {
+                      "description": "Cursor mutation operation",
+                      "type": "string",
+                      "maxLength": 50,
+                      "enum": [
+                        "CURSOR_TEXT_OPERATION_UNSPECIFIED",
+                        "CURSOR_TEXT_OPERATION_INSERT_TEXT",
+                        "CURSOR_TEXT_OPERATION_INSERT_NEWLINE",
+                        "CURSOR_TEXT_OPERATION_DELETE_NEWLINE"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "cursor_index",
+                    "operation"
+                  ]
+                },
+                "all_text": {
+                  "description": "Full-text replace/delete mutation",
+                  "type": "object",
+                  "properties": {
+                    "replacement_text": {
+                      "description": "Replacement text (required when operation=ALL_TEXT_OPERATION_REPLACE)",
+                      "type": "string",
+                      "maxLength": 500000
+                    },
+                    "operation": {
+                      "description": "Full-text mutation operation",
+                      "type": "string",
+                      "maxLength": 50,
+                      "enum": [
+                        "ALL_TEXT_OPERATION_UNSPECIFIED",
+                        "ALL_TEXT_OPERATION_REPLACE",
+                        "ALL_TEXT_OPERATION_DELETE"
+                      ]
+                    }
+                  },
+                  "required": ["operation"]
+                },
+                "range": {
+                  "description": "Range-scoped replace/delete mutation",
+                  "type": "object",
+                  "properties": {
+                    "replacement_text": {
+                      "description": "Replacement text (required when operation=RANGE_TEXT_OPERATION_REPLACE)",
+                      "type": "string",
+                      "maxLength": 500000
+                    },
+                    "range": {
+                      "description": "Target range in flattened text",
+                      "type": "object",
+                      "properties": {
+                        "start_index": {
+                          "description": "Inclusive start index on flattened text (>= 0)",
+                          "type": "integer"
+                        },
+                        "end_index": {
+                          "description": "Exclusive end index on flattened text (> start_index)",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "start_index",
+                        "end_index"
+                      ]
+                    },
+                    "operation": {
+                      "description": "Range mutation operation",
+                      "type": "string",
+                      "maxLength": 50,
+                      "enum": [
+                        "RANGE_TEXT_OPERATION_UNSPECIFIED",
+                        "RANGE_TEXT_OPERATION_REPLACE",
+                        "RANGE_TEXT_OPERATION_DELETE"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "range",
+                    "operation"
+                  ]
+                }
+              }
+            }},
+            "required": ["text"]
+          },
+          "cell": {
+            "description": "Target cell reference",
+            "type": "object",
+            "properties": {
+              "row_index": {
+                "description": "Zero-based row index",
+                "type": "integer"
+              },
+              "column_index": {
+                "description": "Zero-based column index",
+                "type": "integer"
+              }
+            }
+          },
+          "table": {
+            "description": "Table object reference",
+            "type": "object",
+            "properties": {
+              "object_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Table object id",
+                "type": "string",
+                "maxLength": 200
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame containing the table (optional; auto-resolved if omitted)",
+                "type": "string",
+                "maxLength": 200
+              }
+            },
+            "required": ["object_id"]
+          }
+        },
+        "required": [
+          "table",
+          "cell",
+          "payload"
+        ]
+      },
+      "AgentDatabaseTableDeleteColumnsRequest": {
+        "type": "object",
+        "properties": {
+          "column_ids": {
+            "minItems": 1,
+            "maxItems": 500,
+            "description": "Column ids to delete",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 5000000
+            }
+          },
+          "object_id": {
+            "description": "Database table object id",
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "object_id",
+          "column_ids"
+        ]
+      }
+    },
+    "securitySchemes": {"iam-oauth2-schema": {
+      "flows": {"authorizationCode": {
+        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+        "scopes": {
+          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
+          "Vani.documents.READ": "Read document content, metadata, and attachments",
+          "Vani.projects.CREATE": "Create new projects and initialize project settings",
+          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.teams.CREATE": "Create new teams and assign team memberships",
+          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+          "Vani.editions.CREATE": "Create new document editions and version snapshots",
+          "Vani.projects.DELETE": "Delete projects and associated project data",
+          "Vani.portal.CREATE": "Create new portal resources and configurations",
+          "Vani.projects.READ": "Read project details, settings, and project metadata",
+          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.teams.DELETE": "Delete teams and remove team memberships",
+          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+        }
+      }},
+      "type": "oauth2"
+    }}
+  },
+  "servers": [{
+    "variables": {"dc": {
+      "default": "com",
+      "description": "Data-centre TLD for your edition.",
+      "enum": [
+        "com",
+        "ae",
+        "ca",
+        "com.au",
+        "com.cn",
+        "eu",
+        "in",
+        "jp",
+        "sa",
+        "sg",
+        "uk"
+      ]
+    }},
+    "description": "Vani API server. Select the data centre your edition is hosted in.",
+    "url": "https://api.app.vanihq.{dc}"
+  }],
+  "openapi": "3.1.0",
+  "paths": {
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/paragraphtext": {"get": {
+      "summary": "Get paragraph text for a table cell by paragraph index range",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getTableCellParagraphText",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetCellParagraphTextResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetCellParagraphTextRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetCellParagraphTextRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "table_query",
+          "description": "`table_query` \u2014 JSON-encoded table query: {table:{object_id, frame_id?}, cell:{row_index, column_index}, payload:{text:{range:{start_paragraph_index, end_paragraph_index}}}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/size": {"get": {
+      "summary": "Get row and column count for a table object",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getTableSize",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetTableSizeResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetTableSizeRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetTableSizeRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "table_query",
+          "description": "`table_query` \u2014 JSON-encoded table query: {table:{object_id, frame_id?}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cells/merge": {"post": {
+      "summary": "Merge a rectangular range of table cells",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentMergeCellsRequest"}}}
+      },
+      "operationId": "mergeTableCells",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/MergeCellsResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/columns/reorder": {"post": {
+      "summary": "Reorder database_table columns by full echoed columns[]",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentDatabaseTableReorderColumnsRequest"}}}
+      },
+      "operationId": "createDatabaseTableColumnReorder",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "UPDATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Database Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/rows/insert": {"post": {
+      "summary": "Insert rows before or after an anchor row index",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentInsertRowsRequest"}}}
+      },
+      "operationId": "insertTableRows",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/InsertRowsResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/paragraphcount": {"get": {
+      "summary": "Get paragraph count for a table cell",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getTableCellParagraphCount",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetCellParagraphCountResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetCellParagraphCountRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetCellParagraphCountRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "table_query",
+          "description": "`table_query` \u2014 JSON-encoded table query: {table:{object_id, frame_id?}, cell:{row_index, column_index}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/textlength": {"get": {
+      "summary": "Get character length of a table cell text",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getTableCellTextLength",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/GetCellTextLengthResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "contentSchema": {"$ref": "#/components/schemas/GetCellTextLengthRequest"},
+            "x-vani-schema": {"$ref": "#/components/schemas/GetCellTextLengthRequest"},
+            "contentMediaType": "application/json",
+            "x-vani-stringified": true,
+            "type": "string",
+            "maxLength": 500000
+          },
+          "in": "query",
+          "name": "table_query",
+          "description": "`table_query` \u2014 JSON-encoded table query: {table:{object_id, frame_id?}, cell:{row_index, column_index}}",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/rows/delete": {"post": {
+      "summary": "Delete rows in a specified row index range",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentDeleteRowsRequest"}}}
+      },
+      "operationId": "deleteTableRows",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/DeleteRowsResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "DELETE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": true,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/edittext": {"post": {
+      "summary": "Apply text mutation (range/cursor/all_text) to a table cell",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentEditCellTextRequest"}}}
+      },
+      "operationId": "editTableCellText",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/EditCellTextResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/text": {
+      "post": {
+        "summary": "Replace full text content of a table cell",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.projects.CREATE",
+          "Vani.spaces.CREATE"
+        ]}],
+        "x-vani-transitional": true,
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentSetCellTextRequest"}}}
+        },
+        "operationId": "createTableCellText",
+        "responses": {
+          "201": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"allOf": [
+              {"$ref": "#/components/schemas/VaniEnvelope"},
+              {
+                "type": "object",
+                "properties": {"data": {"$ref": "#/components/schemas/SetCellTextResponse"}}
+              }
+            ]}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "CREATE",
+        "parameters": [
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "edition_id",
+            "description": "The unique identifier of the edition",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "space_id",
+            "description": "The unique identifier of the space",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "zone_id",
+            "description": "The unique identifier of the zone",
+            "required": true
+          }
+        ],
+        "x-vani-read-only": false,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 60
+        },
+        "tags": ["Tables"]
+      },
+      "get": {
+        "summary": "Get flattened plain text for a table cell",
+        "security": [{"iam-oauth2-schema": [
+          "Vani.projects.READ",
+          "Vani.spaces.READ"
+        ]}],
+        "x-vani-transitional": true,
+        "operationId": "getTableCellText",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {"schema": {"allOf": [
+              {"$ref": "#/components/schemas/VaniEnvelope"},
+              {
+                "type": "object",
+                "properties": {"data": {"$ref": "#/components/schemas/GetCellTextResponse"}}
+              }
+            ]}}}
+          },
+          "400": {
+            "description": "Invalid request - validation failed",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          }
+        },
+        "x-vani-operation-type": "READ",
+        "parameters": [
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "edition_id",
+            "description": "The unique identifier of the edition",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "space_id",
+            "description": "The unique identifier of the space",
+            "required": true
+          },
+          {
+            "schema": {"type": "string"},
+            "in": "path",
+            "name": "zone_id",
+            "description": "The unique identifier of the zone",
+            "required": true
+          },
+          {
+            "schema": {
+              "contentSchema": {"$ref": "#/components/schemas/GetCellTextRequest"},
+              "x-vani-schema": {"$ref": "#/components/schemas/GetCellTextRequest"},
+              "contentMediaType": "application/json",
+              "x-vani-stringified": true,
+              "type": "string",
+              "maxLength": 500000
+            },
+            "in": "query",
+            "name": "table_query",
+            "description": "`table_query` \u2014 JSON-encoded table query: {table:{object_id, frame_id?}, cell:{row_index, column_index}, payload?:{text:{range:{start_index, end_index}}}}",
+            "required": true
+          }
+        ],
+        "x-vani-read-only": true,
+        "x-vani-destructive": false,
+        "x-vani-throttle": {
+          "duration": "1M",
+          "threshold": 60
+        },
+        "tags": ["Tables"]
+      }
+    },
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/columns/insert": {"post": {
+      "summary": "Insert columns before or after an anchor column index",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentInsertColumnsRequest"}}}
+      },
+      "operationId": "insertTableColumns",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/InsertColumnsResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cells/unmerge": {"post": {
+      "summary": "Unmerge a merged region of table cells",
+      "x-vani-transitional": true,
+      "description": "Pass the table reference and `payload.cell` (`{row_index, column_index}`) identifying any cell inside the merged area. The payload takes a single `cell` reference, not a `range`.",
+      "x-vani-read-only": false,
+      "tags": ["Tables"],
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentUnmergeCellRequest"}}}
+      },
+      "operationId": "unmergeTableCells",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/UnmergeCellResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      }
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/columns/delete": {"post": {
+      "summary": "Delete database_table column(s) by id",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentDatabaseTableDeleteColumnsRequest"}}}
+      },
+      "operationId": "deleteDatabaseTableColumns",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/DeleteColumnsResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "DELETE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": true,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Database Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/schema": {"get": {
+      "summary": "Read database_table column schema (id, type, name, option lists) and row count",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.READ",
+        "Vani.spaces.READ"
+      ]}],
+      "x-vani-transitional": true,
+      "operationId": "getDatabaseTableSchema",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "READ",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "in": "query",
+          "name": "object_id",
+          "description": "Database table object id (mint-time UUID)",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": true,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Database Tables"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/columns/delete": {"post": {
+      "summary": "Delete columns in a specified column index range",
+      "security": [{"iam-oauth2-schema": [
+        "Vani.projects.CREATE",
+        "Vani.spaces.CREATE"
+      ]}],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentDeleteColumnsRequest"}}}
+      },
+      "operationId": "deleteTableColumns",
+      "responses": {
+        "201": {
+          "description": "Successful response",
+          "content": {"application/json": {"schema": {"allOf": [
+            {"$ref": "#/components/schemas/VaniEnvelope"},
+            {
+              "type": "object",
+              "properties": {"data": {"$ref": "#/components/schemas/DeleteColumnsResponse"}}
+            }
+          ]}}}
+        },
+        "400": {
+          "description": "Invalid request - validation failed",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        },
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        }
+      },
+      "x-vani-operation-type": "DELETE",
+      "parameters": [
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "edition_id",
+          "description": "The unique identifier of the edition",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "space_id",
+          "description": "The unique identifier of the space",
+          "required": true
+        },
+        {
+          "schema": {"type": "string"},
+          "in": "path",
+          "name": "zone_id",
+          "description": "The unique identifier of the zone",
+          "required": true
+        }
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": true,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Tables"]
+    }}
+  },
+  "info": {
+    "contact": {
+      "name": "Vani API Support",
+      "url": "https://www.vanihq.com/resources/api/doc/"
+    },
+    "description": "Cell, row, and column operations on table objects, and typed database_table records and schema.",
+    "title": "Tables",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Tables",
+      "description": "Insert and delete table rows and columns, merge cells, and read cell text."
+    },
+    {
+      "name": "Database Tables",
+      "description": "Manage typed database_table columns, records, schema, and queries."
+    }
+  ]
+}
