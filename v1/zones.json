@@ -244,24 +244,16 @@
         "scopes": {
           "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
           "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.documents.READ": "Read document content, metadata, and attachments",
-          "Vani.projects.CREATE": "Create new projects and initialize project settings",
-          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
           "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
           "Vani.teams.CREATE": "Create new teams and assign team memberships",
           "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
           "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.projects.DELETE": "Delete projects and associated project data",
-          "Vani.portal.CREATE": "Create new portal resources and configurations",
-          "Vani.projects.READ": "Read project details, settings, and project metadata",
           "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
           "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
           "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
         }
       }},
       "type": "oauth2"
@@ -276,13 +268,9 @@
         "ae",
         "ca",
         "com.au",
-        "com.cn",
         "eu",
         "in",
-        "jp",
-        "sa",
-        "sg",
-        "uk"
+        "sa"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -292,10 +280,7 @@
   "paths": {
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/move": {"post": {
       "summary": "Move a zone to another space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MoveZoneRequest"}}}
@@ -349,10 +334,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/members": {"post": {
       "summary": "Share zones in a space with members",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ShareZonesWithMembersRequest"}}}
@@ -399,10 +381,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones": {"post": {
       "summary": "Create a new zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreateZoneRequest"}}}
@@ -450,10 +429,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/meta": {
       "get": {
         "summary": "Get zone metadata",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getZoneMeta",
         "responses": {
           "200": {
@@ -503,10 +479,7 @@
       },
       "put": {
         "summary": "Update zone metadata",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateZoneMetaRequest"}}}
@@ -561,10 +534,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/state": {"put": {
       "summary": "Update zone state",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.UPDATE",
-        "Vani.spaces.UPDATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateZoneStateRequest"}}}
@@ -618,10 +588,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/version": {"get": {
       "summary": "Get the current version of a zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.documents.READ",
-        "Vani.zones.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
       "operationId": "getZoneVersion",
       "responses": {
         "200": {
@@ -715,10 +682,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/meta": {"get": {
       "summary": "Get metadata for all zones in a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getSpaceZonesMeta",
       "responses": {
         "200": {
@@ -781,10 +745,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/duplicate": {"post": {
       "summary": "Duplicate a zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DuplicateZoneRequest"}}}
@@ -839,10 +800,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/members/{member_id}": {
       "post": {
         "summary": "Share every zone in a space with a member",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "operationId": "shareAllZonesWithMember",
         "responses": {
           "201": {
@@ -892,10 +850,7 @@
       },
       "get": {
         "summary": "Get the zones in a space shared with a member",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getZonesSharedWithMember",
         "responses": {
           "200": {

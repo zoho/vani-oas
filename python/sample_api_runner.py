@@ -19,7 +19,7 @@ Setup
    named Vani.<resource>.<ACTION>; each operation in the spec declares its own
    under `security`. For this script:
 
-       Vani.editions.READ,Vani.spaces.READ,Vani.projects.READ
+       Vani.editions.READ,Vani.spaces.READ,Vani.zones.READ
 
 3. Export your credentials, and the data centre your edition lives in:
 
@@ -145,7 +145,7 @@ def main():
 
     # --- Canvas -------------------------------------------------------------
     # Read the shapes on that zone. To create one instead, POST the same path
-    # with an `elements` array — see canvas.json for the full request shape.
+    # with an `elements` array — see elements.json for the full request shape.
     shapes = call(token, "GET",
                   f"/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/shapes")
     shapes = shapes if isinstance(shapes, list) else shapes.get("elements", [])

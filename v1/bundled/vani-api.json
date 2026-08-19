@@ -17596,24 +17596,16 @@
         "scopes": {
           "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
           "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.documents.READ": "Read document content, metadata, and attachments",
-          "Vani.projects.CREATE": "Create new projects and initialize project settings",
-          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
           "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
           "Vani.teams.CREATE": "Create new teams and assign team memberships",
           "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
           "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.projects.DELETE": "Delete projects and associated project data",
-          "Vani.portal.CREATE": "Create new portal resources and configurations",
-          "Vani.projects.READ": "Read project details, settings, and project metadata",
           "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
           "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
           "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
         }
       }},
       "type": "oauth2"
@@ -17628,13 +17620,9 @@
         "ae",
         "ca",
         "com.au",
-        "com.cn",
         "eu",
         "in",
-        "jp",
-        "sa",
-        "sg",
-        "uk"
+        "sa"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -17644,10 +17632,7 @@
   "paths": {
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/alignment-status": {"get": {
       "summary": "Check whether selected frames already satisfy a requested alignment mode and optional target bounds",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringFrameAlignmentStatus",
       "responses": {
@@ -17712,10 +17697,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/tidy": {"post": {
       "summary": "Apply tidy grid layout to selected frames using requested spacing and direction policy",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -17776,10 +17758,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/stack": {"post": {
       "summary": "Create a stack structure from an ordered list of item specifications",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -17840,10 +17819,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/suggest-placement/batch": {"post": {
       "summary": "Get ranked placement candidates for several objects in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -17904,10 +17880,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/descendants": {"get": {
       "summary": "Get hierarchical descendants of a container via BFS traversal",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipDescendants",
       "responses": {
@@ -17971,10 +17944,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/members/{member_id}": {
       "delete": {
         "summary": "Remove a member from a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "operationId": "deleteSpaceMember",
         "responses": {
           "200": {
@@ -18024,10 +17994,7 @@
       },
       "put": {
         "summary": "Update a space member's role",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateSpaceMemberRequest"}}}
@@ -18082,10 +18049,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/requests/my-requests": {"get": {
       "summary": "Get the current user's join requests for a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getSpaceRequestMyRequests",
       "responses": {
         "200": {
@@ -18146,10 +18110,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/placement-feasibility": {"get": {
       "summary": "Check whether a footprint fits within a scope without overlapping",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchPlacementFeasibility",
       "responses": {
@@ -18214,10 +18175,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/state": {"put": {
       "summary": "Update zone state",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.UPDATE",
-        "Vani.spaces.UPDATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateZoneStateRequest"}}}
@@ -18271,10 +18229,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/placement-feasibility": {"get": {
       "summary": "Check whether a source frame can be placed relative to a target frame without violating constraints",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringFramePlacementFeasibility",
       "responses": {
@@ -18339,10 +18294,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/rows/insert": {"post": {
       "summary": "Insert rows before or after an anchor row index",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -18513,10 +18465,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/members": {"post": {
       "summary": "Share zones in a space with members",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ShareZonesWithMembersRequest"}}}
@@ -18563,10 +18512,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/parents": {"get": {
       "summary": "Get direct parent of an object in the zone hierarchy",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipParents",
       "responses": {
@@ -18635,10 +18581,7 @@
       "description": "Pass the table reference and `payload.cell` (`{row_index, column_index}`) identifying any cell inside the merged area. The payload takes a single `cell` reference, not a `range`.",
       "x-vani-read-only": false,
       "tags": ["Tables"],
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentUnmergeCellRequest"}}}
@@ -18822,10 +18765,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/members": {
       "post": {
         "summary": "Add members to a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AddSpaceMembersRequest"}}}
@@ -18872,10 +18812,7 @@
       },
       "get": {
         "summary": "Get the members of a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getSpaceMembers",
         "responses": {
           "200": {
@@ -19008,10 +18945,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/text/style": {"post": {
       "summary": "Apply portion and or paragraph style to selected text scope",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -19072,10 +19006,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/paragraphtext": {"get": {
       "summary": "Get paragraph text for a table cell by paragraph index range",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTableCellParagraphText",
       "responses": {
@@ -19146,10 +19077,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/flowchart": {"post": {
       "summary": "Create a flowchart from node and edge graph specifications",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -19270,10 +19198,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/kanban": {"post": {
       "summary": "Create a kanban board structure from column and item specifications",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -19334,10 +19259,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/adjacent-elements": {"get": {
       "summary": "Get the elements adjacent to an anchor, with distance and direction",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getVisualNavigationAdjacentElements",
       "responses": {
@@ -19400,10 +19322,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/users/me/permission": {"get": {
       "summary": "Get the current user's role in a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getMyPermissionInSpace",
       "responses": {
         "200": {
@@ -19447,10 +19366,7 @@
     "/vani/api/v1/editions": {
       "post": {
         "summary": "Create a new edition",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.portal.CREATE",
-          "Vani.editions.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.editions.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreateTeamRequest"}}}
@@ -19481,10 +19397,7 @@
       },
       "get": {
         "summary": "Get all editions the user belongs to",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.portal.READ",
-          "Vani.editions.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
         "operationId": "getEditions",
         "responses": {
           "200": {
@@ -19546,10 +19459,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/requests/{request_id}/reject": {"post": {
       "summary": "Reject a request to join a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "operationId": "rejectSpaceRequest",
       "responses": {
         "201": {
@@ -19600,10 +19510,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/shapes": {
       "post": {
         "summary": "Insert one or more shapes into a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ShapeInsertRequest"}}}
@@ -19657,10 +19564,7 @@
       },
       "get": {
         "summary": "Get the shapes in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getZoneShapes",
         "responses": {
           "200": {
@@ -19720,10 +19624,7 @@
       },
       "delete": {
         "summary": "Delete one or more shapes from a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatDeleteIdsRequest"}}}
@@ -19777,10 +19678,7 @@
       },
       "put": {
         "summary": "Update one or more shapes in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatPutShapesRequest"}}}
@@ -19949,10 +19847,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/move": {"post": {
       "summary": "Move a zone to another space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MoveZoneRequest"}}}
@@ -20006,10 +19901,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/edittext": {"post": {
       "summary": "Apply text mutation (range/cursor/all_text) to a table cell",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -20070,10 +19962,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/data/get": {"get": {
       "summary": "Get zones, frames, objects, facets or zone-slots",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getData",
       "description": "Reads one or more data entities \\u2014 zone, frame, object, object facet, space or zone-slot \\u2014 through a structured operation. Accepts either a single `operation` or an `operations` array for a batch request.",
@@ -20947,10 +20836,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/groupshapes": {
       "post": {
         "summary": "Group or ungroup shapes in a zone (op-aware)",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/GroupOpRequest"}}}
@@ -21004,10 +20890,7 @@
       },
       "get": {
         "summary": "Get the group shapes in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getZoneGroupshapes",
         "responses": {
           "200": {
@@ -21067,10 +20950,7 @@
       },
       "delete": {
         "summary": "Delete one or more group shapes in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatDeleteIdsRequest"}}}
@@ -21124,10 +21004,7 @@
       },
       "put": {
         "summary": "Update one or more group shapes in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatPutGroupShapesRequest"}}}
@@ -21183,10 +21060,7 @@
     "/vani/api/v1/editions/{edition_id}/requests/status": {
       "get": {
         "summary": "Get edition request status",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.portal.READ",
-          "Vani.editions.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
         "operationId": "getEditionRequestStatus",
         "responses": {
           "200": {
@@ -21220,10 +21094,7 @@
       },
       "put": {
         "summary": "Approve or reject an edition join request",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.portal.UPDATE",
-          "Vani.editions.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.editions.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/EditionRequestStatusRequest"}}}
@@ -21262,10 +21133,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/create": {"post": {
       "summary": "Create a connection between two objects in a zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -21320,10 +21188,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/state": {"put": {
       "summary": "Update space state",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.UPDATE",
-        "Vani.spaces.UPDATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateSpaceStateRequest"}}}
@@ -21370,10 +21235,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/window": {"get": {
       "summary": "Get before/after context window around an anchor object in the zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTraversalWindow",
       "responses": {
@@ -21443,10 +21305,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/frames/{frame_id}/frames": {
       "post": {
         "summary": "Insert one or more child frames into a parent frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FrameInsertRequest"}}}
@@ -21507,10 +21366,7 @@
       },
       "get": {
         "summary": "Get the child frames of a parent frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getFrameFrames",
         "responses": {
           "200": {
@@ -21577,10 +21433,7 @@
       },
       "delete": {
         "summary": "Delete one or more child frames from a parent frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatDeleteIdsRequest"}}}
@@ -21641,10 +21494,7 @@
       },
       "put": {
         "summary": "Update one or more child frames of a parent frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatPutFramesRequest"}}}
@@ -21706,10 +21556,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/tidy": {"post": {
       "summary": "Apply tidy grid layout to selected objects using requested spacing and direction policy",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -21770,10 +21617,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/ancestors": {"get": {
       "summary": "Get ancestor chain for an object in the zone hierarchy",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipAncestors",
       "responses": {
@@ -21838,10 +21682,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/text/{text_id}": {"get": {
       "summary": "Get text of a text-bearing object in a zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getZoneText",
       "responses": {
         "200": {
@@ -21930,14 +21771,11 @@
         "duration": "1M",
         "threshold": 60
       },
-      "tags": ["Canvas Text"]
+      "tags": ["Element Text"]
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/textlength": {"get": {
       "summary": "Get character length of a table cell text",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTableCellTextLength",
       "responses": {
@@ -22009,10 +21847,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/members/{member_id}": {
       "post": {
         "summary": "Share every zone in a space with a member",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "operationId": "shareAllZonesWithMember",
         "responses": {
           "201": {
@@ -22062,10 +21897,7 @@
       },
       "get": {
         "summary": "Get the zones in a space shared with a member",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getZonesSharedWithMember",
         "responses": {
           "200": {
@@ -22117,10 +21949,7 @@
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/text": {
       "post": {
         "summary": "Replace full text content of a table cell",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "x-vani-transitional": true,
         "requestBody": {
           "required": true,
@@ -22181,10 +22010,7 @@
       },
       "get": {
         "summary": "Get flattened plain text for a table cell",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "x-vani-transitional": true,
         "operationId": "getTableCellText",
         "responses": {
@@ -22256,10 +22082,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/objects": {"get": {
       "summary": "Get the objects within a spatial scope or region",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchObjects",
       "responses": {
@@ -22324,10 +22147,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/meta": {"put": {
       "summary": "Update space metadata",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.UPDATE",
-        "Vani.spaces.UPDATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateSpaceMetaRequest"}}}
@@ -22408,10 +22228,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/duplicate": {"post": {
       "summary": "Duplicate a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": false,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DuplicateSpaceRequest"}}}
@@ -22459,10 +22276,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/meta": {
       "get": {
         "summary": "Get zone metadata",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getZoneMeta",
         "responses": {
           "200": {
@@ -22512,10 +22326,7 @@
       },
       "put": {
         "summary": "Update zone metadata",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateZoneMetaRequest"}}}
@@ -22570,10 +22381,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/empty-region": {"get": {
       "summary": "Get ranked empty regions that fit a requested footprint",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchEmptyRegion",
       "responses": {
@@ -22638,10 +22446,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/sequence": {"get": {
       "summary": "Get ordered traversal neighbors from an anchor point in the zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTraversalSequence",
       "responses": {
@@ -22760,10 +22565,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/clearance": {"get": {
       "summary": "Get the directional gap distances around an object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchClearance",
       "responses": {
@@ -22938,10 +22740,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/text/edit": {"post": {
       "summary": "Canonical text mutation API for replace/insert/delete/split/merge operations",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -23003,10 +22802,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connectors": {
       "post": {
         "summary": "Insert one or more connectors into a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ConnectorInsertRequest"}}}
@@ -23060,10 +22856,7 @@
       },
       "get": {
         "summary": "Get the connectors in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getZoneConnectors",
         "responses": {
           "200": {
@@ -23123,10 +22916,7 @@
       },
       "delete": {
         "summary": "Delete one or more connectors from a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatDeleteIdsRequest"}}}
@@ -23180,10 +22970,7 @@
       },
       "put": {
         "summary": "Update one or more connectors in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatPutConnectorsRequest"}}}
@@ -23238,10 +23025,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/comments/search": {"get": {
       "summary": "Search comment text in a team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.documents.READ",
-        "Vani.zones.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
       "operationId": "searchComments",
       "responses": {
         "200": {
@@ -23314,10 +23098,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/rows/delete": {"post": {
       "summary": "Delete rows in a specified row index range",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -23432,10 +23213,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/tidy-feasibility": {"get": {
       "summary": "Preview the tidy grid layout for selected frames without applying it",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringFrameTidyFeasibility",
       "responses": {
@@ -23500,10 +23278,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/templates/{template_id}": {"get": {
       "summary": "Get a template",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.portal.READ",
-        "Vani.editions.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
       "operationId": "getTemplate",
       "responses": {
         "200": {
@@ -23563,10 +23338,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces": {
       "post": {
         "summary": "Create a new space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreateSpaceRequest"}}}
@@ -23604,10 +23376,7 @@
       },
       "get": {
         "summary": "Get all spaces in an edition",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getSpaces",
         "responses": {
           "200": {
@@ -23812,10 +23581,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/index": {"get": {
       "summary": "Get hierarchical index path of an object within the zone traversal order",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTraversalIndex",
       "responses": {
@@ -23885,10 +23651,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/frames/{frame_id}/connectors": {
       "post": {
         "summary": "Insert one or more connectors into a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ConnectorInsertRequest"}}}
@@ -23949,10 +23712,7 @@
       },
       "get": {
         "summary": "Get the connectors in a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getFrameConnectors",
         "responses": {
           "200": {
@@ -24019,10 +23779,7 @@
       },
       "delete": {
         "summary": "Delete one or more connectors from a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatDeleteIdsRequest"}}}
@@ -24083,10 +23840,7 @@
       },
       "put": {
         "summary": "Update one or more connectors in a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatPutConnectorsRequest"}}}
@@ -24148,10 +23902,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cells/merge": {"post": {
       "summary": "Merge a rectangular range of table cells",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -24212,10 +23963,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/data/batchUpdate": {"post": {
       "summary": "Apply multiple deterministic mutation operations to a Space in order",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -24263,10 +24011,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/requests/{request_id}/accept": {"post": {
       "summary": "Accept a request to join a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "operationId": "acceptSpaceRequest",
       "responses": {
         "201": {
@@ -24316,10 +24061,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/columns/reorder": {"post": {
       "summary": "Reorder database_table columns by full echoed columns[]",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -24374,10 +24116,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/suggest-placement": {"get": {
       "summary": "Get ranked placement candidates for a new object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchSuggestPlacement",
       "responses": {
@@ -24442,10 +24181,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/children": {"get": {
       "summary": "Get direct children of a container object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipChildren",
       "responses": {
@@ -24508,10 +24244,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/version": {"get": {
       "summary": "Get the current version of a zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.documents.READ",
-        "Vani.zones.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
       "operationId": "getZoneVersion",
       "responses": {
         "200": {
@@ -24605,10 +24338,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/align": {"post": {
       "summary": "Align selected frames using a requested alignment mode and optional target bounds",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -24669,10 +24399,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/place": {"post": {
       "summary": "Move a source object relative to a target object using an anchor relation and optional placement constraints",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -24734,10 +24461,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/frames/{frame_id}/shapes": {
       "post": {
         "summary": "Insert one or more shapes into a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ShapeInsertRequest"}}}
@@ -24798,10 +24522,7 @@
       },
       "get": {
         "summary": "Get the shapes in a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getFrameShapes",
         "responses": {
           "200": {
@@ -24868,10 +24589,7 @@
       },
       "delete": {
         "summary": "Delete one or more shapes from a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatDeleteIdsRequest"}}}
@@ -24932,10 +24650,7 @@
       },
       "put": {
         "summary": "Update one or more shapes in a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatPutShapesRequest"}}}
@@ -24997,10 +24712,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones": {"post": {
       "summary": "Create a new zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreateZoneRequest"}}}
@@ -25047,10 +24759,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/empty-region/batch": {"post": {
       "summary": "Get ranked empty regions for several footprints in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -25111,10 +24820,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}": {"get": {
       "summary": "Get an edition",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.portal.READ",
-        "Vani.editions.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
       "operationId": "getEdition",
       "responses": {
         "200": {
@@ -25181,10 +24887,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/columns/delete": {"post": {
       "summary": "Delete database_table column(s) by id",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -25245,10 +24948,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/occupied-bounds/batch": {"post": {
       "summary": "Get union bounding boxes for several scopes in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -25310,10 +25010,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/frames": {
       "post": {
         "summary": "Insert one or more zone-root frames into a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FrameInsertRequest"}}}
@@ -25367,10 +25064,7 @@
       },
       "get": {
         "summary": "Get the zone-root frames in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getZoneFrames",
         "responses": {
           "200": {
@@ -25430,10 +25124,7 @@
       },
       "delete": {
         "summary": "Delete one or more zone-root frames from a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatDeleteIdsRequest"}}}
@@ -25487,10 +25178,7 @@
       },
       "put": {
         "summary": "Update one or more zone-root frames in a zone",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatPutFramesRequest"}}}
@@ -25545,10 +25233,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/reconnect": {"post": {
       "summary": "Move one end of an existing connection to another object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -25604,7 +25289,6 @@
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/externalshares": {"get": {
       "summary": "Get the external shares of a team's spaces",
       "security": [{"iam-oauth2-schema": [
-        "Vani.portal.READ",
         "Vani.editions.READ",
         "Vani.teams.READ"
       ]}],
@@ -25687,10 +25371,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/data/list": {"get": {
       "summary": "List zones, frames, zone-slots or objects",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "listData",
       "description": "Lists data entities with optional pagination. Accepts either a single `operation` or an `operations` array for a batch request.",
@@ -26319,10 +26000,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/align": {"post": {
       "summary": "Align selected objects using a requested alignment mode and optional target bounds",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -26383,10 +26061,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/size": {"get": {
       "summary": "Get row and column count for a table object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTableSize",
       "responses": {
@@ -26458,7 +26133,6 @@
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/externalshares/status": {"get": {
       "summary": "Check whether external sharing is allowed for the edition and team",
       "security": [{"iam-oauth2-schema": [
-        "Vani.portal.READ",
         "Vani.editions.READ",
         "Vani.teams.READ"
       ]}],
@@ -26518,10 +26192,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}": {"get": {
       "summary": "Get a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getSpace",
       "responses": {
         "200": {
@@ -26608,10 +26279,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/feasibility": {"get": {
       "summary": "Check whether a connection between two objects is feasible",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getConnectionFeasibility",
       "responses": {
@@ -26676,10 +26344,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/find": {"get": {
       "summary": "Find related objects using deterministic relation filters and optional semantic hint",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipFind",
       "responses": {
@@ -26794,10 +26459,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/occupied-bounds": {"get": {
       "summary": "Get the union bounding box of all objects in a scope",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchOccupiedBounds",
       "responses": {
@@ -26863,10 +26525,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/frames/{frame_id}/groupshapes": {
       "post": {
         "summary": "Group or ungroup shapes in a frame (op-aware)",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/GroupOpRequest"}}}
@@ -26927,10 +26586,7 @@
       },
       "get": {
         "summary": "Get the group shapes in a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getFrameGroupshapes",
         "responses": {
           "200": {
@@ -26997,10 +26653,7 @@
       },
       "delete": {
         "summary": "Delete one or more group shapes from a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatDeleteIdsRequest"}}}
@@ -27061,10 +26714,7 @@
       },
       "put": {
         "summary": "Update one or more group shapes in a frame",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/FlatPutGroupShapesRequest"}}}
@@ -27126,10 +26776,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/connected": {"get": {
       "summary": "Get objects connected to anchor through connector graph traversal",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipConnected",
       "responses": {
@@ -27192,10 +26839,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/zones/search": {"get": {
       "summary": "Search zone names and content in a team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.documents.READ",
-        "Vani.zones.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
       "operationId": "searchZones",
       "responses": {
         "200": {
@@ -27268,10 +26912,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/meta": {"get": {
       "summary": "Get metadata for all zones in a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getSpaceZonesMeta",
       "responses": {
         "200": {
@@ -27334,10 +26975,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/placement-feasibility": {"get": {
       "summary": "Check whether a source object can be placed relative to a target object without violating overlap or constraint rules",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringObjectPlacementFeasibility",
       "responses": {
@@ -27402,10 +27040,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/placement-feasibility/batch": {"post": {
       "summary": "Check several footprints for fit in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -27466,10 +27101,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/table": {"post": {
       "summary": "Create a table from raw tabular text data",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -27685,10 +27317,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/duplicate": {"post": {
       "summary": "Duplicate a zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DuplicateZoneRequest"}}}
@@ -27742,10 +27371,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/distance": {"get": {
       "summary": "Get the geometric distance between two objects",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getVisualNavigationDistance",
       "responses": {
@@ -27811,10 +27437,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/externalshares": {
       "post": {
         "summary": "Publish a space as an external share",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ExternalShareRequest"}}}
@@ -27861,10 +27484,7 @@
       },
       "get": {
         "summary": "Get a space's external share details",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getSpaceExternalShares",
         "responses": {
           "200": {
@@ -27930,10 +27550,7 @@
       },
       "delete": {
         "summary": "Revoke a space's external share",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/RevokeExternalShareRequest"}}}
@@ -27980,10 +27597,7 @@
       },
       "put": {
         "summary": "Update a space's external share",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ExternalShareRequest"}}}
@@ -28031,10 +27645,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/search": {"get": {
       "summary": "Search all content in a team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "searchTeam",
       "responses": {
         "200": {
@@ -28129,10 +27740,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/data/update": {"post": {
       "summary": "Apply a single deterministic mutation operation to a Space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -28180,10 +27788,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/alignment-status": {"get": {
       "summary": "Check whether selected objects already satisfy a requested alignment mode and optional target bounds",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringObjectAlignmentStatus",
       "responses": {
@@ -28248,10 +27853,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/templates": {"get": {
       "summary": "Get the templates available in an edition",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.portal.READ",
-        "Vani.editions.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
       "operationId": "getTemplates",
       "responses": {
         "200": {
@@ -28323,10 +27925,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/frames/{frame_id}/text/{text_id}": {"get": {
       "summary": "Get text of a text-bearing object in a frame",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getFrameText",
       "responses": {
         "200": {
@@ -28422,14 +28021,11 @@
         "duration": "1M",
         "threshold": 60
       },
-      "tags": ["Canvas Text"]
+      "tags": ["Element Text"]
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/tidy-feasibility": {"get": {
       "summary": "Preview the tidy grid layout for selected objects without applying it",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringObjectTidyFeasibility",
       "responses": {
@@ -28494,10 +28090,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/sequence": {"get": {
       "summary": "Get the visually ordered neighbours of an anchor object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getVisualNavigationSequence",
       "responses": {
@@ -28560,10 +28153,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/users/{user_id}/permission": {"get": {
       "summary": "Get a user's role in a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getSpaceUserPermission",
       "responses": {
         "200": {
@@ -28613,10 +28203,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/place": {"post": {
       "summary": "Move a source frame relative to a target frame using an anchor relation and optional placement constraints",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -28677,10 +28264,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/columns/delete": {"post": {
       "summary": "Delete columns in a specified column index range",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -28741,10 +28325,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/frames/search": {"get": {
       "summary": "Search frame content in a team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.documents.READ",
-        "Vani.zones.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
       "operationId": "searchFrames",
       "responses": {
         "200": {
@@ -28818,10 +28399,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/requests": {
       "post": {
         "summary": "Raise a request to join a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AcceptSpaceRequestPayload"}}}
@@ -28868,10 +28446,7 @@
       },
       "get": {
         "summary": "Get the join requests for a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getSpaceRequests",
         "responses": {
           "200": {
@@ -28953,10 +28528,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/paragraphcount": {"get": {
       "summary": "Get paragraph count for a table cell",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTableCellParagraphCount",
       "responses": {
@@ -29247,10 +28819,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/objects/batch": {"post": {
       "summary": "Run several object queries in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -29305,10 +28874,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/columns/insert": {"post": {
       "summary": "Insert columns before or after an anchor column index",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -29369,10 +28935,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/evidence": {"get": {
       "summary": "Get deterministic relation evidence between two objects",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipEvidence",
       "responses": {
@@ -29437,10 +29000,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/subscription": {"get": {
       "summary": "Get the edition's subscription details",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.portal.READ",
-        "Vani.editions.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
       "operationId": "getSubscription",
       "responses": {
         "200": {
@@ -29495,10 +29055,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/mindmap": {"post": {
       "summary": "Create a mindmap structure from a hierarchical outline specification",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -29559,10 +29116,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/schema": {"get": {
       "summary": "Read database_table column schema (id, type, name, option lists) and row count",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getDatabaseTableSchema",
       "responses": {
@@ -29627,7 +29181,7 @@
       "name": "Vani API Support",
       "url": "https://www.vanihq.com/resources/api/doc/"
     },
-    "description": "REST API for Vani, Zoho's collaborative whiteboard. Manage editions, teams, spaces and zones; create and edit the objects on a zone canvas; and build whole structures \u2014 mindmaps, flowcharts, kanban boards and tables \u2014 in a single call.\n\nThis document contains every Vani API operation. The per-resource documents beside it (editions, teams, spaces, zones, canvas, and the rest) are subsets of this one. Generate a client from this file OR from the per-resource files, not both: they describe the same operations, so generating from both produces duplicate types.",
+    "description": "REST API for Vani, Zoho's collaborative whiteboard. Manage editions, teams, spaces and zones; create and edit the objects on a zone canvas; and build whole structures \u2014 mindmaps, flowcharts, kanban boards and tables \u2014 in a single call.\n\nThis document contains every Vani API operation. The per-resource documents beside it (editions, teams, spaces, zones, elements, and the rest) are subsets of this one. Generate a client from this file OR from the per-resource files, not both: they describe the same operations, so generating from both produces duplicate types.",
     "title": "Vani API",
     "version": "1.0.0"
   },
@@ -29713,7 +29267,7 @@
       "description": "Insert, list, update, and delete child frames inside a parent frame."
     },
     {
-      "name": "Canvas Text",
+      "name": "Element Text",
       "description": "Read the text of a text-bearing object on a zone or frame."
     },
     {

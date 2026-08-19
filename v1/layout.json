@@ -2180,24 +2180,16 @@
         "scopes": {
           "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
           "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.documents.READ": "Read document content, metadata, and attachments",
-          "Vani.projects.CREATE": "Create new projects and initialize project settings",
-          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
           "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
           "Vani.teams.CREATE": "Create new teams and assign team memberships",
           "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
           "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.projects.DELETE": "Delete projects and associated project data",
-          "Vani.portal.CREATE": "Create new portal resources and configurations",
-          "Vani.projects.READ": "Read project details, settings, and project metadata",
           "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
           "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
           "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
         }
       }},
       "type": "oauth2"
@@ -2212,13 +2204,9 @@
         "ae",
         "ca",
         "com.au",
-        "com.cn",
         "eu",
         "in",
-        "jp",
-        "sa",
-        "sg",
-        "uk"
+        "sa"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -2228,10 +2216,7 @@
   "paths": {
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/alignment-status": {"get": {
       "summary": "Check whether selected frames already satisfy a requested alignment mode and optional target bounds",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringFrameAlignmentStatus",
       "responses": {
@@ -2296,10 +2281,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/tidy": {"post": {
       "summary": "Apply tidy grid layout to selected frames using requested spacing and direction policy",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2360,10 +2342,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/suggest-placement/batch": {"post": {
       "summary": "Get ranked placement candidates for several objects in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2424,10 +2403,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/tidy": {"post": {
       "summary": "Apply tidy grid layout to selected objects using requested spacing and direction policy",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2488,10 +2464,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/placement-feasibility": {"get": {
       "summary": "Check whether a footprint fits within a scope without overlapping",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchPlacementFeasibility",
       "responses": {
@@ -2556,10 +2529,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/suggest-placement": {"get": {
       "summary": "Get ranked placement candidates for a new object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchSuggestPlacement",
       "responses": {
@@ -2624,10 +2594,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/placement-feasibility": {"get": {
       "summary": "Check whether a source frame can be placed relative to a target frame without violating constraints",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringFramePlacementFeasibility",
       "responses": {
@@ -2692,10 +2659,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/align": {"post": {
       "summary": "Align selected frames using a requested alignment mode and optional target bounds",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2756,10 +2720,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/place": {"post": {
       "summary": "Move a source object relative to a target object using an anchor relation and optional placement constraints",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2820,10 +2781,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/alignment-status": {"get": {
       "summary": "Check whether selected objects already satisfy a requested alignment mode and optional target bounds",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringObjectAlignmentStatus",
       "responses": {
@@ -2888,10 +2846,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/tidy-feasibility": {"get": {
       "summary": "Preview the tidy grid layout for selected objects without applying it",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringObjectTidyFeasibility",
       "responses": {
@@ -2956,10 +2911,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/empty-region/batch": {"post": {
       "summary": "Get ranked empty regions for several footprints in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -3020,10 +2972,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/objects": {"get": {
       "summary": "Get the objects within a spatial scope or region",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchObjects",
       "responses": {
@@ -3088,10 +3037,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/place": {"post": {
       "summary": "Move a source frame relative to a target frame using an anchor relation and optional placement constraints",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -3152,10 +3098,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/occupied-bounds/batch": {"post": {
       "summary": "Get union bounding boxes for several scopes in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -3216,10 +3159,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/reconnect": {"post": {
       "summary": "Move one end of an existing connection to another object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -3274,10 +3214,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/align": {"post": {
       "summary": "Align selected objects using a requested alignment mode and optional target bounds",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -3338,10 +3275,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/feasibility": {"get": {
       "summary": "Check whether a connection between two objects is feasible",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getConnectionFeasibility",
       "responses": {
@@ -3406,10 +3340,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/empty-region": {"get": {
       "summary": "Get ranked empty regions that fit a requested footprint",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchEmptyRegion",
       "responses": {
@@ -3474,10 +3405,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/occupied-bounds": {"get": {
       "summary": "Get the union bounding box of all objects in a scope",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchOccupiedBounds",
       "responses": {
@@ -3542,10 +3470,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/clearance": {"get": {
       "summary": "Get the directional gap distances around an object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getSpatialSearchClearance",
       "responses": {
@@ -3610,10 +3535,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/objects/batch": {"post": {
       "summary": "Run several object queries in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -3668,10 +3590,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/connections/create": {"post": {
       "summary": "Create a connection between two objects in a zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -3726,10 +3645,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/frames/tidy-feasibility": {"get": {
       "summary": "Preview the tidy grid layout for selected frames without applying it",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringFrameTidyFeasibility",
       "responses": {
@@ -3794,10 +3710,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/anchoring/objects/placement-feasibility": {"get": {
       "summary": "Check whether a source object can be placed relative to a target object without violating overlap or constraint rules",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getAnchoringObjectPlacementFeasibility",
       "responses": {
@@ -3862,10 +3775,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/spatial-search/placement-feasibility/batch": {"post": {
       "summary": "Check several footprints for fit in one call",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,

@@ -964,24 +964,16 @@
         "scopes": {
           "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
           "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.documents.READ": "Read document content, metadata, and attachments",
-          "Vani.projects.CREATE": "Create new projects and initialize project settings",
-          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
           "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
           "Vani.teams.CREATE": "Create new teams and assign team memberships",
           "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
           "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.projects.DELETE": "Delete projects and associated project data",
-          "Vani.portal.CREATE": "Create new portal resources and configurations",
-          "Vani.projects.READ": "Read project details, settings, and project metadata",
           "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
           "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
           "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
         }
       }},
       "type": "oauth2"
@@ -996,13 +988,9 @@
         "ae",
         "ca",
         "com.au",
-        "com.cn",
         "eu",
         "in",
-        "jp",
-        "sa",
-        "sg",
-        "uk"
+        "sa"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -1012,10 +1000,7 @@
   "paths": {
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/paragraphtext": {"get": {
       "summary": "Get paragraph text for a table cell by paragraph index range",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTableCellParagraphText",
       "responses": {
@@ -1086,10 +1071,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/size": {"get": {
       "summary": "Get row and column count for a table object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTableSize",
       "responses": {
@@ -1160,10 +1142,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cells/merge": {"post": {
       "summary": "Merge a rectangular range of table cells",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -1224,10 +1203,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/columns/reorder": {"post": {
       "summary": "Reorder database_table columns by full echoed columns[]",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -1282,10 +1258,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/rows/insert": {"post": {
       "summary": "Insert rows before or after an anchor row index",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -1346,10 +1319,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/paragraphcount": {"get": {
       "summary": "Get paragraph count for a table cell",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTableCellParagraphCount",
       "responses": {
@@ -1420,10 +1390,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/textlength": {"get": {
       "summary": "Get character length of a table cell text",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTableCellTextLength",
       "responses": {
@@ -1494,10 +1461,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/rows/delete": {"post": {
       "summary": "Delete rows in a specified row index range",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -1558,10 +1522,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/edittext": {"post": {
       "summary": "Apply text mutation (range/cursor/all_text) to a table cell",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -1623,10 +1584,7 @@
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/cell/text": {
       "post": {
         "summary": "Replace full text content of a table cell",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "x-vani-transitional": true,
         "requestBody": {
           "required": true,
@@ -1687,10 +1645,7 @@
       },
       "get": {
         "summary": "Get flattened plain text for a table cell",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "x-vani-transitional": true,
         "operationId": "getTableCellText",
         "responses": {
@@ -1762,10 +1717,7 @@
     },
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/columns/insert": {"post": {
       "summary": "Insert columns before or after an anchor column index",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -1830,10 +1782,7 @@
       "description": "Pass the table reference and `payload.cell` (`{row_index, column_index}`) identifying any cell inside the merged area. The payload takes a single `cell` reference, not a `range`.",
       "x-vani-read-only": false,
       "tags": ["Tables"],
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentUnmergeCellRequest"}}}
@@ -1891,10 +1840,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/columns/delete": {"post": {
       "summary": "Delete database_table column(s) by id",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -1955,10 +1901,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/database-table/schema": {"get": {
       "summary": "Read database_table column schema (id, type, name, option lists) and row count",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getDatabaseTableSchema",
       "responses": {
@@ -2019,10 +1962,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/table/columns/delete": {"post": {
       "summary": "Delete columns in a specified column index range",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,

@@ -2492,24 +2492,16 @@
         "scopes": {
           "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
           "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.documents.READ": "Read document content, metadata, and attachments",
-          "Vani.projects.CREATE": "Create new projects and initialize project settings",
-          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
           "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
           "Vani.teams.CREATE": "Create new teams and assign team memberships",
           "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
           "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.projects.DELETE": "Delete projects and associated project data",
-          "Vani.portal.CREATE": "Create new portal resources and configurations",
-          "Vani.projects.READ": "Read project details, settings, and project metadata",
           "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
           "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
           "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
         }
       }},
       "type": "oauth2"
@@ -2524,13 +2516,9 @@
         "ae",
         "ca",
         "com.au",
-        "com.cn",
         "eu",
         "in",
-        "jp",
-        "sa",
-        "sg",
-        "uk"
+        "sa"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -2540,10 +2528,7 @@
   "paths": {
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/flowchart": {"post": {
       "summary": "Create a flowchart from node and edge graph specifications",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2604,10 +2589,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/table": {"post": {
       "summary": "Create a table from raw tabular text data",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2668,10 +2650,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/stack": {"post": {
       "summary": "Create a stack structure from an ordered list of item specifications",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2732,10 +2711,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/kanban": {"post": {
       "summary": "Create a kanban board structure from column and item specifications",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2796,10 +2772,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/mindmap": {"post": {
       "summary": "Create a mindmap structure from a hierarchical outline specification",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,

@@ -323,24 +323,16 @@
         "scopes": {
           "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
           "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.documents.READ": "Read document content, metadata, and attachments",
-          "Vani.projects.CREATE": "Create new projects and initialize project settings",
-          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
           "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
           "Vani.teams.CREATE": "Create new teams and assign team memberships",
           "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
           "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.projects.DELETE": "Delete projects and associated project data",
-          "Vani.portal.CREATE": "Create new portal resources and configurations",
-          "Vani.projects.READ": "Read project details, settings, and project metadata",
           "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
           "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
           "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
         }
       }},
       "type": "oauth2"
@@ -355,13 +347,9 @@
         "ae",
         "ca",
         "com.au",
-        "com.cn",
         "eu",
         "in",
-        "jp",
-        "sa",
-        "sg",
-        "uk"
+        "sa"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -371,10 +359,7 @@
   "paths": {
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/index": {"get": {
       "summary": "Get hierarchical index path of an object within the zone traversal order",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTraversalIndex",
       "responses": {
@@ -443,10 +428,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/adjacent-elements": {"get": {
       "summary": "Get the elements adjacent to an anchor, with distance and direction",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getVisualNavigationAdjacentElements",
       "responses": {
@@ -509,10 +491,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/find": {"get": {
       "summary": "Find related objects using deterministic relation filters and optional semantic hint",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipFind",
       "responses": {
@@ -577,10 +556,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/sequence": {"get": {
       "summary": "Get ordered traversal neighbors from an anchor point in the zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTraversalSequence",
       "responses": {
@@ -649,10 +625,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/traversal/window": {"get": {
       "summary": "Get before/after context window around an anchor object in the zone",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getTraversalWindow",
       "responses": {
@@ -721,10 +694,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/descendants": {"get": {
       "summary": "Get hierarchical descendants of a container via BFS traversal",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipDescendants",
       "responses": {
@@ -787,10 +757,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/ancestors": {"get": {
       "summary": "Get ancestor chain for an object in the zone hierarchy",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipAncestors",
       "responses": {
@@ -855,10 +822,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/children": {"get": {
       "summary": "Get direct children of a container object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipChildren",
       "responses": {
@@ -921,10 +885,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/distance": {"get": {
       "summary": "Get the geometric distance between two objects",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getVisualNavigationDistance",
       "responses": {
@@ -989,10 +950,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/connected": {"get": {
       "summary": "Get objects connected to anchor through connector graph traversal",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipConnected",
       "responses": {
@@ -1055,10 +1013,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/parents": {"get": {
       "summary": "Get direct parent of an object in the zone hierarchy",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipParents",
       "responses": {
@@ -1123,10 +1078,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/relationships/evidence": {"get": {
       "summary": "Get deterministic relation evidence between two objects",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getRelationshipEvidence",
       "responses": {
@@ -1191,10 +1143,7 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/visual-navigation/sequence": {"get": {
       "summary": "Get the visually ordered neighbours of an anchor object",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "x-vani-transitional": true,
       "operationId": "getVisualNavigationSequence",
       "responses": {

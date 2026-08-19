@@ -281,24 +281,16 @@
         "scopes": {
           "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
           "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.documents.READ": "Read document content, metadata, and attachments",
-          "Vani.projects.CREATE": "Create new projects and initialize project settings",
-          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
           "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
           "Vani.teams.CREATE": "Create new teams and assign team memberships",
           "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
           "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.projects.DELETE": "Delete projects and associated project data",
-          "Vani.portal.CREATE": "Create new portal resources and configurations",
-          "Vani.projects.READ": "Read project details, settings, and project metadata",
           "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
           "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
           "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
         }
       }},
       "type": "oauth2"
@@ -313,13 +305,9 @@
         "ae",
         "ca",
         "com.au",
-        "com.cn",
         "eu",
         "in",
-        "jp",
-        "sa",
-        "sg",
-        "uk"
+        "sa"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -329,10 +317,7 @@
   "paths": {
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/duplicate": {"post": {
       "summary": "Duplicate a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "requestBody": {
         "required": false,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DuplicateSpaceRequest"}}}
@@ -379,10 +364,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}": {"get": {
       "summary": "Get a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getSpace",
       "responses": {
         "200": {
@@ -470,10 +452,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/requests": {
       "post": {
         "summary": "Raise a request to join a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AcceptSpaceRequestPayload"}}}
@@ -520,10 +499,7 @@
       },
       "get": {
         "summary": "Get the join requests for a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getSpaceRequests",
         "responses": {
           "200": {
@@ -605,10 +581,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/users/me/permission": {"get": {
       "summary": "Get the current user's role in a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getMyPermissionInSpace",
       "responses": {
         "200": {
@@ -651,10 +624,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/requests/{request_id}/accept": {"post": {
       "summary": "Accept a request to join a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "operationId": "acceptSpaceRequest",
       "responses": {
         "201": {
@@ -705,10 +675,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/members/{member_id}": {
       "delete": {
         "summary": "Remove a member from a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.DELETE",
-          "Vani.spaces.DELETE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
         "operationId": "deleteSpaceMember",
         "responses": {
           "200": {
@@ -758,10 +725,7 @@
       },
       "put": {
         "summary": "Update a space member's role",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.UPDATE",
-          "Vani.spaces.UPDATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateSpaceMemberRequest"}}}
@@ -816,10 +780,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/requests/my-requests": {"get": {
       "summary": "Get the current user's join requests for a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getSpaceRequestMyRequests",
       "responses": {
         "200": {
@@ -880,10 +841,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/requests/{request_id}/reject": {"post": {
       "summary": "Reject a request to join a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.CREATE",
-        "Vani.spaces.CREATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
       "operationId": "rejectSpaceRequest",
       "responses": {
         "201": {
@@ -933,10 +891,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/users/{user_id}/permission": {"get": {
       "summary": "Get a user's role in a space",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "getSpaceUserPermission",
       "responses": {
         "200": {
@@ -986,10 +941,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/meta": {"put": {
       "summary": "Update space metadata",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.UPDATE",
-        "Vani.spaces.UPDATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateSpaceMetaRequest"}}}
@@ -1037,10 +989,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/members": {
       "post": {
         "summary": "Add members to a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AddSpaceMembersRequest"}}}
@@ -1087,10 +1036,7 @@
       },
       "get": {
         "summary": "Get the members of a space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getSpaceMembers",
         "responses": {
           "200": {
@@ -1224,10 +1170,7 @@
     "/vani/api/v1/editions/{edition_id}/spaces": {
       "post": {
         "summary": "Create a new space",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.CREATE",
-          "Vani.spaces.CREATE"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreateSpaceRequest"}}}
@@ -1265,10 +1208,7 @@
       },
       "get": {
         "summary": "Get all spaces in an edition",
-        "security": [{"iam-oauth2-schema": [
-          "Vani.projects.READ",
-          "Vani.spaces.READ"
-        ]}],
+        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
         "operationId": "getSpaces",
         "responses": {
           "200": {
@@ -1473,10 +1413,7 @@
     },
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/state": {"put": {
       "summary": "Update space state",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.UPDATE",
-        "Vani.spaces.UPDATE"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateSpaceStateRequest"}}}

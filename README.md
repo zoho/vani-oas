@@ -21,7 +21,7 @@ v1/
   teams.json             Teams, team members, team requests
   spaces.json            Spaces, space members, space requests
   zones.json             Zones, versions, per-zone sharing
-  canvas.json            Shapes, connectors, group shapes, frames, text
+  elements.json          Shapes, connectors, group shapes, frames, text
   search.json            Content search
   external-share.json    Public sharing of a space
 
@@ -46,7 +46,7 @@ resolving references into the others.
 
 | You want | Use |
 |---|---|
-| a client for one area of the API | that area's document, e.g. `v1/canvas.json` |
+| a client for one area of the API | that area's document, e.g. `v1/elements.json` |
 | a client for the whole API | `v1/bundled/vani-api.json` |
 | to decide without opening them | `v1/index.json` — every document with its operation and schema counts |
 
@@ -91,7 +91,7 @@ https://api.app.vanihq.{dc}
 ```
 
 `{dc}` is your edition's data-centre TLD — `com`, `eu`, `in`, `com.au`, `ca`,
-`sa`, `ae`, `com.cn`, `jp`, `sg`, or `uk`. It defaults to `com`. Most tools
+`sa`, or `ae`. It defaults to `com`. Most tools
 render this as a dropdown; set it to match the domain you sign in on.
 
 ### 3. Authenticate
@@ -105,11 +105,6 @@ Scopes are granular and named `Vani.<resource>.<ACTION>` — for example
 `Vani.spaces.READ` or `Vani.teams.UPDATE`. **Each operation declares exactly
 the scopes it needs under `security`; request only those.** Reading them out of
 the spec is more reliable than guessing from the path.
-
-One thing that will look odd: both `Vani.spaces.*` and `Vani.projects.*` appear,
-and some space endpoints require the `projects` scope. `projects` is the older
-name for what the API now calls a space. Take the scope from the operation
-rather than from the resource name.
 
 ### 4. Generate an SDK
 

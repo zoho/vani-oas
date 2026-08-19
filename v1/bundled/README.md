@@ -12,7 +12,7 @@ openapi-generator generate \
 
 ## Use this *or* the per-resource documents, not both
 
-The documents in the parent directory — `editions.json`, `canvas.json`, and the
+The documents in the parent directory — `editions.json`, `elements.json`, and the
 rest — are subsets of this file. Every operation here appears in exactly one of them.
 
 Generating from this file **and** from a per-resource file into the same project gives

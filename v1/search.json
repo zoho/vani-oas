@@ -50,24 +50,16 @@
         "scopes": {
           "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
           "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.documents.READ": "Read document content, metadata, and attachments",
-          "Vani.projects.CREATE": "Create new projects and initialize project settings",
-          "Vani.portal.READ": "Read portal-level settings, configurations, and administration details",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.projects.UPDATE": "Update project settings, metadata, and configurations",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
           "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+          "Vani.spaces.DELETE": "Delete workspaces and folders",
           "Vani.teams.CREATE": "Create new teams and assign team memberships",
           "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
           "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.projects.DELETE": "Delete projects and associated project data",
-          "Vani.portal.CREATE": "Create new portal resources and configurations",
-          "Vani.projects.READ": "Read project details, settings, and project metadata",
           "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
           "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
           "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.portal.UPDATE": "Update portal-level settings and configurations"
+          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
         }
       }},
       "type": "oauth2"
@@ -82,13 +74,9 @@
         "ae",
         "ca",
         "com.au",
-        "com.cn",
         "eu",
         "in",
-        "jp",
-        "sa",
-        "sg",
-        "uk"
+        "sa"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -98,10 +86,7 @@
   "paths": {
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/comments/search": {"get": {
       "summary": "Search comment text in a team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.documents.READ",
-        "Vani.zones.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
       "operationId": "searchComments",
       "responses": {
         "200": {
@@ -174,10 +159,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/zones/search": {"get": {
       "summary": "Search zone names and content in a team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.documents.READ",
-        "Vani.zones.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
       "operationId": "searchZones",
       "responses": {
         "200": {
@@ -250,10 +232,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/frames/search": {"get": {
       "summary": "Search frame content in a team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.documents.READ",
-        "Vani.zones.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
       "operationId": "searchFrames",
       "responses": {
         "200": {
@@ -326,10 +305,7 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/search": {"get": {
       "summary": "Search all content in a team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.projects.READ",
-        "Vani.spaces.READ"
-      ]}],
+      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
       "operationId": "searchTeam",
       "responses": {
         "200": {

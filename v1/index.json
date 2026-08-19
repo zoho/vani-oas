@@ -7,7 +7,7 @@
       "role": "bundled",
       "paths": 122,
       "schemas": 539,
-      "description": "REST API for Vani, Zoho's collaborative whiteboard. Manage editions, teams, spaces and zones; create and edit the objects on a zone canvas; and build whole structures \u2014 mindmaps, flowcharts, kanban boards and tables \u2014 in a single call.\n\nThis document contains every Vani API operation. The per-resource documents beside it (editions, teams, spaces, zones, canvas, and the rest) are subsets of this one. Generate a client from this file OR from the per-resource files, not both: they describe the same operations, so generating from both produces duplicate types.",
+      "description": "REST API for Vani, Zoho's collaborative whiteboard. Manage editions, teams, spaces and zones; create and edit the objects on a zone canvas; and build whole structures \u2014 mindmaps, flowcharts, kanban boards and tables \u2014 in a single call.\n\nThis document contains every Vani API operation. The per-resource documents beside it (editions, teams, spaces, zones, elements, and the rest) are subsets of this one. Generate a client from this file OR from the per-resource files, not both: they describe the same operations, so generating from both produces duplicate types.",
       "title": "Vani API",
       "tags": [
         "Editions",
@@ -30,7 +30,7 @@
         "Connectors on Frame",
         "Group Shapes on Frame",
         "Frames on Frame",
-        "Canvas Text",
+        "Element Text",
         "Search",
         "External Share",
         "Structured Creation",
@@ -107,14 +107,14 @@
       ]
     },
     {
-      "file": "canvas.json",
+      "file": "elements.json",
       "operations": 34,
       "role": "resource",
       "surface": "rest",
       "paths": 10,
       "schemas": 16,
       "description": "Create, read, update, and delete the objects on a zone canvas: shapes, connectors, group shapes, frames, and their text.",
-      "title": "Canvas Elements",
+      "title": "Elements",
       "tags": [
         "Shapes",
         "Connectors",
@@ -124,7 +124,7 @@
         "Connectors on Frame",
         "Group Shapes on Frame",
         "Frames on Frame",
-        "Canvas Text"
+        "Element Text"
       ]
     },
     {
