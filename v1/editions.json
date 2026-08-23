@@ -104,27 +104,154 @@
         "required": ["enabled"]
       }
     },
-    "securitySchemes": {"iam-oauth2-schema": {
-      "flows": {"authorizationCode": {
-        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
-        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
-        "scopes": {
-          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
-          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.teams.CREATE": "Create new teams and assign team memberships",
-          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
-          "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
-          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
-        }
-      }},
-      "type": "oauth2"
-    }}
+    "responses": {
+      "RateLimitExceededThisOperationAllows30Re": {
+        "description": "Rate limit exceeded - this operation allows 30 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "SuccessfulResponse": {
+        "description": "Successful response",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+      },
+      "InvalidRequestValidationFailed6": {
+        "description": "Invalid request - validation failed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "RateLimitExceededThisOperationAllows10Re": {
+        "description": "Rate limit exceeded - this operation allows 10 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "RateLimitExceededThisOperationAllows500R": {
+        "description": "Rate limit exceeded - this operation allows 500 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "RateLimitExceededThisOperationAllows60Re": {
+        "description": "Rate limit exceeded - this operation allows 60 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "NotFoundAResourceNamedInThePathDoesNotEx10": {
+        "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "InternalServerErrorTheRequestWasWellForm": {
+        "description": "Internal server error - the request was well-formed but could not be completed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "UnauthorizedMissingOrInvalidAccessToken9": {
+        "description": "Unauthorized - missing or invalid access token",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      }
+    },
+    "securitySchemes": {
+      "vani-api-key": {
+        "in": "header",
+        "name": "x-vani-apikey",
+        "description": "Edition-scoped API key. ACCEPTED, NOT YET REQUIRED: the bearer token alone authorises every operation today, which is why each one lists a token-only alternative first and a token-plus-key alternative second. Sending the key is harmless and forward-compatible -- the server reads it, and the requirement is expected to become mandatory, at which point the token-only alternative disappears from this contract. The key never authorises on its own. Read or create your edition's key from the edition settings. The two operations on the /editions collection itself never carry one: a key belongs to an edition, so the calls that list or create editions cannot present it.",
+        "type": "apiKey"
+      },
+      "iam-oauth2-schema": {
+        "flows": {"authorizationCode": {
+          "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+          "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+          "scopes": {
+            "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+            "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+            "Vani.spaces.DELETE": "Delete workspaces and folders",
+            "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+            "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+            "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+            "Vani.teams.CREATE": "Create new teams and assign team memberships",
+            "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+            "Vani.editions.CREATE": "Create new document editions and version snapshots",
+            "Vani.zones.CREATE": "Create zones including tables, cells, and paragraph content",
+            "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+            "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+            "Vani.teams.DELETE": "Delete teams and remove team memberships"
+          }
+        }},
+        "x-vani-data-centre": "com",
+        "description": "OAuth 2.0 through Zoho Accounts for the .com data centre (the default). Authorisation is NOT served by the API server -- it is a separate host, and each data centre has its own. If your edition is on another data centre, keep these paths and substitute its host from x-vani-accounts-hosts on this scheme. An OAuth client is valid only in the data centre it was registered in, so register at that data centre's api-console. Note that the accounts host does not simply mirror the API host's TLD: Canada authorises at accounts.zohocloud.ca.",
+        "x-vani-accounts-hosts": {
+          "com": "accounts.zoho.com",
+          "eu": "accounts.zoho.eu",
+          "ae": "accounts.zoho.ae",
+          "in": "accounts.zoho.in",
+          "ca": "accounts.zohocloud.ca",
+          "sa": "accounts.zoho.sa",
+          "com.au": "accounts.zoho.com.au"
+        },
+        "type": "oauth2"
+      }
+    },
+    "parameters": {
+      "EditionId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "edition_id",
+        "description": "The unique identifier of the edition",
+        "required": true
+      },
+      "Fields2": {
+        "schema": {
+          "type": "string",
+          "maxLength": 1000,
+          "enum": [
+            "id",
+            "description",
+            "name",
+            "is_available_for_edition"
+          ]
+        },
+        "in": "query",
+        "name": "fields",
+        "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: id, description, name, is_available_for_edition",
+        "required": false
+      },
+      "From": {
+        "schema": {
+          "pattern": "^[0-9]{1,6}$",
+          "type": "string",
+          "maxLength": 6
+        },
+        "in": "query",
+        "name": "from",
+        "description": "The starting index from where the results should be fetched. Default value is 0",
+        "required": false
+      },
+      "Limit": {
+        "schema": {
+          "pattern": "^[1-9][0-9]{0,2}$",
+          "type": "string",
+          "maxLength": 3
+        },
+        "in": "query",
+        "name": "limit",
+        "description": "The maximum number of results to return in the response. Default value is 20",
+        "required": false
+      },
+      "Fields7": {
+        "schema": {
+          "type": "string",
+          "maxLength": 1000,
+          "enum": [
+            "state",
+            "created_time",
+            "last_modified_time",
+            "edition_type_name",
+            "edition_name",
+            "edition_role_name",
+            "edition_id",
+            "edition_owner_id",
+            "is_default",
+            "uri"
+          ]
+        },
+        "in": "query",
+        "name": "fields",
+        "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: state, created_time, last_modified_time, edition_type_name, edition_name, edition_role_name, edition_id, edition_owner_id, is_default, uri",
+        "required": false
+      }
+    }
   },
   "servers": [{
     "variables": {"dc": {
@@ -132,12 +259,12 @@
       "description": "Data-centre TLD for your edition.",
       "enum": [
         "com",
-        "ae",
+        "in",
+        "eu",
         "ca",
         "com.au",
-        "eu",
-        "in",
-        "sa"
+        "sa",
+        "ae"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -147,67 +274,160 @@
   "paths": {
     "/vani/api/v1/editions/{edition_id}/templates": {"get": {
       "summary": "Get the templates available in an edition",
-      "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.editions.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.editions.READ"]
+        }
+      ],
       "operationId": "getTemplates",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {"Success": {"value": {
+              "data": {"templates": [
+                {
+                  "name": "Eisenhower matrix",
+                  "description": "The Eisenhower Matrix, also known as the Urgent-Important Matrix, is a productivity tool used to prioritize tasks based on their urgency and importance.",
+                  "id": "40000000000237238",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "1-on-1 feedback",
+                  "description": "Help your mentor or teammate get an idea of what you're going to discuss with them in your 1-on-1 feedback sessions.",
+                  "id": "40000000000238239",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "5 whys",
+                  "description": "Find the root cause of a problem by asking &quot;Why?&quot; questions.",
+                  "id": "40000000000239240",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Guess the Doodle",
+                  "description": "Just want to chill with the team for a while? This visual game will help you and your team relax and bond with each other.",
+                  "id": "40000000000240241",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Impact Effort Matrix",
+                  "description": "An impact effort matrix is a tool used in project management to help prioritize tasks based on their level of impact and effort required.",
+                  "id": "40000000000241242",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Customer problem statement",
+                  "description": "Get into your customer's shoes to better understand their problems. ",
+                  "id": "40000000000242243",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Marketing release checklist",
+                  "description": "Got an upcoming release? Here&#39;s an easier way to plan and execute\nyour marketing goals, so that you get everything covered.",
+                  "id": "40000000000243244",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Never Have I Ever",
+                  "description": "Never Have I Ever is a popular card game designed to reveal interesting and embarrassing secrets about the players. It's a great icebreaker and often opens up fun, entertaining conversations.",
+                  "id": "40000000000244245",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "New teammate onboarding",
+                  "description": "Onboard new members of your team with this fun template.",
+                  "id": "40000000000245246",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "New teammate project milestones",
+                  "description": "Help your new teammate understand all about your team's projects, the stuff they need to work on, and the expectations you've set for them.\r\n",
+                  "id": "40000000000246247",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Sales call follow-up",
+                  "description": "This is a quick way to share insights after a sales call and discuss them with your team.",
+                  "id": "40000000000247248",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Product positioning",
+                  "description": "Working on a new product or revising an existing one? Here are some positioning exercises for you and your teammates to brainstorm and fill in.\r\n",
+                  "id": "40000000000248249",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Strategic goal board",
+                  "description": "Chart out some goals and work together with your teammates towards achieving them.\r\n",
+                  "id": "40000000000249250",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Team bookshelf",
+                  "description": "Build your team library with book recommendations from everyone.",
+                  "id": "40000000000250251",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Team coffee discussion",
+                  "description": "Bond with your team over coffee, or just about anything you want, and have fun discussions.",
+                  "id": "40000000000251252",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Team priority : Now, Next, Later",
+                  "description": "Working on your next team project? Quickly list down tasks and details, sort the most-important things to do, and keep track of the progress.\r\n",
+                  "id": "40000000000252253",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Team recipe board",
+                  "description": "A fun team activity to share the best and favorite recipes with each other.",
+                  "id": "40000000000253254",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Website signup flow",
+                  "description": "A simple sign up flow to capture the visitor-to-subscriber conversion.",
+                  "id": "40000000000254255",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Weekly team planner",
+                  "description": "Plan your week with your teammates using this template.\r\n",
+                  "id": "40000000000255256",
+                  "is_available_for_edition": "true"
+                },
+                {
+                  "name": "Book Club Meeting",
+                  "description": "Use this template to jot down your bookish discussions and thoughts on what you are reading and keep track of your literary adventures. It is your cozy digital den for all things book-related.",
+                  "id": "40000000000256257",
+                  "is_available_for_edition": "true"
+                }
+              ]},
+              "message": "Templates fetched successfully",
+              "request_uri": "/vani/api/v1/editions/40000000000108109/templates",
+              "status": "success"
+            }}}
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 1000,
-            "enum": [
-              "id",
-              "description",
-              "name",
-              "is_available_for_edition"
-            ]
-          },
-          "in": "query",
-          "name": "fields",
-          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: id, description, name, is_available_for_edition",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 6
-          },
-          "in": "query",
-          "name": "from",
-          "description": "The starting index from where the results should be fetched. Default value is 0",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 3
-          },
-          "in": "query",
-          "name": "limit",
-          "description": "The maximum number of results to return in the response. Default value is 20",
-          "required": false
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/Fields2"},
+        {"$ref": "#/components/parameters/From"},
+        {"$ref": "#/components/parameters/Limit"}
       ],
       "x-vani-read-only": true,
       "x-vani-destructive": false,
@@ -219,31 +439,50 @@
     }},
     "/vani/api/v1/editions/{edition_id}/requests/status": {
       "get": {
-        "summary": "Get edition request status",
-        "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
+        "summary": "Read whether access-request handling is switched on for the edition. Use to check the org-level toggle before a user tries to request access to a team or space.",
+        "security": [
+          {"iam-oauth2-schema": ["Vani.editions.READ"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.editions.READ"]
+          }
+        ],
         "operationId": "getEditionRequestStatus",
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Team Requests Enabled": {"value": {
+                  "data": {
+                    "edition_id": "40000000000002003",
+                    "status": "true"
+                  },
+                  "message": "Requests status fetched successfully",
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/requests/status",
+                  "status": "success"
+                }},
+                "Team Requests Disabled": {"value": {
+                  "data": {
+                    "edition_id": "40000000000115116",
+                    "status": "false"
+                  },
+                  "message": "Requests status fetched successfully",
+                  "request_uri": "/vani/api/v1/editions/40000000000115116/requests/status",
+                  "status": "success"
+                }}
+              }
+            }}
           },
-          "400": {
-            "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          },
-          "401": {
-            "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
         },
         "x-vani-operation-type": "READ",
-        "parameters": [{
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        }],
+        "parameters": [{"$ref": "#/components/parameters/EditionId"}],
         "x-vani-read-only": true,
         "x-vani-destructive": false,
         "x-vani-throttle": {
@@ -254,7 +493,13 @@
       },
       "put": {
         "summary": "Approve or reject an edition join request",
-        "security": [{"iam-oauth2-schema": ["Vani.editions.UPDATE"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.editions.UPDATE"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.editions.UPDATE"]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/EditionRequestStatusRequest"}}}
@@ -263,25 +508,53 @@
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Team Request Disabled": {"value": {
+                  "data": {
+                    "edition_id": "40000000000002003",
+                    "status": "false"
+                  },
+                  "message": "Requests status updated successfully",
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/requests/status",
+                  "status": "success"
+                }},
+                "Team Request Enabled": {"value": {
+                  "data": {
+                    "edition_id": "40000000000002003",
+                    "status": "true"
+                  },
+                  "message": "Requests status updated successfully",
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/requests/status",
+                  "status": "success"
+                }}
+              }
+            }}
           },
-          "400": {
-            "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          },
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Unauthorized": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1002",
+                  "message": "Only admin can do this action"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/requests/status",
+                "status": "error"
+              }}}
+            }}
+          },
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
         },
         "x-vani-operation-type": "UPDATE",
-        "parameters": [{
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        }],
+        "parameters": [{"$ref": "#/components/parameters/EditionId"}],
         "x-vani-read-only": false,
         "x-vani-destructive": false,
         "x-vani-throttle": {
@@ -293,31 +566,79 @@
     },
     "/vani/api/v1/editions/{edition_id}/subscription": {"get": {
       "summary": "Get the edition's subscription details",
-      "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.editions.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.editions.READ"]
+        }
+      ],
       "operationId": "getSubscription",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "TRAIL PLAN": {"value": {
+                "data": {"subscription_info": {
+                  "edition_id": "40000000000008009",
+                  "expiry_date": "Wed, 05 Mar 2025, 19:06:08",
+                  "purchase_date": "Mon, 03 Feb 2025, 19:06:08",
+                  "plan_name": "TRIAL_PLAN",
+                  "status": "Active"
+                }},
+                "message": "Subscription details fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000008009/subscription",
+                "status": "success"
+              }},
+              "Using Filter Fields": {"value": {
+                "data": {"subscription_info": {
+                  "plan_type": "Yearly",
+                  "plan_name": "TEAM_PLAN",
+                  "status": "Active"
+                }},
+                "message": "Subscription details fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/subscription",
+                "status": "success"
+              }},
+              "FREE PLAN": {"value": {
+                "data": {"subscription_info": {
+                  "edition_id": "40000000000139140",
+                  "expiry_date": "-1L",
+                  "purchase_date": "Mon, 24 Jun 2024, 11:44:23",
+                  "plan_name": "FREE_PLAN",
+                  "status": "Modified"
+                }},
+                "message": "Subscription details fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000139140/subscription",
+                "status": "success"
+              }},
+              "PAID PLAN": {"value": {
+                "data": {"subscription_info": {
+                  "plan_type": "Yearly",
+                  "edition_id": "40000000000002003",
+                  "expiry_date": "Wed, 04 Feb 2026, 00:00:00",
+                  "purchase_date": "Tue, 04 Feb 2025, 00:51:12",
+                  "plan_name": "TEAM_PLAN",
+                  "status": "Active"
+                }},
+                "message": "Subscription details fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/subscription",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
+        {"$ref": "#/components/parameters/EditionId"},
         {
           "schema": {
             "type": "string",
@@ -348,62 +669,81 @@
     }},
     "/vani/api/v1/editions/{edition_id}": {"get": {
       "summary": "Get an edition",
-      "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.editions.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.editions.READ"]
+        }
+      ],
       "operationId": "getEdition",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"allOf": [
-            {"$ref": "#/components/schemas/VaniEnvelope"},
-            {
-              "type": "object",
-              "properties": {"data": {
+          "content": {"application/json": {
+            "schema": {"allOf": [
+              {"$ref": "#/components/schemas/VaniEnvelope"},
+              {
                 "type": "object",
-                "properties": {"edition_info": {"$ref": "#/components/schemas/EditionVO"}}
+                "properties": {"data": {
+                  "type": "object",
+                  "properties": {"edition_info": {"$ref": "#/components/schemas/EditionVO"}}
+                }}
+              }
+            ]},
+            "examples": {
+              "Using Filter Fields": {"value": {
+                "data": {"edition_info": {
+                  "state": "ACTIVE",
+                  "edition_name": "Blue Harbour",
+                  "edition_owner_id": "40000000000003004"
+                }},
+                "message": "Editions fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000005006",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"edition_info": {
+                  "created_time": "Tue, 21 Jan 2025, 17:04:53",
+                  "last_modified_time": "Tue, 21 Jan 2025, 17:06:52",
+                  "edition_id": "40000000000004005",
+                  "edition_type_name": "TEAM",
+                  "state": "ACTIVE",
+                  "edition_name": "Blue Harbour",
+                  "edition_owner_id": "40000000000003004",
+                  "uri": "/vani/api/v1/editions/40000000000004005/teams"
+                }},
+                "message": "Editions fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000005006",
+                "status": "success"
               }}
             }
-          ]}}}
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Failure \u2013 Invalid API Key": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000002003",
+                "error_code": "A1008",
+                "message": "Given API Key is not valid."
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000002003",
+              "status": "error"
+            }}}
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 1000,
-            "enum": [
-              "state",
-              "created_time",
-              "last_modified_time",
-              "edition_type_name",
-              "edition_name",
-              "edition_role_name",
-              "edition_id",
-              "edition_owner_id",
-              "is_default",
-              "uri"
-            ]
-          },
-          "in": "query",
-          "name": "fields",
-          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: state, created_time, last_modified_time, edition_type_name, edition_name, edition_role_name, edition_id, edition_owner_id, is_default, uri",
-          "required": false
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/Fields7"}
       ],
       "x-vani-read-only": true,
       "x-vani-destructive": false,
@@ -415,31 +755,56 @@
     }},
     "/vani/api/v1/editions/{edition_id}/templates/{template_id}": {"get": {
       "summary": "Get a template",
-      "security": [{"iam-oauth2-schema": ["Vani.editions.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.editions.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.editions.READ"]
+        }
+      ],
       "operationId": "getTemplate",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {"Success": {"value": {
+              "data": {"template": {
+                "name": "1-on-1 feedback",
+                "description": "Help your mentor or teammate get an idea of what you're going to discuss with them in your 1-on-1 feedback sessions.",
+                "id": "40000000000238239",
+                "is_available_for_edition": "true"
+              }},
+              "message": "Template fetched successfully",
+              "request_uri": "/vani/api/v1/editions/40000000000108109/templates/40000000000238239",
+              "status": "success"
+            }}}
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Template not found": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000108109",
+                "current_user_id": "40000000000135136",
+                "error_code": "S1030",
+                "message": "Template not found"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000108109/templates/40000000000258259",
+              "status": "error"
+            }}}
+          }}
         },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows500R"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
+        {"$ref": "#/components/parameters/EditionId"},
         {
           "schema": {"type": "string"},
           "in": "path",
@@ -447,22 +812,7 @@
           "description": "The unique identifier of the template",
           "required": true
         },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 1000,
-            "enum": [
-              "id",
-              "description",
-              "name",
-              "is_available_for_edition"
-            ]
-          },
-          "in": "query",
-          "name": "fields",
-          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: id, description, name, is_available_for_edition",
-          "required": false
-        }
+        {"$ref": "#/components/parameters/Fields2"}
       ],
       "x-vani-read-only": true,
       "x-vani-destructive": false,
@@ -482,18 +832,25 @@
         },
         "operationId": "createEdition",
         "responses": {
-          "201": {
-            "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-          },
+          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
           "400": {
             "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Failure: Invalid Parameter (team_name)": {"value": {
+                "error": {"details": {
+                  "error_code": "IAM1031",
+                  "attribute": "team_name",
+                  "message": "The required parameter is missing"
+                }},
+                "request_uri": "/vani/api/v1/editions",
+                "status": "error"
+              }}}
+            }}
           },
-          "401": {
-            "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+          "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows10Re"}
         },
         "x-vani-operation-type": "CREATE",
         "x-vani-read-only": false,
@@ -511,52 +868,94 @@
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"allOf": [
-              {"$ref": "#/components/schemas/VaniEnvelope"},
-              {
-                "type": "object",
-                "properties": {"data": {
+            "content": {"application/json": {
+              "schema": {"allOf": [
+                {"$ref": "#/components/schemas/VaniEnvelope"},
+                {
                   "type": "object",
-                  "properties": {"editions_info": {
-                    "type": "array",
-                    "items": {"$ref": "#/components/schemas/EditionVO"}
+                  "properties": {"data": {
+                    "type": "object",
+                    "properties": {"editions_info": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/EditionVO"}
+                    }}
                   }}
+                }
+              ]},
+              "examples": {
+                "Success: User Is Not Part of Any Edition": {"value": {
+                  "data": {"editions_info": {}},
+                  "message": "Editions fetched successfully",
+                  "request_uri": "/vani/api/v1/editions",
+                  "status": "success"
+                }},
+                "Using Filter Fields": {"value": {
+                  "data": {"editions_info": [
+                    {
+                      "edition_name": "Northwind",
+                      "edition_owner_id": "40000000000001002"
+                    },
+                    {
+                      "edition_name": "Acme Design",
+                      "edition_owner_id": "40000000000003004"
+                    },
+                    {
+                      "edition_name": "Blue Harbour",
+                      "edition_owner_id": "40000000000003004"
+                    }
+                  ]},
+                  "message": "Editions fetched successfully",
+                  "request_uri": "/vani/api/v1/editions",
+                  "status": "success"
+                }},
+                "Success": {"value": {
+                  "data": {"editions_info": [
+                    {
+                      "created_time": "Sun, 09 Apr 2023, 08:43:02",
+                      "last_modified_time": "Sun, 09 Apr 2023, 08:43:02",
+                      "edition_id": "40000000000000001",
+                      "edition_type_name": "TEAM",
+                      "state": "ACTIVE",
+                      "edition_name": "Northwind",
+                      "edition_owner_id": "40000000000001002",
+                      "is_default": "true",
+                      "uri": "/vani/api/v1/editions/40000000000000001"
+                    },
+                    {
+                      "created_time": "Fri, 03 Jan 2025, 11:55:58",
+                      "last_modified_time": "Wed, 29 Jan 2025, 18:26:53",
+                      "edition_id": "40000000000002003",
+                      "edition_type_name": "TEAM",
+                      "state": "ACTIVE",
+                      "edition_name": "Acme Design",
+                      "edition_owner_id": "40000000000003004",
+                      "uri": "/vani/api/v1/editions/40000000000002003"
+                    },
+                    {
+                      "created_time": "Tue, 21 Jan 2025, 17:04:53",
+                      "last_modified_time": "Tue, 21 Jan 2025, 17:06:52",
+                      "edition_id": "40000000000004005",
+                      "edition_type_name": "TEAM",
+                      "state": "ACTIVE",
+                      "edition_name": "Blue Harbour",
+                      "edition_owner_id": "40000000000003004",
+                      "uri": "/vani/api/v1/editions/40000000000004005"
+                    }
+                  ]},
+                  "message": "Editions fetched successfully",
+                  "request_uri": "/vani/api/v1/editions",
+                  "status": "success"
                 }}
               }
-            ]}}}
+            }}
           },
-          "400": {
-            "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          },
-          "401": {
-            "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
         },
         "x-vani-operation-type": "READ",
-        "parameters": [{
-          "schema": {
-            "type": "string",
-            "maxLength": 1000,
-            "enum": [
-              "state",
-              "created_time",
-              "last_modified_time",
-              "edition_type_name",
-              "edition_name",
-              "edition_role_name",
-              "edition_id",
-              "edition_owner_id",
-              "is_default",
-              "uri"
-            ]
-          },
-          "in": "query",
-          "name": "fields",
-          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: state, created_time, last_modified_time, edition_type_name, edition_name, edition_role_name, edition_id, edition_owner_id, is_default, uri",
-          "required": false
-        }],
+        "parameters": [{"$ref": "#/components/parameters/Fields7"}],
         "x-vani-read-only": true,
         "x-vani-destructive": false,
         "x-vani-throttle": {

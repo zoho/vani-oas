@@ -165,6 +165,42 @@
         }},
         "required": ["move_zone"]
       },
+      "InsertTemplateIntoZone": {
+        "type": "object",
+        "properties": {
+          "template_id": {
+            "pattern": "^[0-9]+$",
+            "description": "Template asset global id to insert",
+            "type": "string",
+            "maxLength": 50
+          },
+          "placement": {
+            "description": "Placement mode: AUTO, AT_POSITION, or NEAR_POSITION",
+            "type": "string",
+            "maxLength": 30,
+            "enum": [
+              "AUTO",
+              "AT_POSITION",
+              "NEAR_POSITION"
+            ]
+          },
+          "position": {
+            "description": "Required for AT_POSITION and NEAR_POSITION",
+            "type": "object",
+            "properties": {
+              "top": {
+                "description": "Top coordinate in zone space",
+                "type": "number"
+              },
+              "left": {
+                "description": "Left coordinate in zone space",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": ["template_id"]
+      },
       "UpdateZoneStateRequest": {
         "type": "object",
         "properties": {"zone_state": {
@@ -237,27 +273,129 @@
         "required": ["members_info"]
       }
     },
-    "securitySchemes": {"iam-oauth2-schema": {
-      "flows": {"authorizationCode": {
-        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
-        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
-        "scopes": {
-          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
-          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.teams.CREATE": "Create new teams and assign team memberships",
-          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
-          "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
-          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
-        }
-      }},
-      "type": "oauth2"
-    }}
+    "responses": {
+      "RateLimitExceededThisOperationAllows30Re": {
+        "description": "Rate limit exceeded - this operation allows 30 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "SuccessfulResponse": {
+        "description": "Successful response",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+      },
+      "InvalidRequestValidationFailed6": {
+        "description": "Invalid request - validation failed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "RateLimitExceededThisOperationAllows60Re": {
+        "description": "Rate limit exceeded - this operation allows 60 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "NotFoundAResourceNamedInThePathDoesNotEx10": {
+        "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "InternalServerErrorTheRequestWasWellForm": {
+        "description": "Internal server error - the request was well-formed but could not be completed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "UnauthorizedMissingOrInvalidAccessToken9": {
+        "description": "Unauthorized - missing or invalid access token",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      }
+    },
+    "securitySchemes": {
+      "vani-api-key": {
+        "in": "header",
+        "name": "x-vani-apikey",
+        "description": "Edition-scoped API key. ACCEPTED, NOT YET REQUIRED: the bearer token alone authorises every operation today, which is why each one lists a token-only alternative first and a token-plus-key alternative second. Sending the key is harmless and forward-compatible -- the server reads it, and the requirement is expected to become mandatory, at which point the token-only alternative disappears from this contract. The key never authorises on its own. Read or create your edition's key from the edition settings. The two operations on the /editions collection itself never carry one: a key belongs to an edition, so the calls that list or create editions cannot present it.",
+        "type": "apiKey"
+      },
+      "iam-oauth2-schema": {
+        "flows": {"authorizationCode": {
+          "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+          "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+          "scopes": {
+            "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+            "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+            "Vani.spaces.DELETE": "Delete workspaces and folders",
+            "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+            "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+            "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+            "Vani.teams.CREATE": "Create new teams and assign team memberships",
+            "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+            "Vani.editions.CREATE": "Create new document editions and version snapshots",
+            "Vani.zones.CREATE": "Create zones including tables, cells, and paragraph content",
+            "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+            "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+            "Vani.teams.DELETE": "Delete teams and remove team memberships"
+          }
+        }},
+        "x-vani-data-centre": "com",
+        "description": "OAuth 2.0 through Zoho Accounts for the .com data centre (the default). Authorisation is NOT served by the API server -- it is a separate host, and each data centre has its own. If your edition is on another data centre, keep these paths and substitute its host from x-vani-accounts-hosts on this scheme. An OAuth client is valid only in the data centre it was registered in, so register at that data centre's api-console. Note that the accounts host does not simply mirror the API host's TLD: Canada authorises at accounts.zohocloud.ca.",
+        "x-vani-accounts-hosts": {
+          "com": "accounts.zoho.com",
+          "eu": "accounts.zoho.eu",
+          "ae": "accounts.zoho.ae",
+          "in": "accounts.zoho.in",
+          "ca": "accounts.zohocloud.ca",
+          "sa": "accounts.zoho.sa",
+          "com.au": "accounts.zoho.com.au"
+        },
+        "type": "oauth2"
+      }
+    },
+    "parameters": {
+      "MemberId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "member_id",
+        "description": "The unique identifier of the member",
+        "required": true
+      },
+      "ZoneId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "zone_id",
+        "description": "The unique identifier of the zone",
+        "required": true
+      },
+      "SpaceId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "space_id",
+        "description": "The unique identifier of the space",
+        "required": true
+      },
+      "EditionId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "edition_id",
+        "description": "The unique identifier of the edition",
+        "required": true
+      },
+      "From": {
+        "schema": {
+          "pattern": "^[0-9]{1,6}$",
+          "type": "string",
+          "maxLength": 6
+        },
+        "in": "query",
+        "name": "from",
+        "description": "The starting index from where the results should be fetched. Default value is 0",
+        "required": false
+      },
+      "Limit": {
+        "schema": {
+          "pattern": "^[1-9][0-9]{0,2}$",
+          "type": "string",
+          "maxLength": 3
+        },
+        "in": "query",
+        "name": "limit",
+        "description": "The maximum number of results to return in the response. Default value is 20",
+        "required": false
+      }
+    }
   },
   "servers": [{
     "variables": {"dc": {
@@ -265,12 +403,12 @@
       "description": "Data-centre TLD for your edition.",
       "enum": [
         "com",
-        "ae",
+        "in",
+        "eu",
         "ca",
         "com.au",
-        "eu",
-        "in",
-        "sa"
+        "sa",
+        "ae"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -280,49 +418,100 @@
   "paths": {
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/move": {"post": {
       "summary": "Move a zone to another space",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MoveZoneRequest"}}}
       },
       "operationId": "moveZone",
       "responses": {
-        "201": {
-          "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-        },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
+        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "Unauthorized to Move Zone to an Existing Space": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000146147"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000146147/zones/61fae7ca-ebcc-4ab9-881c-07b1aa9c814b/move",
+                "status": "error"
+              }},
+              "Unauthorized to Move Zone to a New Space": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000170171"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000170171/zones/4a971774-9ea7-4f1b-94c8-7199a254d6ba/move",
+                "status": "error"
+              }}
+            }
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "Zone Not Found (2)": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1008",
+                  "message": "Zone not found",
+                  "space_id": "40000000000166167"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000166167/zones/F2897959-A91F-4EB8-BE6B-E69411DC83F6/move",
+                "status": "error"
+              }},
+              "Target Space Not Found": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "S1009",
+                  "message": "Space not found",
+                  "space_id": "40000000000170171"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000170171/zones/b313272b-fa45-4111-b61d-de64a0044260/move",
+                "status": "error"
+              }},
+              "Zone Not Found": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1008",
+                  "message": "Zone not found",
+                  "space_id": "40000000000168169"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000168169/zones/0c77700c-35ef-4614-aad1-b4532d8e0bd3/move",
+                "status": "error"
+              }}
+            }
+          }}
+        },
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -334,42 +523,128 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/members": {"post": {
       "summary": "Share zones in a space with members",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ShareZonesWithMembersRequest"}}}
       },
       "operationId": "shareZonesWithMembers",
       "responses": {
-        "201": {
-          "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-        },
+        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
         "400": {
           "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "Resource Member Present": {"value": {
+                "error": {"details": {
+                  "failed_members": [
+                    {
+                      "error_message": "Resource member present",
+                      "error_code": "S1042",
+                      "zuid": "40000000000027028"
+                    },
+                    {
+                      "error_message": "Resource member present",
+                      "error_code": "S1042",
+                      "zuid": "40000000000027028"
+                    }
+                  ],
+                  "error_code": "R1003",
+                  "message": "Resource member add failed"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members",
+                "status": "error"
+              }},
+              "Cannot Restrict The Owner": {"value": {
+                "error": {"details": {
+                  "failed_members": [{
+                    "error_message": "Cannot restrict owner role",
+                    "error_code": "S1034",
+                    "zuid": "40000000000036037"
+                  }],
+                  "error_code": "R1003",
+                  "message": "Resource member add failed"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members",
+                "status": "error"
+              }},
+              "Cannot Restrict Non-Space Member": {"value": {
+                "error": {"details": {
+                  "failed_members": [{
+                    "error_message": "Cannot restrict non-project member",
+                    "error_code": "S1041",
+                    "zuid": "40000000000188189"
+                  }],
+                  "error_code": "R1003",
+                  "message": "Resource member add failed"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members",
+                "status": "error"
+              }},
+              "Cannot Update Own Role": {"value": {
+                "error": {"details": {
+                  "failed_members": [{
+                    "error_message": "Cannot update own role",
+                    "error_code": "S1036",
+                    "zuid": "40000000000003004"
+                  }],
+                  "error_code": "R1003",
+                  "message": "Resource member add failed"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members",
+                "status": "error"
+              }}
+            }
+          }}
         },
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Unauthorized": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000002003",
+                "current_user_id": "40000000000003004",
+                "error_code": "A1003",
+                "message": "The user doesn't have permission to perform this action",
+                "space_id": "40000000000190191"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000190191/zones/members",
+              "status": "error"
+            }}}
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Space Not found": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000002003",
+                "current_user_id": "40000000000003004",
+                "error_code": "S1009",
+                "message": "Space not found",
+                "space_id": "40000000000186187"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000186187/zones/members",
+              "status": "error"
+            }}}
+          }}
+        },
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -381,42 +656,62 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones": {"post": {
       "summary": "Create a new zone",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CreateZoneRequest"}}}
       },
       "operationId": "createZone",
       "responses": {
-        "201": {
-          "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-        },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
+        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Unauthorized": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000002003",
+                "current_user_id": "40000000000003004",
+                "error_code": "A1003",
+                "message": "The user doesn't have permission to perform this action",
+                "space_id": "40000000000142143"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000142143/zones",
+              "status": "error"
+            }}}
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Template Not Found": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000002003",
+                "current_user_id": "40000000000003004",
+                "error_code": "S1030",
+                "message": "Template not found",
+                "space_id": "40000000000137138"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000137138/zones",
+              "status": "error"
+            }}}
+          }}
+        },
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -429,45 +724,80 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/meta": {
       "get": {
         "summary": "Get zone metadata",
-        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.spaces.READ"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.spaces.READ"]
+          }
+        ],
         "operationId": "getZoneMeta",
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Success": {"value": {
+                "data": {"zone_info": {
+                  "created_time": "Tue, 15 Jul 2025, 10:49:13",
+                  "zone_id": "c606cdb1-ae46-47a6-847b-0a36caf9f797",
+                  "last_modified_time": "Tue, 29 Jul 2025, 13:46:46",
+                  "zone_key": "40000000000130131",
+                  "zone_name": "Zone 1",
+                  "space_id": "40000000000132133",
+                  "author_zuid": "40000000000003004",
+                  "last_author_zuid": "40000000000003004",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone metadata fetched successfully.",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000132133/zones/c606cdb1-ae46-47a6-847b-0a36caf9f797/meta",
+                "status": "success"
+              }}}
+            }}
           },
           "400": {
             "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Zone Inactive": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1011",
+                  "message": "Zone is not in an active state",
+                  "space_id": "40000000000134135"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000134135/zones/e42f51ec-e4dc-4dc5-9587-7a2e49dcdc2e/meta",
+                "status": "error"
+              }}}
+            }}
           },
           "401": {
             "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Unauthorized": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000134135"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000134135/zones/e42f51ec-e4dc-4dc5-9587-7a2e49dcdc2e/meta",
+                "status": "error"
+              }}}
+            }}
+          },
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
         },
         "x-vani-operation-type": "READ",
         "parameters": [
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "edition_id",
-            "description": "The unique identifier of the edition",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "space_id",
-            "description": "The unique identifier of the space",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "zone_id",
-            "description": "The unique identifier of the zone",
-            "required": true
-          }
+          {"$ref": "#/components/parameters/EditionId"},
+          {"$ref": "#/components/parameters/SpaceId"},
+          {"$ref": "#/components/parameters/ZoneId"}
         ],
         "x-vani-read-only": true,
         "x-vani-destructive": false,
@@ -479,7 +809,13 @@
       },
       "put": {
         "summary": "Update zone metadata",
-        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.spaces.UPDATE"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.spaces.UPDATE"]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateZoneMetaRequest"}}}
@@ -488,40 +824,67 @@
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Success": {"value": {
+                "data": {
+                  "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
+                  "edition_id": "40000000000004005",
+                  "current_user_id": "40000000000003004",
+                  "space_id": "40000000000102103",
+                  "new_name": "Budget Report"
+                },
+                "message": "Zone name updated successfully.",
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/meta",
+                "status": "success"
+              }}}
+            }}
           },
-          "400": {
-            "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          },
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Unauthorized": {"value": {
+                "error": {"details": {
+                  "zone_id": "a5fcca17-e9dd-414f-850d-0b920645b05d",
+                  "edition_id": "40000000000008009",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000176177"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000008009/spaces/40000000000176177/zones/a5fcca17-e9dd-414f-850d-0b920645b05d/meta",
+                "status": "error"
+              }}}
+            }}
+          },
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {
+            "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Failure: Zone Not Found": {"value": {
+                "error": {"details": {
+                  "zone_id": "198356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
+                  "edition_id": "40000000000004005",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1008",
+                  "message": "Zone not found",
+                  "space_id": "40000000000102103"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/198356E6-5F86-45FA-A7D5-ED8BB6D40DAE/meta",
+                "status": "error"
+              }}}
+            }}
+          },
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
         },
         "x-vani-operation-type": "UPDATE",
         "parameters": [
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "edition_id",
-            "description": "The unique identifier of the edition",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "space_id",
-            "description": "The unique identifier of the space",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "zone_id",
-            "description": "The unique identifier of the zone",
-            "required": true
-          }
+          {"$ref": "#/components/parameters/EditionId"},
+          {"$ref": "#/components/parameters/SpaceId"},
+          {"$ref": "#/components/parameters/ZoneId"}
         ],
         "x-vani-read-only": false,
         "x-vani-destructive": false,
@@ -532,9 +895,51 @@
         "tags": ["Zones"]
       }
     },
+    "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/templates": {"post": {
+      "summary": "Insert a template into a zone",
+      "security": [
+        {"iam-oauth2-schema": ["Vani.zones.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.zones.CREATE"]
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/InsertTemplateIntoZone"}}}
+      },
+      "operationId": "insertTemplateIntoZone",
+      "responses": {
+        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
+      },
+      "x-vani-operation-type": "UPDATE",
+      "parameters": [
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 60
+      },
+      "tags": ["Zones"]
+    }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/state": {"put": {
       "summary": "Update zone state",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.UPDATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.UPDATE"]
+        }
+      ],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpdateZoneStateRequest"}}}
@@ -543,40 +948,121 @@
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Success (2)": {"value": {
+                "data": {
+                  "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
+                  "edition_id": "40000000000004005",
+                  "space_state": "TRASH",
+                  "current_user_id": "40000000000003004",
+                  "space_id": "40000000000102103"
+                },
+                "message": "Zone state updated successfully.",
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {
+                  "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
+                  "edition_id": "40000000000004005",
+                  "space_state": "RESTORE",
+                  "current_user_id": "40000000000003004",
+                  "space_id": "40000000000102103"
+                },
+                "message": "Zone state updated successfully.",
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
+                "status": "success"
+              }}
+            }
+          }}
         },
         "400": {
           "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "Failure: Zone Threshold Violation": {"value": {
+                "error": {"details": {
+                  "zone_id": "6F961124-4598-47D6-9BDA-1705DFBA07D7",
+                  "edition_id": "40000000000004005",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1009",
+                  "message": "Zone threshold violation",
+                  "space_id": "40000000000102103"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/6F961124-4598-47D6-9BDA-1705DFBA07D7/state",
+                "status": "error"
+              }},
+              "Failure: Zone Is Already Trashed or Deleted": {"value": {
+                "error": {"details": {
+                  "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
+                  "edition_id": "40000000000004005",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1005",
+                  "message": "Zone is already trashed or deleted",
+                  "space_id": "40000000000102103"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
+                "status": "error"
+              }},
+              "Failure": {"value": {
+                "error": {"details": {
+                  "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
+                  "edition_id": "40000000000004005",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1006",
+                  "message": "Zone is deleted or already restored",
+                  "space_id": "40000000000102103"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
+                "status": "error"
+              }}
+            }
+          }}
         },
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "Unauthorized": {"value": {
+                "error": {"details": {
+                  "zone_id": "05A61516-A352-44C6-94C3-BE44F728C9D9",
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000142143"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000142143/zones/05A61516-A352-44C6-94C3-BE44F728C9D9/state",
+                "status": "error"
+              }},
+              "Unauthorized (2)": {"value": {
+                "error": {"details": {
+                  "zone_id": "05A61516-A352-44C6-94C3-BE44F728C9D9",
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000174175"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000174175/zones/05A61516-A352-44C6-94C3-BE44F728C9D9/state",
+                "status": "error"
+              }}
+            }
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "UPDATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -588,45 +1074,131 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/version": {"get": {
       "summary": "Get the current version of a zone",
-      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.zones.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.zones.READ"]
+        }
+      ],
       "operationId": "getZoneVersion",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Using Filter Fields": {"value": {
+                "data": {"zone_versions": {
+                  "restricted_versions": [{
+                    "modified_by": "80215739",
+                    "version_id": "40000000000199200"
+                  }],
+                  "allowed_versions": []
+                }},
+                "message": "Zone versions fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000115116/spaces/40000000000200201/zones/1b28dc96-a3bc-45c3-9977-e4089b513a31/version",
+                "status": "success"
+              }},
+              "Using from and limit Parameters": {"value": {
+                "data": {"zone_versions": {
+                  "restricted_versions": [],
+                  "allowed_versions": [{
+                    "modified_by": "80215739",
+                    "version_id": "40000000000203204"
+                  }]
+                }},
+                "message": "Zone versions fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000204205/spaces/40000000000205206/zones/89cf903a-0701-41b3-823c-f2229436333e/version",
+                "status": "success"
+              }},
+              "Using fromDate Parameter": {"value": {
+                "data": {"zone_versions": {
+                  "restricted_versions": [],
+                  "allowed_versions": [{
+                    "version_time": "Fri, 24 Jan 2025, 11:55:53",
+                    "modified_by": "80215739",
+                    "description": "",
+                    "version_id": "40000000000203204"
+                  }]
+                }},
+                "message": "Zone versions fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000204205/spaces/40000000000205206/zones/89cf903a-0701-41b3-823c-f2229436333e/version",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"zone_versions": {
+                  "restricted_versions": [{
+                    "version_time": "Tue, 04 Feb 2025, 12:58:24",
+                    "modified_by": "96384499",
+                    "description": "activated",
+                    "version_id": "40000000000194195"
+                  }],
+                  "allowed_versions": [
+                    {
+                      "version_time": "Sun, 16 Feb 2025, 03:09:13",
+                      "modified_by": "96384499",
+                      "description": "",
+                      "version_id": "40000000000195196"
+                    },
+                    {
+                      "version_time": "Sun, 16 Feb 2025, 03:08:50",
+                      "modified_by": "96384499",
+                      "description": "activated",
+                      "version_id": "40000000000196197"
+                    }
+                  ]
+                }},
+                "message": "Zone versions fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/DBB83581-F98F-4120-9431-FDC16515FE00/version",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Unauthorized": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000139140",
+                "current_user_id": "40000000000003004",
+                "error_code": "A1003",
+                "message": "The user doesn't have permission to perform this action",
+                "space_id": "40000000000207208"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000139140/spaces/40000000000207208/zones/ef7b7fe1-327b-4ec1-904d-8232677d689c/version",
+              "status": "error"
+            }}}
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Zone Not Found": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000204205",
+                "current_user_id": "40000000000036037",
+                "error_code": "Z1008",
+                "message": "Zone not found",
+                "space_id": "40000000000205206"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000204205/spaces/40000000000205206/zones/89cf103a-0701-41b3-823c-f2229436333e/version",
+              "status": "error"
+            }}}
+          }}
+        },
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
-        },
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"},
         {
           "schema": {
             "type": "string",
@@ -644,26 +1216,8 @@
           "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: modified_by, version_id, version_time, description, uri",
           "required": false
         },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 6
-          },
-          "in": "query",
-          "name": "from",
-          "description": "The starting index from where the results should be fetched. Default value is 0",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 3
-          },
-          "in": "query",
-          "name": "limit",
-          "description": "The maximum number of results to return in the response. Default value is 20",
-          "required": false
-        },
+        {"$ref": "#/components/parameters/From"},
+        {"$ref": "#/components/parameters/Limit"},
         {
           "schema": {"type": "string"},
           "in": "query",
@@ -682,38 +1236,116 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/meta": {"get": {
       "summary": "Get metadata for all zones in a space",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.READ"]
+        }
+      ],
       "operationId": "getSpaceZonesMeta",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Using Filter Fields": {"value": {
+                "data": {"zones_info": {
+                  "zone_order": [
+                    "0e1e3a8a-a115-463e-bdb6-f540ab37eeb6",
+                    "6F961124-4598-47D6-9BDA-1705DFBA07D7",
+                    "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE"
+                  ],
+                  "zone_meta": {
+                    "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE": {
+                      "created_time": "Tue, 04 Feb 2025, 11:34:28",
+                      "zone_name": "Zone 3"
+                    },
+                    "0e1e3a8a-a115-463e-bdb6-f540ab37eeb6": {
+                      "created_time": "Tue, 28 Jan 2025, 11:59:50",
+                      "zone_name": "Zone 1"
+                    },
+                    "6F961124-4598-47D6-9BDA-1705DFBA07D7": {
+                      "created_time": "Tue, 04 Feb 2025, 11:34:26",
+                      "zone_name": "Zone 2"
+                    }
+                  }
+                }},
+                "message": "Zone metadata fetched successfully.",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000129130/zones/meta",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"zones_info": {
+                  "zone_order": [
+                    "0e1e3a8a-a115-463e-bdb6-f540ab37eeb6",
+                    "6F961124-4598-47D6-9BDA-1705DFBA07D7",
+                    "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE"
+                  ],
+                  "zone_meta": {
+                    "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE": {
+                      "created_time": "Tue, 04 Feb 2025, 11:34:28",
+                      "last_modified_time": "Tue, 04 Feb 2025, 11:34:39",
+                      "zone_name": "Zone 3",
+                      "space_id": "40000000000102103",
+                      "author_zuid": "40000000000003004",
+                      "last_author_zuid": "40000000000003004",
+                      "status": "ACTIVE"
+                    },
+                    "0e1e3a8a-a115-463e-bdb6-f540ab37eeb6": {
+                      "created_time": "Tue, 28 Jan 2025, 11:59:50",
+                      "last_modified_time": "Tue, 28 Jan 2025, 19:34:28",
+                      "zone_name": "Zone 1",
+                      "space_id": "40000000000102103",
+                      "author_zuid": "40000000000003004",
+                      "last_author_zuid": "40000000000003004",
+                      "status": "ACTIVE"
+                    },
+                    "6F961124-4598-47D6-9BDA-1705DFBA07D7": {
+                      "created_time": "Tue, 04 Feb 2025, 11:34:26",
+                      "last_modified_time": "Tue, 04 Feb 2025, 11:34:35",
+                      "zone_name": "Zone 2",
+                      "space_id": "40000000000102103",
+                      "author_zuid": "40000000000003004",
+                      "last_author_zuid": "40000000000003004",
+                      "status": "ACTIVE"
+                    }
+                  }
+                }},
+                "message": "Zone metadata fetched successfully.",
+                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/meta",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Unauthorized": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000004005",
+                "current_user_id": "40000000000003004",
+                "error_code": "A1003",
+                "message": "The user doesn't have permission to perform this action",
+                "space_id": "40000000000102103"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/meta",
+              "status": "error"
+            }}}
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
         {
           "schema": {
             "type": "string",
@@ -745,49 +1377,111 @@
     }},
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/duplicate": {"post": {
       "summary": "Duplicate a zone",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "requestBody": {
         "required": true,
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DuplicateZoneRequest"}}}
       },
       "operationId": "duplicateZone",
       "responses": {
-        "201": {
-          "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-        },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
+        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "Unauthorized to Duplicate Zone in an Existing Space": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000152153"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000152153/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "error"
+              }},
+              "Unauthorized to Duplicate Zone in the Same Space": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000146147"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000146147/zones/61fae7ca-ebcc-4ab9-881c-07b1aa9c814b/duplicate",
+                "status": "error"
+              }},
+              "Unauthorized to Duplicate Zone into a New Space": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000152153"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000152153/zones/91c26165-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "error"
+              }}
+            }
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "Zone Not Found in the Existing Space": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1008",
+                  "message": "Zone not found",
+                  "space_id": "40000000000150151"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000150151/zones/11c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "error"
+              }},
+              "Zone Not Found in the Same Space": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1008",
+                  "message": "Zone not found",
+                  "space_id": "40000000000144145"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000144145/zones/8915a5e7-ba1b-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "error"
+              }},
+              "Zone Not Found": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000000001",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "Z1008",
+                  "message": "Zone not found",
+                  "space_id": "40000000000160161"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000160161/zones/2da6aa5e-8a20-4d6a-9551-e97fc4b2bd9f/duplicate",
+                "status": "error"
+              }}
+            }
+          }}
+        },
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -800,45 +1494,72 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/zones/members/{member_id}": {
       "post": {
         "summary": "Share every zone in a space with a member",
-        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+          }
+        ],
         "operationId": "shareAllZonesWithMember",
         "responses": {
-          "201": {
-            "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-          },
-          "400": {
-            "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          },
+          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Unauthorized": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000182183"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000182183/zones/members/40000000000184185",
+                "status": "error"
+              }}}
+            }}
+          },
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {
+            "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Member Not Found": {"value": {
+                  "error": {"details": {
+                    "edition_id": "40000000000002003",
+                    "current_user_id": "40000000000003004",
+                    "error_code": "S1015",
+                    "message": "member is not part of the Space",
+                    "space_id": "40000000000120121"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members/40000000000184185",
+                  "status": "error"
+                }},
+                "Space Not Found": {"value": {
+                  "error": {"details": {
+                    "edition_id": "40000000000002003",
+                    "current_user_id": "40000000000003004",
+                    "error_code": "S1009",
+                    "message": "Space not found",
+                    "space_id": "40000000000186187"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000186187/zones/members/40000000000184185",
+                  "status": "error"
+                }}
+              }
+            }}
+          },
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
         },
         "x-vani-operation-type": "CREATE",
         "parameters": [
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "edition_id",
-            "description": "The unique identifier of the edition",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "space_id",
-            "description": "The unique identifier of the space",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "member_id",
-            "description": "The unique identifier of the member",
-            "required": true
-          }
+          {"$ref": "#/components/parameters/EditionId"},
+          {"$ref": "#/components/parameters/SpaceId"},
+          {"$ref": "#/components/parameters/MemberId"}
         ],
         "x-vani-read-only": false,
         "x-vani-destructive": false,
@@ -850,45 +1571,134 @@
       },
       "get": {
         "summary": "Get the zones in a space shared with a member",
-        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.spaces.READ"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.spaces.READ"]
+          }
+        ],
         "operationId": "getZonesSharedWithMember",
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Get Member Resources \u2013 Full Access": {"value": {
+                  "data": {"space_resource_info": {
+                    "member_id": "40000000000003004",
+                    "access_state": "FULL ACCESS",
+                    "resources": [],
+                    "space_id": "40000000000120121"
+                  }},
+                  "message": "User resources fetched successfully.",
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members/40000000000003004",
+                  "status": "success"
+                }},
+                "Get Member Resources \u2013 Partial Access": {"value": {
+                  "data": {"space_resource_info": {
+                    "member_id": "40000000000177178",
+                    "access_state": "PARTIAL ACCESS",
+                    "resources": [
+                      {
+                        "member_type": "USER",
+                        "added_time": "Mon, 07 Jul 2025, 18:13:11",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "9E23791B-B3AE-4877-9119-3F636DC685AC",
+                        "permission": "restricted"
+                      },
+                      {
+                        "member_type": "USER",
+                        "added_time": "Mon, 07 Jul 2025, 18:13:11",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "d7ccf816-8293-4a2f-ae83-f10c0e3a6645",
+                        "permission": "allowed"
+                      },
+                      {
+                        "member_type": "USER",
+                        "added_time": "Mon, 07 Jul 2025, 18:16:32",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "6800EB6E-ED24-4EA6-91C6-805445418B17",
+                        "permission": "allowed"
+                      },
+                      {
+                        "member_type": "USER",
+                        "added_time": "Mon, 07 Jul 2025, 18:16:32",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "31E57A34-3405-41D2-A2B6-7BAACAE9EE02",
+                        "permission": "allowed"
+                      }
+                    ],
+                    "space_id": "40000000000120121"
+                  }},
+                  "message": "User resources fetched successfully.",
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members/40000000000177178",
+                  "status": "success"
+                }}
+              }
+            }}
           },
-          "400": {
-            "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          },
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Unauthorized": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "40000000000182183"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000182183/zones/members/40000000000178179",
+                "status": "error"
+              }}}
+            }}
+          },
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {
+            "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Member Not Found": {"value": {
+                  "error": {"details": {
+                    "edition_id": "40000000000002003",
+                    "current_user_id": "40000000000003004",
+                    "error_code": "S1015",
+                    "message": "member is not part of the Space",
+                    "space_id": "40000000000120121"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members/40000000000178179",
+                  "status": "error"
+                }},
+                "Space Not Found": {"value": {
+                  "error": {"details": {
+                    "edition_id": "40000000000002003",
+                    "current_user_id": "40000000000003004",
+                    "error_code": "S1009",
+                    "message": "Space not found",
+                    "space_id": "40000000000180181"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000180181/zones/members/40000000000177178",
+                  "status": "error"
+                }}
+              }
+            }}
+          },
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
         },
         "x-vani-operation-type": "READ",
         "parameters": [
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "edition_id",
-            "description": "The unique identifier of the edition",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "space_id",
-            "description": "The unique identifier of the space",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "member_id",
-            "description": "The unique identifier of the member",
-            "required": true
-          }
+          {"$ref": "#/components/parameters/EditionId"},
+          {"$ref": "#/components/parameters/SpaceId"},
+          {"$ref": "#/components/parameters/MemberId"}
         ],
         "x-vani-read-only": true,
         "x-vani-destructive": false,
@@ -912,7 +1722,7 @@
   "tags": [
     {
       "name": "Zones",
-      "description": "Create, duplicate, move, and update zones, and read their metadata."
+      "description": "Create, duplicate, move, and update zones, read their metadata, and insert templates into them."
     },
     {
       "name": "Zone Versions",

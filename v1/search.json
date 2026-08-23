@@ -43,27 +43,180 @@
         }
       }
     },
-    "securitySchemes": {"iam-oauth2-schema": {
-      "flows": {"authorizationCode": {
-        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
-        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
-        "scopes": {
-          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
-          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.teams.CREATE": "Create new teams and assign team memberships",
-          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
-          "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
-          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
-        }
-      }},
-      "type": "oauth2"
-    }}
+    "responses": {
+      "InvalidRequestValidationFailed6": {
+        "description": "Invalid request - validation failed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "RateLimitExceededThisOperationAllows500R": {
+        "description": "Rate limit exceeded - this operation allows 500 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "RateLimitExceededThisOperationAllows60Re": {
+        "description": "Rate limit exceeded - this operation allows 60 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "NotFoundAResourceNamedInThePathDoesNotEx10": {
+        "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "InternalServerErrorTheRequestWasWellForm": {
+        "description": "Internal server error - the request was well-formed but could not be completed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "UnauthorizedMissingOrInvalidAccessToken9": {
+        "description": "Unauthorized - missing or invalid access token",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      }
+    },
+    "securitySchemes": {
+      "vani-api-key": {
+        "in": "header",
+        "name": "x-vani-apikey",
+        "description": "Edition-scoped API key. ACCEPTED, NOT YET REQUIRED: the bearer token alone authorises every operation today, which is why each one lists a token-only alternative first and a token-plus-key alternative second. Sending the key is harmless and forward-compatible -- the server reads it, and the requirement is expected to become mandatory, at which point the token-only alternative disappears from this contract. The key never authorises on its own. Read or create your edition's key from the edition settings. The two operations on the /editions collection itself never carry one: a key belongs to an edition, so the calls that list or create editions cannot present it.",
+        "type": "apiKey"
+      },
+      "iam-oauth2-schema": {
+        "flows": {"authorizationCode": {
+          "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+          "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+          "scopes": {
+            "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+            "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+            "Vani.spaces.DELETE": "Delete workspaces and folders",
+            "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+            "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+            "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+            "Vani.teams.CREATE": "Create new teams and assign team memberships",
+            "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+            "Vani.editions.CREATE": "Create new document editions and version snapshots",
+            "Vani.zones.CREATE": "Create zones including tables, cells, and paragraph content",
+            "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+            "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+            "Vani.teams.DELETE": "Delete teams and remove team memberships"
+          }
+        }},
+        "x-vani-data-centre": "com",
+        "description": "OAuth 2.0 through Zoho Accounts for the .com data centre (the default). Authorisation is NOT served by the API server -- it is a separate host, and each data centre has its own. If your edition is on another data centre, keep these paths and substitute its host from x-vani-accounts-hosts on this scheme. An OAuth client is valid only in the data centre it was registered in, so register at that data centre's api-console. Note that the accounts host does not simply mirror the API host's TLD: Canada authorises at accounts.zohocloud.ca.",
+        "x-vani-accounts-hosts": {
+          "com": "accounts.zoho.com",
+          "eu": "accounts.zoho.eu",
+          "ae": "accounts.zoho.ae",
+          "in": "accounts.zoho.in",
+          "ca": "accounts.zohocloud.ca",
+          "sa": "accounts.zoho.sa",
+          "com.au": "accounts.zoho.com.au"
+        },
+        "type": "oauth2"
+      }
+    },
+    "parameters": {
+      "Search2": {
+        "schema": {
+          "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]+)$",
+          "type": "string",
+          "maxLength": 100
+        },
+        "in": "query",
+        "name": "search",
+        "description": "The keyword or phrase to search for",
+        "required": true
+      },
+      "EditionId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "edition_id",
+        "description": "The unique identifier of the edition",
+        "required": true
+      },
+      "Roles": {
+        "schema": {
+          "x-enumDescriptions": {
+            "TEAM_GUEST": "A guest with limited access to the team.",
+            "TEAM_ADMIN": "Can administer the team, including its members.",
+            "MEMBER": "A regular member of the team."
+          },
+          "type": "string",
+          "enum": [
+            "TEAM_ADMIN",
+            "MEMBER",
+            "TEAM_GUEST"
+          ]
+        },
+        "in": "query",
+        "name": "roles",
+        "description": "Parameter: roles. Allowed values: TEAM_ADMIN, MEMBER, TEAM_GUEST",
+        "required": false
+      },
+      "From": {
+        "schema": {
+          "pattern": "^[0-9]{1,6}$",
+          "type": "string",
+          "maxLength": 6
+        },
+        "in": "query",
+        "name": "from",
+        "description": "The starting index from where the results should be fetched. Default value is 0",
+        "required": false
+      },
+      "Limit": {
+        "schema": {
+          "pattern": "^[1-9][0-9]{0,2}$",
+          "type": "string",
+          "maxLength": 3
+        },
+        "in": "query",
+        "name": "limit",
+        "description": "The maximum number of results to return in the response. Default value is 20",
+        "required": false
+      },
+      "TeamId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "team_id",
+        "description": "The unique identifier of the team",
+        "required": true
+      },
+      "Fields8": {
+        "schema": {
+          "type": "string",
+          "maxLength": 1000,
+          "enum": [
+            "zuid",
+            "role_name",
+            "added_time",
+            "added_by",
+            "modified_time",
+            "display_name",
+            "mail_id",
+            "edition_id",
+            "team_id",
+            "invited_time"
+          ]
+        },
+        "in": "query",
+        "name": "fields",
+        "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: zuid, role_name, added_time, added_by, modified_time, display_name, mail_id, edition_id, team_id, invited_time",
+        "required": false
+      },
+      "SubscriberState": {
+        "schema": {
+          "x-enumDescriptions": {
+            "ACTIVE": "Members currently occupying a subscription seat.",
+            "INACTIVE": "Members not occupying a subscription seat."
+          },
+          "type": "string",
+          "enum": [
+            "ACTIVE",
+            "INACTIVE"
+          ]
+        },
+        "in": "query",
+        "name": "subscriber_state",
+        "description": "Parameter: subscriber_state. Allowed values: ACTIVE, INACTIVE",
+        "required": false
+      }
+    }
   },
   "servers": [{
     "variables": {"dc": {
@@ -71,12 +224,12 @@
       "description": "Data-centre TLD for your edition.",
       "enum": [
         "com",
-        "ae",
+        "in",
+        "eu",
         "ca",
         "com.au",
-        "eu",
-        "in",
-        "sa"
+        "sa",
+        "ae"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -86,68 +239,54 @@
   "paths": {
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/comments/search": {"get": {
       "summary": "Search comment text in a team",
-      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.zones.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.zones.READ"]
+        }
+      ],
       "operationId": "searchComments",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Success - No match found": {"value": {
+                "data": {"search_result": []},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/comments/search",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"search_result": [{
+                  "zone_id": "db069372-0246-42e8-a049-bdcbd84b292c",
+                  "space_name": "test duplicate project",
+                  "comment_id": "551335F3-BD3E-415A-95DC-74F241507E75",
+                  "space_id": "40000000000216217",
+                  "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000216217/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
+                }]},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/comments/search",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "team_id",
-          "description": "The unique identifier of the team",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "in": "query",
-          "name": "search",
-          "description": "The keyword or phrase to search for",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 6
-          },
-          "in": "query",
-          "name": "from",
-          "description": "The starting index from where the results should be fetched. Default value is 0",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 3
-          },
-          "in": "query",
-          "name": "limit",
-          "description": "The maximum number of results to return in the response. Default value is 20",
-          "required": false
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/TeamId"},
+        {"$ref": "#/components/parameters/Search2"},
+        {"$ref": "#/components/parameters/From"},
+        {"$ref": "#/components/parameters/Limit"}
       ],
       "x-vani-read-only": true,
       "x-vani-destructive": false,
@@ -159,68 +298,119 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/zones/search": {"get": {
       "summary": "Search zone names and content in a team",
-      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.zones.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.zones.READ"]
+        }
+      ],
       "operationId": "searchZones",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Success - No match found": {"value": {
+                "data": {"search_result": []},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000212213/zones/search",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"search_result": [
+                  {
+                    "zone_id": "865efd0a-9b1b-418c-a894-82b63417063f",
+                    "space_name": "New Space",
+                    "zone_name": "duplicate zone with template1",
+                    "space_id": "40000000000158159",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000158159/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=865efd0a-9b1b-418c-a894-82b63417063f"
+                  },
+                  {
+                    "zone_id": "ea2f15ae-4e53-49f1-ad1e-e30eae16f31b",
+                    "space_name": "New Space",
+                    "zone_name": "Zone 1",
+                    "space_id": "40000000000269270",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000269270/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=ea2f15ae-4e53-49f1-ad1e-e30eae16f31b"
+                  },
+                  {
+                    "zone_id": "09a45216-f714-4d96-aa78-e857738060c6",
+                    "space_name": "New Space",
+                    "zone_name": "Zone 1",
+                    "space_id": "40000000000270271",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000270271/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=09a45216-f714-4d96-aa78-e857738060c6"
+                  },
+                  {
+                    "zone_id": "6a392f16-55ab-417d-8170-d8f1b6e17148",
+                    "space_name": "New Space test",
+                    "zone_name": "Zone 1",
+                    "space_id": "40000000000271272",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000271272/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6a392f16-55ab-417d-8170-d8f1b6e17148"
+                  },
+                  {
+                    "zone_id": "2da6aa5e-8a20-4d6a-955a-e97fc4b2bd9f",
+                    "space_name": "New Space test",
+                    "zone_name": "Zone 1",
+                    "space_id": "40000000000160161",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000160161/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=2da6aa5e-8a20-4d6a-955a-e97fc4b2bd9f"
+                  },
+                  {
+                    "zone_id": "ea5e020b-4e3b-4e5d-8229-b38c5f8a3084",
+                    "space_name": "duplicate zone b",
+                    "zone_name": "duplicate zone",
+                    "space_id": "40000000000149150",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000149150/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=ea5e020b-4e3b-4e5d-8229-b38c5f8a3084"
+                  },
+                  {
+                    "zone_id": "9a853213-9f1a-488d-bbcf-9efcb3e2d419",
+                    "space_name": "duplicate zone b",
+                    "zone_name": "duplicate zone",
+                    "space_id": "40000000000149150",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000149150/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9a853213-9f1a-488d-bbcf-9efcb3e2d419"
+                  },
+                  {
+                    "zone_id": "64d56703-7071-4670-8153-33819171239f",
+                    "space_name": "duplicate zone b",
+                    "zone_name": "Copy of duplicate zone with template1",
+                    "space_id": "40000000000149150",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000149150/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=64d56703-7071-4670-8153-33819171239f"
+                  },
+                  {
+                    "zone_id": "cfcdde4d-13dc-4148-b5e4-a8adb64195a9",
+                    "space_name": "New Space",
+                    "zone_name": "duplicate zone with template1",
+                    "space_id": "40000000000272273",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000272273/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=cfcdde4d-13dc-4148-b5e4-a8adb64195a9"
+                  },
+                  {
+                    "zone_id": "6b6f718a-300d-4f8e-b9e8-ff53426d8874",
+                    "space_name": "MOVE",
+                    "zone_name": "Copy(2) of duplicate zone with template1",
+                    "space_id": "40000000000172173",
+                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000172173/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6b6f718a-300d-4f8e-b9e8-ff53426d8874"
+                  }
+                ]},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000164165/zones/search",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows500R"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "team_id",
-          "description": "The unique identifier of the team",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "in": "query",
-          "name": "search",
-          "description": "The keyword or phrase to search for",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 6
-          },
-          "in": "query",
-          "name": "from",
-          "description": "The starting index from where the results should be fetched. Default value is 0",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 3
-          },
-          "in": "query",
-          "name": "limit",
-          "description": "The maximum number of results to return in the response. Default value is 20",
-          "required": false
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/TeamId"},
+        {"$ref": "#/components/parameters/Search2"},
+        {"$ref": "#/components/parameters/From"},
+        {"$ref": "#/components/parameters/Limit"}
       ],
       "x-vani-read-only": true,
       "x-vani-destructive": false,
@@ -232,68 +422,139 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/frames/search": {"get": {
       "summary": "Search frame content in a team",
-      "security": [{"iam-oauth2-schema": ["Vani.zones.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.zones.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.zones.READ"]
+        }
+      ],
       "operationId": "searchFrames",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Success - No match found": {"value": {
+                "data": {"search_result": []},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/frames/search",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"search_result": [
+                  {
+                    "frame_name": "Content/Technical Writing & Brand Marketing",
+                    "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "Who can use Vani?",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "frame_id": "8F6541AF-A759-4FBF-9912-A3A73DEAEA33"
+                  },
+                  {
+                    "frame_name": "Product Management",
+                    "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "Who can use Vani?",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "frame_id": "05752704-A388-4EDC-B089-4E0372EC4552"
+                  },
+                  {
+                    "frame_name": "Team onboarding",
+                    "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "Who can use Vani?",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "frame_id": "08C5C1E6-3F2B-410F-8C2B-F5E8DA2E26AA"
+                  },
+                  {
+                    "frame_name": "Engineering/Development",
+                    "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "Who can use Vani?",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "frame_id": "F361DC68-C12D-4FF0-95AF-A8CF0519C7DD"
+                  },
+                  {
+                    "frame_name": "Design",
+                    "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "Who can use Vani?",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "frame_id": "2DE1E10D-EF27-4874-A9E7-15FD434AFC01"
+                  },
+                  {
+                    "frame_name": "Product Marketing",
+                    "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "Who can use Vani?",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "frame_id": "EF5A9085-BA1C-4915-BF06-4BBCB37E2386"
+                  },
+                  {
+                    "frame_name": "Pins",
+                    "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "FAQs",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "frame_id": "13188A26-7AC3-49D1-A763-69A4AF710071"
+                  },
+                  {
+                    "frame_name": "Mouse Navigation",
+                    "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "FAQs",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "frame_id": "659A0F55-6B2B-4259-BE4A-DD49A71BB75E"
+                  },
+                  {
+                    "frame_name": "Hyperlinks",
+                    "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "FAQs",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "frame_id": "F08026FB-2CAC-457F-BB63-C916EAB745B8"
+                  },
+                  {
+                    "frame_name": "Navigating with Spacemate",
+                    "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "space_name": "Vani - Getting Started",
+                    "zone_name": "FAQs",
+                    "space_id": "40000000000050051",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "frame_id": "C5270404-5149-461B-9F7C-7FD6259900EE"
+                  }
+                ]},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/frames/search",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows500R"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "team_id",
-          "description": "The unique identifier of the team",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "in": "query",
-          "name": "search",
-          "description": "The keyword or phrase to search for",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 6
-          },
-          "in": "query",
-          "name": "from",
-          "description": "The starting index from where the results should be fetched. Default value is 0",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 3
-          },
-          "in": "query",
-          "name": "limit",
-          "description": "The maximum number of results to return in the response. Default value is 20",
-          "required": false
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/TeamId"},
+        {"$ref": "#/components/parameters/Search2"},
+        {"$ref": "#/components/parameters/From"},
+        {"$ref": "#/components/parameters/Limit"}
       ],
       "x-vani-read-only": true,
       "x-vani-destructive": false,
@@ -305,68 +566,180 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/search": {"get": {
       "summary": "Search all content in a team",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.READ"]
+        }
+      ],
       "operationId": "searchTeam",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Success - No match found": {"value": {
+                "data": {"search_result": {}},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/search",
+                "status": "success"
+              }},
+              "Success - Filter by types": {"value": {
+                "data": {"search_result": {
+                  "comments": [{
+                    "zone_id": "db069372-0246-42e8-a049-bdcbd84b292c",
+                    "space_name": "test duplicate project",
+                    "comment_id": "551335F3-BD3E-415A-95DC-74F241507E75",
+                    "space_id": "40000000000216217",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000216217/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
+                  }],
+                  "zones": [
+                    {
+                      "zone_id": "9aeb2e5c-c91e-497b-83f1-e20865b5543f",
+                      "space_name": "Vani - Getting Started",
+                      "zone_name": "Things to know",
+                      "space_id": "40000000000050051",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9aeb2e5c-c91e-497b-83f1-e20865b5543f"
+                    },
+                    {
+                      "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                      "space_name": "Vani - Getting Started",
+                      "zone_name": "Who can use Vani?",
+                      "space_id": "40000000000050051",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4"
+                    }
+                  ]
+                }},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/search",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"search_result": {
+                  "comments": [{
+                    "zone_id": "db069372-0246-42e8-a049-bdcbd84b292c",
+                    "space_name": "test duplicate project",
+                    "comment_id": "577B2B70-B190-4574-A0C0-D5DF8ACD9F0D",
+                    "space_id": "40000000000216217",
+                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000216217/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
+                  }],
+                  "frames": [
+                    {
+                      "frame_name": "Team onboarding",
+                      "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                      "space_name": "Vani - Getting Started",
+                      "zone_name": "Who can use Vani?",
+                      "space_id": "40000000000050051",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                      "frame_id": "08C5C1E6-3F2B-410F-8C2B-F5E8DA2E26AA"
+                    },
+                    {
+                      "frame_name": "Pins",
+                      "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "space_name": "Vani - Getting Started",
+                      "zone_name": "FAQs",
+                      "space_id": "40000000000050051",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "frame_id": "13188A26-7AC3-49D1-A763-69A4AF710071"
+                    },
+                    {
+                      "frame_name": "Starting on Vani",
+                      "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "space_name": "Vani - Getting Started",
+                      "zone_name": "FAQs",
+                      "space_id": "40000000000050051",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "frame_id": "A6D8C018-5CDD-4F58-ADAC-7C4D98D67E54"
+                    },
+                    {
+                      "frame_name": "Pins",
+                      "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "space_name": "Vani - Getting Started",
+                      "zone_name": "FAQs",
+                      "space_id": "40000000000050051",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "frame_id": "9D189640-16D9-4C33-A6C5-407098D9B08E"
+                    },
+                    {
+                      "frame_name": "Uses of Vani",
+                      "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "space_name": "Vani - Getting Started",
+                      "zone_name": "FAQs",
+                      "space_id": "40000000000050051",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "frame_id": "02A3F8FC-2F14-4EB3-BD21-2910A58920B2"
+                    },
+                    {
+                      "frame_name": "Invite your team",
+                      "zone_id": "9aeb2e5c-c91e-497b-83f1-e20865b5543f",
+                      "space_name": "Vani - Getting Started",
+                      "zone_name": "Things to know",
+                      "space_id": "40000000000050051",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9aeb2e5c-c91e-497b-83f1-e20865b5543f",
+                      "frame_id": "F746EDA0-910D-465A-A494-2BD4ED80A4B5"
+                    }
+                  ],
+                  "shapes": [],
+                  "zones": [
+                    {
+                      "zone_id": "2109e8c5-cbe7-42b7-b8e6-a900983e83cc",
+                      "space_name": "New Space",
+                      "zone_name": "Swot analysis - Research & Reference",
+                      "space_id": "40000000000064065",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000064065/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=2109e8c5-cbe7-42b7-b8e6-a900983e83cc"
+                    },
+                    {
+                      "zone_id": "46985e9f-2d53-47a7-b3c7-2dbbfc639531",
+                      "space_name": "New Space",
+                      "zone_name": "Zone 1 - final",
+                      "space_id": "40000000000063064",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000063064/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=46985e9f-2d53-47a7-b3c7-2dbbfc639531"
+                    },
+                    {
+                      "zone_id": "6bd164bb-8308-4446-93a0-8bf432527172",
+                      "space_name": "Team culture guide",
+                      "zone_name": "Zone 1 - final",
+                      "space_id": "40000000000262263",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000262263/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6bd164bb-8308-4446-93a0-8bf432527172"
+                    },
+                    {
+                      "zone_id": "cf3b11a1-df3d-42ab-b937-aab048579ff5",
+                      "space_name": "Service blueprint",
+                      "zone_name": "Service blueprint - Plan & Ship",
+                      "space_id": "40000000000263264",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000263264/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=cf3b11a1-df3d-42ab-b937-aab048579ff5"
+                    },
+                    {
+                      "zone_id": "d58ca262-9c23-49ef-b116-96e424c7ca0d",
+                      "space_name": "PEST analysis",
+                      "zone_name": "Zone 1",
+                      "space_id": "40000000000264265",
+                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000264265/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=d58ca262-9c23-49ef-b116-96e424c7ca0d"
+                    }
+                  ]
+                }},
+                "message": "Content search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/search",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows500R"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "team_id",
-          "description": "The unique identifier of the team",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "in": "query",
-          "name": "search",
-          "description": "The keyword or phrase to search for",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 6
-          },
-          "in": "query",
-          "name": "from",
-          "description": "The starting index from where the results should be fetched. Default value is 0",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 3
-          },
-          "in": "query",
-          "name": "limit",
-          "description": "The maximum number of results to return in the response. Default value is 20",
-          "required": false
-        },
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/TeamId"},
+        {"$ref": "#/components/parameters/Search2"},
+        {"$ref": "#/components/parameters/From"},
+        {"$ref": "#/components/parameters/Limit"},
         {
           "schema": {
             "x-enumDescriptions": {
@@ -400,109 +773,105 @@
     }},
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/members/search": {"get": {
       "summary": "Search the members of a team",
-      "security": [{"iam-oauth2-schema": ["Vani.teams.READ"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.teams.READ"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.teams.READ"]
+        }
+      ],
       "operationId": "searchMembers",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Success - No match found": {"value": {
+                "data": {"search_result": []},
+                "message": "Team member search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000034035/members/search",
+                "status": "success"
+              }},
+              "Success - Pagination": {"value": {
+                "data": {"search_result": [{
+                  "role_name": "MEMBER",
+                  "added_time": "Fri, 27 Sep 2024, 15:01:26",
+                  "modified_time": "Fri, 27 Sep 2024, 15:01:26",
+                  "mail_id": "tom.baker@example.com",
+                  "added_by": "60029267674",
+                  "display_name": "Diego Alvarez",
+                  "zuid": "40000000000273274"
+                }]},
+                "message": "Team member search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013/members/search",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"search_result": [{
+                  "role_name": "MEMBER",
+                  "added_time": "Fri, 27 Sep 2024, 15:01:26",
+                  "modified_time": "Fri, 27 Sep 2024, 15:01:26",
+                  "mail_id": "tom.baker@example.com",
+                  "added_by": "60029267674",
+                  "display_name": "Diego Alvarez",
+                  "zuid": "40000000000273274"
+                }]},
+                "message": "Team member search completed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013/members/search",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Unauthorized": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000000001",
+                "current_user_id": "40000000000003004",
+                "error_code": "T1006",
+                "team_id": "40000000000212213",
+                "message": "User is not a member of the team"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000212213/members/search",
+              "status": "error"
+            }}}
+          }}
+        },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Failure - Team Not Found": {"value": {
+              "error": {"details": {
+                "edition_id": "40000000000000001",
+                "current_user_id": "40000000000003004",
+                "error_code": "T1008",
+                "team_id": "40000000000275276",
+                "message": "Team not found"
+              }},
+              "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000275276/members/search",
+              "status": "error"
+            }}}
+          }}
+        },
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows500R"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "team_id",
-          "description": "The unique identifier of the team",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 1000,
-            "enum": [
-              "zuid",
-              "role_name",
-              "added_time",
-              "added_by",
-              "modified_time",
-              "display_name",
-              "mail_id",
-              "edition_id",
-              "team_id",
-              "invited_time"
-            ]
-          },
-          "in": "query",
-          "name": "fields",
-          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: zuid, role_name, added_time, added_by, modified_time, display_name, mail_id, edition_id, team_id, invited_time",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 100
-          },
-          "in": "query",
-          "name": "search",
-          "description": "The keyword or phrase to search for",
-          "required": true
-        },
-        {
-          "schema": {
-            "x-enumDescriptions": {
-              "TEAM_GUEST": "A guest with limited access to the team.",
-              "TEAM_ADMIN": "Can administer the team, including its members.",
-              "MEMBER": "A regular member of the team."
-            },
-            "type": "string",
-            "enum": [
-              "TEAM_ADMIN",
-              "MEMBER",
-              "TEAM_GUEST"
-            ]
-          },
-          "in": "query",
-          "name": "roles",
-          "description": "Parameter: roles. Allowed values: TEAM_ADMIN, MEMBER, TEAM_GUEST",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 6
-          },
-          "in": "query",
-          "name": "from",
-          "description": "The starting index from where the results should be fetched. Default value is 0",
-          "required": false
-        },
-        {
-          "schema": {
-            "type": "string",
-            "maxLength": 3
-          },
-          "in": "query",
-          "name": "limit",
-          "description": "The maximum number of results to return in the response. Default value is 20",
-          "required": false
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/TeamId"},
+        {"$ref": "#/components/parameters/Fields8"},
+        {"$ref": "#/components/parameters/Search2"},
+        {"$ref": "#/components/parameters/Roles"},
+        {"$ref": "#/components/parameters/SubscriberState"},
+        {"$ref": "#/components/parameters/From"},
+        {"$ref": "#/components/parameters/Limit"}
       ],
       "x-vani-read-only": true,
       "x-vani-destructive": false,

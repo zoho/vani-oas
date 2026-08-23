@@ -101,6 +101,29 @@ a client at the [Zoho API Console](https://api-console.zoho.com) to get a
 **Client ID** and **Client Secret**, then exchange an authorization code for a
 **refresh token**.
 
+**Authorisation is on a different host from the API.** The spec's
+`authorizationUrl` and `tokenUrl` point at `accounts.zoho.com` — the `.com` data
+centre. They are absolute rather than relative on purpose: a relative URL would
+be resolved by most tooling against the API server, which does not serve OAuth.
+
+If your edition is not on `.com`, keep the paths and substitute the host for your
+data centre. The full mapping is published on the security scheme itself as
+`x-vani-accounts-hosts`, so a client can read it rather than guess:
+
+```jsonc
+"x-vani-accounts-hosts": {
+  "com": "accounts.zoho.com",   "eu":     "accounts.zoho.eu",
+  "in":  "accounts.zoho.in",    "com.au": "accounts.zoho.com.au",
+  "ae":  "accounts.zoho.ae",    "sa":     "accounts.zoho.sa",
+  "ca":  "accounts.zohocloud.ca"
+}
+```
+
+**Do not derive this host by appending your API TLD.** Canada authorises at
+`accounts.zohocloud.ca`, not `accounts.zoho.ca`. And an OAuth client is valid
+only in the data centre it was registered in — there is no cross-data-centre
+consent, so register at your own data centre's API console.
+
 Scopes are granular and named `Vani.<resource>.<ACTION>` — for example
 `Vani.spaces.READ` or `Vani.teams.UPDATE`. **Each operation declares exactly
 the scopes it needs under `security`; request only those.** Reading them out of
@@ -162,7 +185,7 @@ expected. It is documentation, not a JSON Schema `oneOf` constraint — a strict
 `oneOf` would reject payloads the server accepts.
 
 **Every operation says what it does before you call it.** Four extensions are
-published on all 162 operations:
+published on all 171 operations:
 
 ```jsonc
 "x-vani-operation-type": "READ",        // READ · CREATE · UPDATE · DELETE
@@ -174,6 +197,13 @@ published on all 162 operations:
 `x-vani-throttle` is the **rate limit** for that operation — here, 60 requests
 per minute, counted per user. Limits differ per endpoint, so read them from the
 spec rather than assuming one global ceiling. Exceeding one returns `429`.
+
+**Errors are modelled, not left to inference.** Every operation declares `400`,
+`401`, `429` and `500`; operations whose path names a specific resource also
+declare `404`. All of them return the `VaniError` envelope, so a generated
+client has a typed branch for each rather than treating an unmodelled status as
+a protocol violation. The `429` description quotes that operation's own limit —
+the same figure as `x-vani-throttle`.
 
 `x-vani-read-only` and `x-vani-destructive` are derived from the operation type,
 not from the HTTP method: several endpoints delete through `POST` because the
@@ -204,7 +234,7 @@ may change once the REST version ships. Everything in `structures.json`,
 carries this marker.
 
 **Response payloads are typed where we can prove the shape.** Every response
-declares the envelope; 40 of the 162 operations also type the `data` payload.
+declares the envelope; 40 of the 171 operations also type the `data` payload.
 The rest leave `data` unconstrained rather than guess, so a generated client
 returns a loosely-typed object for those. This is being closed operation by
 operation.

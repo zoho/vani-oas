@@ -120,27 +120,123 @@
         ]
       }
     },
-    "securitySchemes": {"iam-oauth2-schema": {
-      "flows": {"authorizationCode": {
-        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
-        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
-        "scopes": {
-          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
-          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.teams.CREATE": "Create new teams and assign team memberships",
-          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
-          "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
-          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
-        }
-      }},
-      "type": "oauth2"
-    }}
+    "responses": {
+      "SuccessfulResponse": {
+        "description": "Successful response",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+      },
+      "InvalidRequestValidationFailed6": {
+        "description": "Invalid request - validation failed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "RateLimitExceededThisOperationAllows10Re": {
+        "description": "Rate limit exceeded - this operation allows 10 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "RateLimitExceededThisOperationAllows60Re": {
+        "description": "Rate limit exceeded - this operation allows 60 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "NotFoundAResourceNamedInThePathDoesNotEx10": {
+        "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "InternalServerErrorTheRequestWasWellForm": {
+        "description": "Internal server error - the request was well-formed but could not be completed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "UnauthorizedMissingOrInvalidAccessToken9": {
+        "description": "Unauthorized - missing or invalid access token",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      }
+    },
+    "securitySchemes": {
+      "vani-api-key": {
+        "in": "header",
+        "name": "x-vani-apikey",
+        "description": "Edition-scoped API key. ACCEPTED, NOT YET REQUIRED: the bearer token alone authorises every operation today, which is why each one lists a token-only alternative first and a token-plus-key alternative second. Sending the key is harmless and forward-compatible -- the server reads it, and the requirement is expected to become mandatory, at which point the token-only alternative disappears from this contract. The key never authorises on its own. Read or create your edition's key from the edition settings. The two operations on the /editions collection itself never carry one: a key belongs to an edition, so the calls that list or create editions cannot present it.",
+        "type": "apiKey"
+      },
+      "iam-oauth2-schema": {
+        "flows": {"authorizationCode": {
+          "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+          "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+          "scopes": {
+            "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+            "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+            "Vani.spaces.DELETE": "Delete workspaces and folders",
+            "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+            "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+            "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+            "Vani.teams.CREATE": "Create new teams and assign team memberships",
+            "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+            "Vani.editions.CREATE": "Create new document editions and version snapshots",
+            "Vani.zones.CREATE": "Create zones including tables, cells, and paragraph content",
+            "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+            "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+            "Vani.teams.DELETE": "Delete teams and remove team memberships"
+          }
+        }},
+        "x-vani-data-centre": "com",
+        "description": "OAuth 2.0 through Zoho Accounts for the .com data centre (the default). Authorisation is NOT served by the API server -- it is a separate host, and each data centre has its own. If your edition is on another data centre, keep these paths and substitute its host from x-vani-accounts-hosts on this scheme. An OAuth client is valid only in the data centre it was registered in, so register at that data centre's api-console. Note that the accounts host does not simply mirror the API host's TLD: Canada authorises at accounts.zohocloud.ca.",
+        "x-vani-accounts-hosts": {
+          "com": "accounts.zoho.com",
+          "eu": "accounts.zoho.eu",
+          "ae": "accounts.zoho.ae",
+          "in": "accounts.zoho.in",
+          "ca": "accounts.zohocloud.ca",
+          "sa": "accounts.zoho.sa",
+          "com.au": "accounts.zoho.com.au"
+        },
+        "type": "oauth2"
+      }
+    },
+    "parameters": {
+      "SpaceId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "space_id",
+        "description": "The unique identifier of the space",
+        "required": true
+      },
+      "EditionId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "edition_id",
+        "description": "The unique identifier of the edition",
+        "required": true
+      },
+      "TeamId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "team_id",
+        "description": "The unique identifier of the team",
+        "required": true
+      },
+      "Fields5": {
+        "schema": {
+          "type": "string",
+          "enum": [
+            "space_id",
+            "position",
+            "shared_by",
+            "permission",
+            "share_type",
+            "is_password_enabled",
+            "password",
+            "expiration_time",
+            "shared_time",
+            "external_share_url",
+            "zone_ids",
+            "link_name"
+          ]
+        },
+        "in": "query",
+        "name": "fields",
+        "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: space_id, position, shared_by, permission, share_type, is_password_enabled, password, expiration_time, shared_time, external_share_url, zone_ids, link_name",
+        "required": false
+      }
+    }
   },
   "servers": [{
     "variables": {"dc": {
@@ -148,12 +244,12 @@
       "description": "Data-centre TLD for your edition.",
       "enum": [
         "com",
-        "ae",
+        "in",
+        "eu",
         "ca",
         "com.au",
-        "eu",
-        "in",
-        "sa"
+        "sa",
+        "ae"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -163,41 +259,55 @@
   "paths": {
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/externalshares/status": {"get": {
       "summary": "Check whether external sharing is allowed for the edition and team",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.editions.READ",
-        "Vani.teams.READ"
-      ]}],
+      "security": [
+        {"iam-oauth2-schema": [
+          "Vani.editions.READ",
+          "Vani.teams.READ"
+        ]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": [
+            "Vani.editions.READ",
+            "Vani.teams.READ"
+          ]
+        }
+      ],
       "operationId": "getExternalShareStatus",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Using Filter Fields": {"value": {
+                "data": {"external_share_edition_enabled": true},
+                "message": "External share status fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000108109/teams/40000000000295296/externalshares/status",
+                "status": "success"
+              }},
+              "Fetch Success": {"value": {
+                "data": {
+                  "external_share_team_enabled": true,
+                  "external_share_edition_enabled": true,
+                  "external_share_allowed": true
+                },
+                "message": "External share allowed status fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000287288/teams/40000000000288289/externalshares/status",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "team_id",
-          "description": "The unique identifier of the team",
-          "required": true
-        },
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/TeamId"},
         {
           "schema": {
             "type": "string",
@@ -224,42 +334,57 @@
     "/vani/api/v1/editions/{edition_id}/spaces/{space_id}/externalshares": {
       "post": {
         "summary": "Publish a space as an external share",
-        "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ExternalShareRequest"}}}
         },
         "operationId": "createExternalShare",
         "responses": {
-          "201": {
-            "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-          },
+          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
           "400": {
             "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Invalid Zone ID": {"value": {
+                  "error": {"details": {
+                    "edition_id": "40000000000287288",
+                    "current_user_id": "40000000000291292",
+                    "error_code": "EX1006",
+                    "message": "External share zones are invalid or not available"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "status": "error"
+                }},
+                "Invalid Expiry Time": {"value": {
+                  "error": {"details": {
+                    "edition_id": "40000000000287288",
+                    "current_user_id": "40000000000291292",
+                    "error_code": "EX1000",
+                    "message": "External share expiration time is invalid"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "status": "error"
+                }}
+              }
+            }}
           },
-          "401": {
-            "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+          "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
         },
         "x-vani-operation-type": "CREATE",
         "parameters": [
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "edition_id",
-            "description": "The unique identifier of the edition",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "space_id",
-            "description": "The unique identifier of the space",
-            "required": true
-          }
+          {"$ref": "#/components/parameters/EditionId"},
+          {"$ref": "#/components/parameters/SpaceId"}
         ],
         "x-vani-read-only": false,
         "x-vani-destructive": false,
@@ -271,61 +396,93 @@
       },
       "get": {
         "summary": "Get a space's external share details",
-        "security": [{"iam-oauth2-schema": ["Vani.spaces.READ"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.spaces.READ"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.spaces.READ"]
+          }
+        ],
         "operationId": "getSpaceExternalShares",
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Using Filter Fields": {"value": {
+                  "data": {
+                    "shared_time": 40000000000290291,
+                    "space_id": 40000000000109110
+                  },
+                  "message": "External share space info fetched successfully",
+                  "request_uri": "/vani/api/v1/editions/40000000000108109/spaces/40000000000109110/externalshares",
+                  "status": "success"
+                }},
+                "Success": {"value": {
+                  "data": {
+                    "is_password_enabled": true,
+                    "zone_ids": [{
+                      "zone_id": "9e7a947b-470b-46e7-be64-4a617abadf43",
+                      "permission": "VIEWER"
+                    }],
+                    "password": "1",
+                    "share_type": "PARTIAL_ZONES",
+                    "shared_time": 40000000000280281,
+                    "external_share_url": "https://app.vanipublic.com/external/open/7b540cd851d86a3cf77b1050c19b88e02d51249cd6c08db6cf99e33e5dc14bccff15aae2435c3dc2bb534e88ab4afc2811a930ea68a6012700e7634857017d12",
+                    "expiration_time": 40000000000289290,
+                    "shared_by": 82512958,
+                    "permission": "VIEWER",
+                    "space_id": "40000000000286287"
+                  },
+                  "message": "External share space info fetched successfully",
+                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "status": "success"
+                }}
+              }
+            }}
           },
           "400": {
             "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Not Externally Shared": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000287288",
+                  "current_user_id": "40000000000291292",
+                  "error_code": "S1031",
+                  "message": "Space is not externally shared"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                "status": "error"
+              }}}
+            }}
           },
           "401": {
             "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Unauthorized": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000108109",
+                  "current_user_id": "40000000000135136",
+                  "error_code": "EX1007",
+                  "message": "The user doesn't have permission to fetch external share info"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000108109/spaces/40000000000293294/externalshares",
+                "status": "error"
+              }}}
+            }}
+          },
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows10Re"}
         },
         "x-vani-operation-type": "READ",
         "parameters": [
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "edition_id",
-            "description": "The unique identifier of the edition",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "space_id",
-            "description": "The unique identifier of the space",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "space_id",
-                "position",
-                "shared_by",
-                "permission",
-                "share_type",
-                "is_password_enabled",
-                "password",
-                "expiration_time",
-                "shared_time",
-                "external_share_url",
-                "zone_ids",
-                "link_name"
-              ]
-            },
-            "in": "query",
-            "name": "fields",
-            "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: space_id, position, shared_by, permission, share_type, is_password_enabled, password, expiration_time, shared_time, external_share_url, zone_ids, link_name",
-            "required": false
-          }
+          {"$ref": "#/components/parameters/EditionId"},
+          {"$ref": "#/components/parameters/SpaceId"},
+          {"$ref": "#/components/parameters/Fields5"}
         ],
         "x-vani-read-only": true,
         "x-vani-destructive": false,
@@ -337,7 +494,13 @@
       },
       "delete": {
         "summary": "Revoke a space's external share",
-        "security": [{"iam-oauth2-schema": ["Vani.spaces.DELETE"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.spaces.DELETE"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.spaces.DELETE"]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/RevokeExternalShareRequest"}}}
@@ -346,33 +509,62 @@
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Success": {"value": {
+                "data": {
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "space_id": "40000000000302303",
+                  "external_share_removed": true
+                },
+                "message": "External share space removed successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000302303/externalshares",
+                "status": "success"
+              }}}
+            }}
           },
           "400": {
             "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Space Is Not an External Share": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000287288",
+                  "current_user_id": "40000000000291292",
+                  "error_code": "S1031",
+                  "message": "Space is not externally shared"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                "status": "error"
+              }}}
+            }}
           },
-          "401": {
-            "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+          "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {
+            "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Space Not Found": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000002003",
+                  "current_user_id": "40000000000003004",
+                  "error_code": "S1009",
+                  "message": "Space not found",
+                  "space_id": "40000000000304305"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000304305/externalshares",
+                "status": "error"
+              }}}
+            }}
+          },
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
         },
         "x-vani-operation-type": "DELETE",
         "parameters": [
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "edition_id",
-            "description": "The unique identifier of the edition",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "space_id",
-            "description": "The unique identifier of the space",
-            "required": true
-          }
+          {"$ref": "#/components/parameters/EditionId"},
+          {"$ref": "#/components/parameters/SpaceId"}
         ],
         "x-vani-read-only": false,
         "x-vani-destructive": true,
@@ -384,7 +576,13 @@
       },
       "put": {
         "summary": "Update a space's external share",
-        "security": [{"iam-oauth2-schema": ["Vani.spaces.UPDATE"]}],
+        "security": [
+          {"iam-oauth2-schema": ["Vani.spaces.UPDATE"]},
+          {
+            "vani-api-key": [],
+            "iam-oauth2-schema": ["Vani.spaces.UPDATE"]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ExternalShareRequest"}}}
@@ -393,33 +591,77 @@
         "responses": {
           "200": {
             "description": "Successful response",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Including Invalid zone ids": {"value": {
+                  "data": {
+                    "is_password_enabled": true,
+                    "zone_ids": [{
+                      "zone_id": "9e7a947b-470b-46e7-be64-4a617abadf43",
+                      "permission": "COMMENTER"
+                    }],
+                    "password": "1",
+                    "share_type": "PARTIAL_ZONES",
+                    "shared_time": 40000000000280281,
+                    "external_share_url": "https://app.localvanipublic.net/external/open/ea6e71f11f7803677667dec29fc1ea2ea829c2b748a992203c8a3eea26b853568c231f96663a6b841b11c071352ee65b844d010ea52cf7e3810a7bc43c2b8c7f",
+                    "expiration_time": 40000000000281282,
+                    "shared_by": 82512958,
+                    "permission": "COMMENTER",
+                    "space_id": "40000000000286287"
+                  },
+                  "message": "External share space updated successfully",
+                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "status": "success"
+                }},
+                "Success": {"value": {
+                  "data": {
+                    "is_password_enabled": true,
+                    "zone_ids": [{
+                      "zone_id": "9e7a947b-470b-46e7-be64-4a617abadf43",
+                      "permission": "COMMENTER"
+                    }],
+                    "password": "1",
+                    "share_type": "PARTIAL_ZONES",
+                    "shared_time": 40000000000280281,
+                    "external_share_url": "https://app.localvanipublic.net/external/open/e9ee62de0dd78b71ca86147cefb21346908ca9fe277f6be74969d56d23b6ee72ffb5f9a320efe03c02077df9a4d020f251823e81a63cc07b83691170a575ba8f",
+                    "expiration_time": 40000000000281282,
+                    "shared_by": 82512958,
+                    "permission": "COMMENTER",
+                    "space_id": "40000000000286287"
+                  },
+                  "message": "External share space updated successfully",
+                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "status": "success"
+                }}
+              }
+            }}
           },
           "400": {
             "description": "Invalid request - validation failed",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Invalid Expiry Time": {"value": {
+                "error": {"details": {
+                  "edition_id": "40000000000287288",
+                  "current_user_id": "40000000000291292",
+                  "error_code": "EX1000",
+                  "message": "External share expiration time is invalid"
+                }},
+                "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                "status": "error"
+              }}}
+            }}
           },
-          "401": {
-            "description": "Unauthorized - missing or invalid access token",
-            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-          }
+          "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+          "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
         },
         "x-vani-operation-type": "UPDATE",
         "parameters": [
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "edition_id",
-            "description": "The unique identifier of the edition",
-            "required": true
-          },
-          {
-            "schema": {"type": "string"},
-            "in": "path",
-            "name": "space_id",
-            "description": "The unique identifier of the space",
-            "required": true
-          }
+          {"$ref": "#/components/parameters/EditionId"},
+          {"$ref": "#/components/parameters/SpaceId"}
         ],
         "x-vani-read-only": false,
         "x-vani-destructive": false,
@@ -432,41 +674,116 @@
     },
     "/vani/api/v1/editions/{edition_id}/teams/{team_id}/externalshares": {"get": {
       "summary": "Get the external shares of a team's spaces",
-      "security": [{"iam-oauth2-schema": [
-        "Vani.editions.READ",
-        "Vani.teams.READ"
-      ]}],
+      "security": [
+        {"iam-oauth2-schema": [
+          "Vani.editions.READ",
+          "Vani.teams.READ"
+        ]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": [
+            "Vani.editions.READ",
+            "Vani.teams.READ"
+          ]
+        }
+      ],
       "operationId": "getTeamExternalShares",
       "responses": {
         "200": {
           "description": "Successful response",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Using Filter Fields": {"value": {
+                "data": {"external_share_info": [
+                  {
+                    "external_share_url": "https://app.vanipublic.com/external/open/418a5ec6abf2bb5b7a0486d5aaae300bcb97a2672a1086e25a81c5853896c92d27a8a01fcb9e42a82fe59e5a3c050fb2390d261c80ae2d4f33b09a56b27f58a5",
+                    "permission": "VIEWER",
+                    "space_id": "40000000000284285"
+                  },
+                  {
+                    "external_share_url": "https://app.vanipublic.com/external/open/f42bcd0a8025fe33bd45bcb176e270275b48312abef2bf9d468a4939709cf9a68db1f73db4f8bdfee7fc07d948d360e083ee198913c863c624304fc274c8d289",
+                    "permission": "VIEWER",
+                    "space_id": "40000000000285286"
+                  },
+                  {
+                    "external_share_url": "https://app.vanipublic.com/external/open/c7dab478035f95d89f1ad22b507b7bf98bd26c5f33c8d5123f5e85c34ae796ea09b9dd26ae6c0e6ac575a8e387eb98073530e803ecdd2cfa1ba7747726529492",
+                    "permission": "COMMENTER",
+                    "space_id": "40000000000286287"
+                  }
+                ]},
+                "message": "External share spaces fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000287288/teams/40000000000288289/externalshares",
+                "status": "success"
+              }},
+              "Fetch Success": {"value": {
+                "data": {"external_share_info": [
+                  {
+                    "is_password_enabled": false,
+                    "zone_ids": [{
+                      "zone_id": "F16ACD54-F0F4-4563-87E7-43EF9A7ED5F8",
+                      "permission": "VIEWER"
+                    }],
+                    "share_type": "PARTIAL_ZONES",
+                    "shared_time": 40000000000276277,
+                    "external_share_url": "https://app.vanipublic.com/external/open/418a5ec6abf2bb5b7a0486d5aaae300bcb97a2672a1086e25a81c5853896c92d27a8a01fcb9e42a82fe59e5a3c050fb2390d261c80ae2d4f33b09a56b27f58a5",
+                    "expiration_time": -1,
+                    "shared_by": 82512958,
+                    "permission": "VIEWER",
+                    "space_id": "40000000000284285"
+                  },
+                  {
+                    "is_password_enabled": false,
+                    "zone_ids": [{
+                      "zone_id": "4BAAB754-0244-4517-9EF8-3313B3A802EB",
+                      "permission": "VIEWER"
+                    }],
+                    "share_type": "PARTIAL_ZONES",
+                    "shared_time": 40000000000278279,
+                    "external_share_url": "https://app.vanipublic.com/external/open/f42bcd0a8025fe33bd45bcb176e270275b48312abef2bf9d468a4939709cf9a68db1f73db4f8bdfee7fc07d948d360e083ee198913c863c624304fc274c8d289",
+                    "expiration_time": -1,
+                    "shared_by": 82512958,
+                    "permission": "VIEWER",
+                    "space_id": "40000000000285286"
+                  },
+                  {
+                    "is_password_enabled": true,
+                    "zone_ids": [
+                      {
+                        "zone_id": "9e7a947b-470b-46e7-be64-4a617abadf43",
+                        "permission": "COMMENTER"
+                      },
+                      {
+                        "zone_id": "33D51B0E-71A3-42FA-BF0F-9CC9BB570E63",
+                        "permission": "COMMENTER"
+                      }
+                    ],
+                    "share_type": "PARTIAL_ZONES",
+                    "shared_time": 40000000000280281,
+                    "external_share_url": "https://app.vanipublic.com/external/open/c7dab478035f95d89f1ad22b507b7bf98bd26c5f33c8d5123f5e85c34ae796ea09b9dd26ae6c0e6ac575a8e387eb98073530e803ecdd2cfa1ba7747726529492",
+                    "expiration_time": 40000000000281282,
+                    "shared_by": 82512958,
+                    "permission": "COMMENTER",
+                    "space_id": "40000000000286287"
+                  }
+                ]},
+                "message": "External share spaces fetched successfully",
+                "request_uri": "/vani/api/v1/editions/40000000000287288/teams/40000000000288289/externalshares",
+                "status": "success"
+              }}
+            }
+          }}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "team_id",
-          "description": "The unique identifier of the team",
-          "required": true
-        },
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/TeamId"},
         {
           "schema": {"type": "string"},
           "in": "query",
@@ -475,35 +792,16 @@
           "required": false
         },
         {
-          "schema": {"type": "string"},
+          "schema": {
+            "pattern": "^(?:^(100|[1-9][0-9]?$))$",
+            "type": "string"
+          },
           "in": "query",
           "name": "limit",
           "description": "The maximum number of results to return in the response. Default value is 20",
           "required": false
         },
-        {
-          "schema": {
-            "type": "string",
-            "enum": [
-              "space_id",
-              "position",
-              "shared_by",
-              "permission",
-              "share_type",
-              "is_password_enabled",
-              "password",
-              "expiration_time",
-              "shared_time",
-              "external_share_url",
-              "zone_ids",
-              "link_name"
-            ]
-          },
-          "in": "query",
-          "name": "fields",
-          "description": "Specifies the fields (comma-separated) to retrieve. Allowed values: space_id, position, shared_by, permission, share_type, is_password_enabled, password, expiration_time, shared_time, external_share_url, zone_ids, link_name",
-          "required": false
-        }
+        {"$ref": "#/components/parameters/Fields5"}
       ],
       "x-vani-read-only": true,
       "x-vani-destructive": false,

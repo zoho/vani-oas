@@ -3,10 +3,10 @@
   "files": [
     {
       "file": "bundled/vani-api.json",
-      "operations": 162,
+      "operations": 171,
       "role": "bundled",
-      "paths": 122,
-      "schemas": 539,
+      "paths": 131,
+      "schemas": 719,
       "description": "REST API for Vani, Zoho's collaborative whiteboard. Manage editions, teams, spaces and zones; create and edit the objects on a zone canvas; and build whole structures \u2014 mindmaps, flowcharts, kanban boards and tables \u2014 in a single call.\n\nThis document contains every Vani API operation. The per-resource documents beside it (editions, teams, spaces, zones, elements, and the rest) are subsets of this one. Generate a client from this file OR from the per-resource files, not both: they describe the same operations, so generating from both produces duplicate types.",
       "title": "Vani API",
       "tags": [
@@ -93,11 +93,11 @@
     },
     {
       "file": "zones.json",
-      "operations": 11,
+      "operations": 12,
       "role": "resource",
       "surface": "rest",
-      "paths": 9,
-      "schemas": 8,
+      "paths": 10,
+      "schemas": 9,
       "description": "Zones (documents) within a space: lifecycle, metadata, versioning, and per-zone sharing.",
       "title": "Zones",
       "tags": [
@@ -112,7 +112,7 @@
       "role": "resource",
       "surface": "rest",
       "paths": 10,
-      "schemas": 16,
+      "schemas": 15,
       "description": "Create, read, update, and delete the objects on a zone canvas: shapes, connectors, group shapes, frames, and their text.",
       "title": "Elements",
       "tags": [
@@ -151,11 +151,11 @@
     },
     {
       "file": "structures.json",
-      "operations": 5,
+      "operations": 6,
       "role": "resource",
       "surface": "sdk",
-      "paths": 5,
-      "schemas": 20,
+      "paths": 6,
+      "schemas": 22,
       "description": "Build whole structures in one call \u2014 mindmaps, flowcharts, kanban boards, stacks, and tables.",
       "title": "Structures",
       "tags": ["Structured Creation"]
@@ -166,7 +166,7 @@
       "role": "resource",
       "surface": "sdk",
       "paths": 26,
-      "schemas": 58,
+      "schemas": 61,
       "description": "Deterministic placement, alignment, tidy layout, spatial queries, and connector routing.",
       "title": "Layout & Placement",
       "tags": [
@@ -181,7 +181,7 @@
       "role": "resource",
       "surface": "sdk",
       "paths": 13,
-      "schemas": 22,
+      "schemas": 53,
       "description": "Traverse the zone hierarchy, resolve relationships, and navigate visually between objects.",
       "title": "Navigation & Relationships",
       "tags": [
@@ -192,11 +192,11 @@
     },
     {
       "file": "tables.json",
-      "operations": 16,
+      "operations": 23,
       "role": "resource",
       "surface": "sdk",
-      "paths": 15,
-      "schemas": 53,
+      "paths": 22,
+      "schemas": 57,
       "description": "Cell, row, and column operations on table objects, and typed database_table records and schema.",
       "title": "Tables",
       "tags": [
@@ -210,7 +210,7 @@
       "role": "resource",
       "surface": "sdk",
       "paths": 2,
-      "schemas": 12,
+      "schemas": 13,
       "description": "Read and mutate text on any text-bearing object, including styling.",
       "title": "Text",
       "tags": ["Text"]
@@ -221,7 +221,7 @@
       "role": "resource",
       "surface": "sdk",
       "paths": 4,
-      "schemas": 370,
+      "schemas": 513,
       "description": "Low-level batch read and mutation escape hatch over zones, frames, and objects.",
       "title": "Data",
       "tags": ["Data"]

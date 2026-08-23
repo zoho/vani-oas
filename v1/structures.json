@@ -31,12 +31,13 @@
             "type": "object",
             "properties": {
               "manual_spacing": {
-                "description": "Manual spacing value in canvas units",
+                "description": "Explicit spacing in canvas units (>= 0)",
                 "type": "number"
               },
               "auto_spacing": {
-                "description": "Use automatic spacing (true to enable)",
-                "type": "boolean"
+                "description": "Let the server compute spacing; send an empty object to enable",
+                "type": "object",
+                "properties": {}
               }
             }
           },
@@ -53,185 +54,46 @@
                 "properties": {
                   "children": {
                     "maxItems": 200,
-                    "description": "Child nodes (depth 2)",
+                    "description": "Child nodes, nested to any depth",
                     "type": "array",
                     "items": {
                       "type": "object",
-                      "properties": {
-                        "children": {
-                          "maxItems": 200,
-                          "description": "Child nodes (depth 3)",
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "children": {
-                                "maxItems": 200,
-                                "description": "Child nodes (depth 4)",
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "children": {
-                                      "maxItems": 200,
-                                      "description": "Child nodes (depth 5)",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "properties": {
-                                          "children": {
-                                            "maxItems": 200,
-                                            "description": "Child nodes (depth 6)",
-                                            "type": "array",
-                                            "items": {
-                                              "type": "object",
-                                              "properties": {
-                                                "children": {
-                                                  "maxItems": 200,
-                                                  "description": "Child nodes (depth 7)",
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "children": {
-                                                        "maxItems": 200,
-                                                        "description": "Child nodes (depth 8 \u2014 leaf level)",
-                                                        "type": "array",
-                                                        "items": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "text": {
-                                                              "description": "Flat text shorthand (alternative to content.text)",
-                                                              "type": "string",
-                                                              "maxLength": 5000
-                                                            },
-                                                            "content": {
-                                                              "description": "Content wrapper with text",
-                                                              "type": "object",
-                                                              "properties": {"text": {
-                                                                "description": "Node text content (must be non-empty)",
-                                                                "type": "string",
-                                                                "maxLength": 5000
-                                                              }}
-                                                            }
-                                                          }
-                                                        }
-                                                      },
-                                                      "text": {
-                                                        "description": "Flat text shorthand (alternative to content.text)",
-                                                        "type": "string",
-                                                        "maxLength": 5000
-                                                      },
-                                                      "content": {
-                                                        "description": "Content wrapper with text",
-                                                        "type": "object",
-                                                        "properties": {"text": {
-                                                          "description": "Node text content (must be non-empty)",
-                                                          "type": "string",
-                                                          "maxLength": 5000
-                                                        }}
-                                                      }
-                                                    }
-                                                  }
-                                                },
-                                                "text": {
-                                                  "description": "Flat text shorthand (alternative to content.text)",
-                                                  "type": "string",
-                                                  "maxLength": 5000
-                                                },
-                                                "content": {
-                                                  "description": "Content wrapper with text",
-                                                  "type": "object",
-                                                  "properties": {"text": {
-                                                    "description": "Node text content (must be non-empty)",
-                                                    "type": "string",
-                                                    "maxLength": 5000
-                                                  }}
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "text": {
-                                            "description": "Flat text shorthand (alternative to content.text)",
-                                            "type": "string",
-                                            "maxLength": 5000
-                                          },
-                                          "content": {
-                                            "description": "Content wrapper with text",
-                                            "type": "object",
-                                            "properties": {"text": {
-                                              "description": "Node text content (must be non-empty)",
-                                              "type": "string",
-                                              "maxLength": 5000
-                                            }}
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "text": {
-                                      "description": "Flat text shorthand (alternative to content.text)",
-                                      "type": "string",
-                                      "maxLength": 5000
-                                    },
-                                    "content": {
-                                      "description": "Content wrapper with text",
-                                      "type": "object",
-                                      "properties": {"text": {
-                                        "description": "Node text content (must be non-empty)",
-                                        "type": "string",
-                                        "maxLength": 5000
-                                      }}
-                                    }
-                                  }
-                                }
-                              },
-                              "text": {
-                                "description": "Flat text shorthand (alternative to content.text)",
-                                "type": "string",
-                                "maxLength": 5000
-                              },
-                              "content": {
-                                "description": "Content wrapper with text",
-                                "type": "object",
-                                "properties": {"text": {
-                                  "description": "Node text content (must be non-empty)",
-                                  "type": "string",
-                                  "maxLength": 5000
-                                }}
-                              }
-                            }
-                          }
-                        },
-                        "text": {
-                          "description": "Flat text shorthand (alternative to content.text)",
-                          "type": "string",
-                          "maxLength": 5000
-                        },
-                        "content": {
-                          "description": "Content wrapper with text",
-                          "type": "object",
-                          "properties": {"text": {
-                            "description": "Node text content (must be non-empty)",
-                            "type": "string",
-                            "maxLength": 5000
-                          }}
-                        }
-                      }
+                      "properties": {}
                     }
-                  },
-                  "text": {
-                    "description": "Flat text shorthand (alternative to content.text)",
-                    "type": "string",
-                    "maxLength": 5000
                   },
                   "content": {
                     "description": "Content wrapper with text",
                     "type": "object",
-                    "properties": {"text": {
-                      "description": "Node text content (must be non-empty)",
-                      "type": "string",
-                      "maxLength": 5000
-                    }}
+                    "properties": {
+                      "notes": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Optional longer supporting text",
+                        "type": "string",
+                        "maxLength": 10000
+                      },
+                      "link_url": {
+                        "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                        "description": "Optional external link associated with the created object",
+                        "type": "string",
+                        "maxLength": 2000
+                      },
+                      "text": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Primary visible label/content",
+                        "type": "string",
+                        "maxLength": 5000
+                      },
+                      "tags": {
+                        "maxItems": 50,
+                        "description": "Optional semantic tags/labels",
+                        "type": "array",
+                        "items": {
+                          "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                          "type": "string",
+                          "maxLength": 200
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -250,185 +112,46 @@
                 "properties": {
                   "children": {
                     "maxItems": 200,
-                    "description": "Child nodes (depth 2)",
+                    "description": "Child nodes, nested to any depth",
                     "type": "array",
                     "items": {
                       "type": "object",
-                      "properties": {
-                        "children": {
-                          "maxItems": 200,
-                          "description": "Child nodes (depth 3)",
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "children": {
-                                "maxItems": 200,
-                                "description": "Child nodes (depth 4)",
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "children": {
-                                      "maxItems": 200,
-                                      "description": "Child nodes (depth 5)",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "properties": {
-                                          "children": {
-                                            "maxItems": 200,
-                                            "description": "Child nodes (depth 6)",
-                                            "type": "array",
-                                            "items": {
-                                              "type": "object",
-                                              "properties": {
-                                                "children": {
-                                                  "maxItems": 200,
-                                                  "description": "Child nodes (depth 7)",
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "children": {
-                                                        "maxItems": 200,
-                                                        "description": "Child nodes (depth 8 \u2014 leaf level)",
-                                                        "type": "array",
-                                                        "items": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "text": {
-                                                              "description": "Flat text shorthand (alternative to content.text)",
-                                                              "type": "string",
-                                                              "maxLength": 5000
-                                                            },
-                                                            "content": {
-                                                              "description": "Content wrapper with text",
-                                                              "type": "object",
-                                                              "properties": {"text": {
-                                                                "description": "Node text content (must be non-empty)",
-                                                                "type": "string",
-                                                                "maxLength": 5000
-                                                              }}
-                                                            }
-                                                          }
-                                                        }
-                                                      },
-                                                      "text": {
-                                                        "description": "Flat text shorthand (alternative to content.text)",
-                                                        "type": "string",
-                                                        "maxLength": 5000
-                                                      },
-                                                      "content": {
-                                                        "description": "Content wrapper with text",
-                                                        "type": "object",
-                                                        "properties": {"text": {
-                                                          "description": "Node text content (must be non-empty)",
-                                                          "type": "string",
-                                                          "maxLength": 5000
-                                                        }}
-                                                      }
-                                                    }
-                                                  }
-                                                },
-                                                "text": {
-                                                  "description": "Flat text shorthand (alternative to content.text)",
-                                                  "type": "string",
-                                                  "maxLength": 5000
-                                                },
-                                                "content": {
-                                                  "description": "Content wrapper with text",
-                                                  "type": "object",
-                                                  "properties": {"text": {
-                                                    "description": "Node text content (must be non-empty)",
-                                                    "type": "string",
-                                                    "maxLength": 5000
-                                                  }}
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "text": {
-                                            "description": "Flat text shorthand (alternative to content.text)",
-                                            "type": "string",
-                                            "maxLength": 5000
-                                          },
-                                          "content": {
-                                            "description": "Content wrapper with text",
-                                            "type": "object",
-                                            "properties": {"text": {
-                                              "description": "Node text content (must be non-empty)",
-                                              "type": "string",
-                                              "maxLength": 5000
-                                            }}
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "text": {
-                                      "description": "Flat text shorthand (alternative to content.text)",
-                                      "type": "string",
-                                      "maxLength": 5000
-                                    },
-                                    "content": {
-                                      "description": "Content wrapper with text",
-                                      "type": "object",
-                                      "properties": {"text": {
-                                        "description": "Node text content (must be non-empty)",
-                                        "type": "string",
-                                        "maxLength": 5000
-                                      }}
-                                    }
-                                  }
-                                }
-                              },
-                              "text": {
-                                "description": "Flat text shorthand (alternative to content.text)",
-                                "type": "string",
-                                "maxLength": 5000
-                              },
-                              "content": {
-                                "description": "Content wrapper with text",
-                                "type": "object",
-                                "properties": {"text": {
-                                  "description": "Node text content (must be non-empty)",
-                                  "type": "string",
-                                  "maxLength": 5000
-                                }}
-                              }
-                            }
-                          }
-                        },
-                        "text": {
-                          "description": "Flat text shorthand (alternative to content.text)",
-                          "type": "string",
-                          "maxLength": 5000
-                        },
-                        "content": {
-                          "description": "Content wrapper with text",
-                          "type": "object",
-                          "properties": {"text": {
-                            "description": "Node text content (must be non-empty)",
-                            "type": "string",
-                            "maxLength": 5000
-                          }}
-                        }
-                      }
+                      "properties": {}
                     }
-                  },
-                  "text": {
-                    "description": "Flat text shorthand (alternative to content.text)",
-                    "type": "string",
-                    "maxLength": 5000
                   },
                   "content": {
                     "description": "Content wrapper with text",
                     "type": "object",
-                    "properties": {"text": {
-                      "description": "Node text content (must be non-empty)",
-                      "type": "string",
-                      "maxLength": 5000
-                    }}
+                    "properties": {
+                      "notes": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Optional longer supporting text",
+                        "type": "string",
+                        "maxLength": 10000
+                      },
+                      "link_url": {
+                        "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                        "description": "Optional external link associated with the created object",
+                        "type": "string",
+                        "maxLength": 2000
+                      },
+                      "text": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Primary visible label/content",
+                        "type": "string",
+                        "maxLength": 5000
+                      },
+                      "tags": {
+                        "maxItems": 50,
+                        "description": "Optional semantic tags/labels",
+                        "type": "array",
+                        "items": {
+                          "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                          "type": "string",
+                          "maxLength": 200
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -447,185 +170,46 @@
                 "properties": {
                   "children": {
                     "maxItems": 200,
-                    "description": "Child nodes (depth 2)",
+                    "description": "Child nodes, nested to any depth",
                     "type": "array",
                     "items": {
                       "type": "object",
-                      "properties": {
-                        "children": {
-                          "maxItems": 200,
-                          "description": "Child nodes (depth 3)",
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "children": {
-                                "maxItems": 200,
-                                "description": "Child nodes (depth 4)",
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "children": {
-                                      "maxItems": 200,
-                                      "description": "Child nodes (depth 5)",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "properties": {
-                                          "children": {
-                                            "maxItems": 200,
-                                            "description": "Child nodes (depth 6)",
-                                            "type": "array",
-                                            "items": {
-                                              "type": "object",
-                                              "properties": {
-                                                "children": {
-                                                  "maxItems": 200,
-                                                  "description": "Child nodes (depth 7)",
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "children": {
-                                                        "maxItems": 200,
-                                                        "description": "Child nodes (depth 8 \u2014 leaf level)",
-                                                        "type": "array",
-                                                        "items": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "text": {
-                                                              "description": "Flat text shorthand (alternative to content.text)",
-                                                              "type": "string",
-                                                              "maxLength": 5000
-                                                            },
-                                                            "content": {
-                                                              "description": "Content wrapper with text",
-                                                              "type": "object",
-                                                              "properties": {"text": {
-                                                                "description": "Node text content (must be non-empty)",
-                                                                "type": "string",
-                                                                "maxLength": 5000
-                                                              }}
-                                                            }
-                                                          }
-                                                        }
-                                                      },
-                                                      "text": {
-                                                        "description": "Flat text shorthand (alternative to content.text)",
-                                                        "type": "string",
-                                                        "maxLength": 5000
-                                                      },
-                                                      "content": {
-                                                        "description": "Content wrapper with text",
-                                                        "type": "object",
-                                                        "properties": {"text": {
-                                                          "description": "Node text content (must be non-empty)",
-                                                          "type": "string",
-                                                          "maxLength": 5000
-                                                        }}
-                                                      }
-                                                    }
-                                                  }
-                                                },
-                                                "text": {
-                                                  "description": "Flat text shorthand (alternative to content.text)",
-                                                  "type": "string",
-                                                  "maxLength": 5000
-                                                },
-                                                "content": {
-                                                  "description": "Content wrapper with text",
-                                                  "type": "object",
-                                                  "properties": {"text": {
-                                                    "description": "Node text content (must be non-empty)",
-                                                    "type": "string",
-                                                    "maxLength": 5000
-                                                  }}
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "text": {
-                                            "description": "Flat text shorthand (alternative to content.text)",
-                                            "type": "string",
-                                            "maxLength": 5000
-                                          },
-                                          "content": {
-                                            "description": "Content wrapper with text",
-                                            "type": "object",
-                                            "properties": {"text": {
-                                              "description": "Node text content (must be non-empty)",
-                                              "type": "string",
-                                              "maxLength": 5000
-                                            }}
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "text": {
-                                      "description": "Flat text shorthand (alternative to content.text)",
-                                      "type": "string",
-                                      "maxLength": 5000
-                                    },
-                                    "content": {
-                                      "description": "Content wrapper with text",
-                                      "type": "object",
-                                      "properties": {"text": {
-                                        "description": "Node text content (must be non-empty)",
-                                        "type": "string",
-                                        "maxLength": 5000
-                                      }}
-                                    }
-                                  }
-                                }
-                              },
-                              "text": {
-                                "description": "Flat text shorthand (alternative to content.text)",
-                                "type": "string",
-                                "maxLength": 5000
-                              },
-                              "content": {
-                                "description": "Content wrapper with text",
-                                "type": "object",
-                                "properties": {"text": {
-                                  "description": "Node text content (must be non-empty)",
-                                  "type": "string",
-                                  "maxLength": 5000
-                                }}
-                              }
-                            }
-                          }
-                        },
-                        "text": {
-                          "description": "Flat text shorthand (alternative to content.text)",
-                          "type": "string",
-                          "maxLength": 5000
-                        },
-                        "content": {
-                          "description": "Content wrapper with text",
-                          "type": "object",
-                          "properties": {"text": {
-                            "description": "Node text content (must be non-empty)",
-                            "type": "string",
-                            "maxLength": 5000
-                          }}
-                        }
-                      }
+                      "properties": {}
                     }
-                  },
-                  "text": {
-                    "description": "Flat text shorthand (alternative to content.text)",
-                    "type": "string",
-                    "maxLength": 5000
                   },
                   "content": {
                     "description": "Content wrapper with text",
                     "type": "object",
-                    "properties": {"text": {
-                      "description": "Node text content (must be non-empty)",
-                      "type": "string",
-                      "maxLength": 5000
-                    }}
+                    "properties": {
+                      "notes": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Optional longer supporting text",
+                        "type": "string",
+                        "maxLength": 10000
+                      },
+                      "link_url": {
+                        "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                        "description": "Optional external link associated with the created object",
+                        "type": "string",
+                        "maxLength": 2000
+                      },
+                      "text": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Primary visible label/content",
+                        "type": "string",
+                        "maxLength": 5000
+                      },
+                      "tags": {
+                        "maxItems": 50,
+                        "description": "Optional semantic tags/labels",
+                        "type": "array",
+                        "items": {
+                          "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                          "type": "string",
+                          "maxLength": 200
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -636,429 +220,144 @@
             "type": "object",
             "properties": {
               "notes": {
-                "description": "Optional notes for the root node",
+                "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                "description": "Optional longer supporting text",
                 "type": "string",
                 "maxLength": 10000
               },
               "link_url": {
-                "description": "Optional URL link for the root node",
+                "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                "description": "Optional external link associated with the created object",
                 "type": "string",
                 "maxLength": 2000
               },
               "text": {
-                "description": "Root node text (required, non-empty)",
+                "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                "description": "Primary visible label/content",
                 "type": "string",
                 "maxLength": 5000
               },
               "tags": {
                 "maxItems": 50,
-                "description": "Optional tags for the root node",
+                "description": "Optional semantic tags/labels",
                 "type": "array",
                 "items": {
+                  "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
                   "type": "string",
-                  "maxLength": 5000000
+                  "maxLength": 200
                 }
               }
-            },
-            "required": ["text"]
+            }
           },
           "top_down": {
             "description": "Top-down dual-direction layout",
             "type": "object",
             "properties": {
               "top": {
-                "description": "Top branch",
-                "type": "object",
-                "properties": {"children": {
-                  "minItems": 1,
-                  "maxItems": 200,
-                  "description": "Ordered child nodes for this branch direction",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "children": {
-                        "maxItems": 200,
-                        "description": "Child nodes (depth 2)",
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "children": {
-                              "maxItems": 200,
-                              "description": "Child nodes (depth 3)",
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "children": {
-                                    "maxItems": 200,
-                                    "description": "Child nodes (depth 4)",
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "children": {
-                                          "maxItems": 200,
-                                          "description": "Child nodes (depth 5)",
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "children": {
-                                                "maxItems": 200,
-                                                "description": "Child nodes (depth 6)",
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "children": {
-                                                      "maxItems": 200,
-                                                      "description": "Child nodes (depth 7)",
-                                                      "type": "array",
-                                                      "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "children": {
-                                                            "maxItems": 200,
-                                                            "description": "Child nodes (depth 8 \u2014 leaf level)",
-                                                            "type": "array",
-                                                            "items": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "text": {
-                                                                  "description": "Flat text shorthand (alternative to content.text)",
-                                                                  "type": "string",
-                                                                  "maxLength": 5000
-                                                                },
-                                                                "content": {
-                                                                  "description": "Content wrapper with text",
-                                                                  "type": "object",
-                                                                  "properties": {"text": {
-                                                                    "description": "Node text content (must be non-empty)",
-                                                                    "type": "string",
-                                                                    "maxLength": 5000
-                                                                  }}
-                                                                }
-                                                              }
-                                                            }
-                                                          },
-                                                          "text": {
-                                                            "description": "Flat text shorthand (alternative to content.text)",
-                                                            "type": "string",
-                                                            "maxLength": 5000
-                                                          },
-                                                          "content": {
-                                                            "description": "Content wrapper with text",
-                                                            "type": "object",
-                                                            "properties": {"text": {
-                                                              "description": "Node text content (must be non-empty)",
-                                                              "type": "string",
-                                                              "maxLength": 5000
-                                                            }}
-                                                          }
-                                                        }
-                                                      }
-                                                    },
-                                                    "text": {
-                                                      "description": "Flat text shorthand (alternative to content.text)",
-                                                      "type": "string",
-                                                      "maxLength": 5000
-                                                    },
-                                                    "content": {
-                                                      "description": "Content wrapper with text",
-                                                      "type": "object",
-                                                      "properties": {"text": {
-                                                        "description": "Node text content (must be non-empty)",
-                                                        "type": "string",
-                                                        "maxLength": 5000
-                                                      }}
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              "text": {
-                                                "description": "Flat text shorthand (alternative to content.text)",
-                                                "type": "string",
-                                                "maxLength": 5000
-                                              },
-                                              "content": {
-                                                "description": "Content wrapper with text",
-                                                "type": "object",
-                                                "properties": {"text": {
-                                                  "description": "Node text content (must be non-empty)",
-                                                  "type": "string",
-                                                  "maxLength": 5000
-                                                }}
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "text": {
-                                          "description": "Flat text shorthand (alternative to content.text)",
-                                          "type": "string",
-                                          "maxLength": 5000
-                                        },
-                                        "content": {
-                                          "description": "Content wrapper with text",
-                                          "type": "object",
-                                          "properties": {"text": {
-                                            "description": "Node text content (must be non-empty)",
-                                            "type": "string",
-                                            "maxLength": 5000
-                                          }}
-                                        }
-                                      }
-                                    }
-                                  },
-                                  "text": {
-                                    "description": "Flat text shorthand (alternative to content.text)",
-                                    "type": "string",
-                                    "maxLength": 5000
-                                  },
-                                  "content": {
-                                    "description": "Content wrapper with text",
-                                    "type": "object",
-                                    "properties": {"text": {
-                                      "description": "Node text content (must be non-empty)",
-                                      "type": "string",
-                                      "maxLength": 5000
-                                    }}
-                                  }
-                                }
-                              }
-                            },
-                            "text": {
-                              "description": "Flat text shorthand (alternative to content.text)",
-                              "type": "string",
-                              "maxLength": 5000
-                            },
-                            "content": {
-                              "description": "Content wrapper with text",
-                              "type": "object",
-                              "properties": {"text": {
-                                "description": "Node text content (must be non-empty)",
-                                "type": "string",
-                                "maxLength": 5000
-                              }}
-                            }
-                          }
-                        }
-                      },
-                      "text": {
-                        "description": "Flat text shorthand (alternative to content.text)",
-                        "type": "string",
-                        "maxLength": 5000
-                      },
-                      "content": {
-                        "description": "Content wrapper with text",
+                "maxItems": 200,
+                "description": "Ordered branch-root nodes on the top side",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "children": {
+                      "maxItems": 200,
+                      "description": "Child nodes, nested to any depth",
+                      "type": "array",
+                      "items": {
                         "type": "object",
-                        "properties": {"text": {
-                          "description": "Node text content (must be non-empty)",
+                        "properties": {}
+                      }
+                    },
+                    "content": {
+                      "description": "Content wrapper with text",
+                      "type": "object",
+                      "properties": {
+                        "notes": {
+                          "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                          "description": "Optional longer supporting text",
+                          "type": "string",
+                          "maxLength": 10000
+                        },
+                        "link_url": {
+                          "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                          "description": "Optional external link associated with the created object",
+                          "type": "string",
+                          "maxLength": 2000
+                        },
+                        "text": {
+                          "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                          "description": "Primary visible label/content",
                           "type": "string",
                           "maxLength": 5000
-                        }}
+                        },
+                        "tags": {
+                          "maxItems": 50,
+                          "description": "Optional semantic tags/labels",
+                          "type": "array",
+                          "items": {
+                            "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                            "type": "string",
+                            "maxLength": 200
+                          }
+                        }
                       }
                     }
                   }
-                }}
+                }
               },
               "bottom": {
-                "description": "Bottom branch",
-                "type": "object",
-                "properties": {"children": {
-                  "minItems": 1,
-                  "maxItems": 200,
-                  "description": "Ordered child nodes for this branch direction",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "children": {
-                        "maxItems": 200,
-                        "description": "Child nodes (depth 2)",
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "children": {
-                              "maxItems": 200,
-                              "description": "Child nodes (depth 3)",
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "children": {
-                                    "maxItems": 200,
-                                    "description": "Child nodes (depth 4)",
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "children": {
-                                          "maxItems": 200,
-                                          "description": "Child nodes (depth 5)",
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "children": {
-                                                "maxItems": 200,
-                                                "description": "Child nodes (depth 6)",
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "children": {
-                                                      "maxItems": 200,
-                                                      "description": "Child nodes (depth 7)",
-                                                      "type": "array",
-                                                      "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "children": {
-                                                            "maxItems": 200,
-                                                            "description": "Child nodes (depth 8 \u2014 leaf level)",
-                                                            "type": "array",
-                                                            "items": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "text": {
-                                                                  "description": "Flat text shorthand (alternative to content.text)",
-                                                                  "type": "string",
-                                                                  "maxLength": 5000
-                                                                },
-                                                                "content": {
-                                                                  "description": "Content wrapper with text",
-                                                                  "type": "object",
-                                                                  "properties": {"text": {
-                                                                    "description": "Node text content (must be non-empty)",
-                                                                    "type": "string",
-                                                                    "maxLength": 5000
-                                                                  }}
-                                                                }
-                                                              }
-                                                            }
-                                                          },
-                                                          "text": {
-                                                            "description": "Flat text shorthand (alternative to content.text)",
-                                                            "type": "string",
-                                                            "maxLength": 5000
-                                                          },
-                                                          "content": {
-                                                            "description": "Content wrapper with text",
-                                                            "type": "object",
-                                                            "properties": {"text": {
-                                                              "description": "Node text content (must be non-empty)",
-                                                              "type": "string",
-                                                              "maxLength": 5000
-                                                            }}
-                                                          }
-                                                        }
-                                                      }
-                                                    },
-                                                    "text": {
-                                                      "description": "Flat text shorthand (alternative to content.text)",
-                                                      "type": "string",
-                                                      "maxLength": 5000
-                                                    },
-                                                    "content": {
-                                                      "description": "Content wrapper with text",
-                                                      "type": "object",
-                                                      "properties": {"text": {
-                                                        "description": "Node text content (must be non-empty)",
-                                                        "type": "string",
-                                                        "maxLength": 5000
-                                                      }}
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              "text": {
-                                                "description": "Flat text shorthand (alternative to content.text)",
-                                                "type": "string",
-                                                "maxLength": 5000
-                                              },
-                                              "content": {
-                                                "description": "Content wrapper with text",
-                                                "type": "object",
-                                                "properties": {"text": {
-                                                  "description": "Node text content (must be non-empty)",
-                                                  "type": "string",
-                                                  "maxLength": 5000
-                                                }}
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "text": {
-                                          "description": "Flat text shorthand (alternative to content.text)",
-                                          "type": "string",
-                                          "maxLength": 5000
-                                        },
-                                        "content": {
-                                          "description": "Content wrapper with text",
-                                          "type": "object",
-                                          "properties": {"text": {
-                                            "description": "Node text content (must be non-empty)",
-                                            "type": "string",
-                                            "maxLength": 5000
-                                          }}
-                                        }
-                                      }
-                                    }
-                                  },
-                                  "text": {
-                                    "description": "Flat text shorthand (alternative to content.text)",
-                                    "type": "string",
-                                    "maxLength": 5000
-                                  },
-                                  "content": {
-                                    "description": "Content wrapper with text",
-                                    "type": "object",
-                                    "properties": {"text": {
-                                      "description": "Node text content (must be non-empty)",
-                                      "type": "string",
-                                      "maxLength": 5000
-                                    }}
-                                  }
-                                }
-                              }
-                            },
-                            "text": {
-                              "description": "Flat text shorthand (alternative to content.text)",
-                              "type": "string",
-                              "maxLength": 5000
-                            },
-                            "content": {
-                              "description": "Content wrapper with text",
-                              "type": "object",
-                              "properties": {"text": {
-                                "description": "Node text content (must be non-empty)",
-                                "type": "string",
-                                "maxLength": 5000
-                              }}
-                            }
-                          }
-                        }
-                      },
-                      "text": {
-                        "description": "Flat text shorthand (alternative to content.text)",
-                        "type": "string",
-                        "maxLength": 5000
-                      },
-                      "content": {
-                        "description": "Content wrapper with text",
+                "maxItems": 200,
+                "description": "Ordered branch-root nodes on the bottom side",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "children": {
+                      "maxItems": 200,
+                      "description": "Child nodes, nested to any depth",
+                      "type": "array",
+                      "items": {
                         "type": "object",
-                        "properties": {"text": {
-                          "description": "Node text content (must be non-empty)",
+                        "properties": {}
+                      }
+                    },
+                    "content": {
+                      "description": "Content wrapper with text",
+                      "type": "object",
+                      "properties": {
+                        "notes": {
+                          "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                          "description": "Optional longer supporting text",
+                          "type": "string",
+                          "maxLength": 10000
+                        },
+                        "link_url": {
+                          "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                          "description": "Optional external link associated with the created object",
+                          "type": "string",
+                          "maxLength": 2000
+                        },
+                        "text": {
+                          "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                          "description": "Primary visible label/content",
                           "type": "string",
                           "maxLength": 5000
-                        }}
+                        },
+                        "tags": {
+                          "maxItems": 50,
+                          "description": "Optional semantic tags/labels",
+                          "type": "array",
+                          "items": {
+                            "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                            "type": "string",
+                            "maxLength": 200
+                          }
+                        }
                       }
                     }
                   }
-                }}
+                }
               }
             }
           },
@@ -1075,191 +374,53 @@
                 "properties": {
                   "children": {
                     "maxItems": 200,
-                    "description": "Child nodes (depth 2)",
+                    "description": "Child nodes, nested to any depth",
                     "type": "array",
                     "items": {
                       "type": "object",
-                      "properties": {
-                        "children": {
-                          "maxItems": 200,
-                          "description": "Child nodes (depth 3)",
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "children": {
-                                "maxItems": 200,
-                                "description": "Child nodes (depth 4)",
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "children": {
-                                      "maxItems": 200,
-                                      "description": "Child nodes (depth 5)",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "properties": {
-                                          "children": {
-                                            "maxItems": 200,
-                                            "description": "Child nodes (depth 6)",
-                                            "type": "array",
-                                            "items": {
-                                              "type": "object",
-                                              "properties": {
-                                                "children": {
-                                                  "maxItems": 200,
-                                                  "description": "Child nodes (depth 7)",
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "children": {
-                                                        "maxItems": 200,
-                                                        "description": "Child nodes (depth 8 \u2014 leaf level)",
-                                                        "type": "array",
-                                                        "items": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "text": {
-                                                              "description": "Flat text shorthand (alternative to content.text)",
-                                                              "type": "string",
-                                                              "maxLength": 5000
-                                                            },
-                                                            "content": {
-                                                              "description": "Content wrapper with text",
-                                                              "type": "object",
-                                                              "properties": {"text": {
-                                                                "description": "Node text content (must be non-empty)",
-                                                                "type": "string",
-                                                                "maxLength": 5000
-                                                              }}
-                                                            }
-                                                          }
-                                                        }
-                                                      },
-                                                      "text": {
-                                                        "description": "Flat text shorthand (alternative to content.text)",
-                                                        "type": "string",
-                                                        "maxLength": 5000
-                                                      },
-                                                      "content": {
-                                                        "description": "Content wrapper with text",
-                                                        "type": "object",
-                                                        "properties": {"text": {
-                                                          "description": "Node text content (must be non-empty)",
-                                                          "type": "string",
-                                                          "maxLength": 5000
-                                                        }}
-                                                      }
-                                                    }
-                                                  }
-                                                },
-                                                "text": {
-                                                  "description": "Flat text shorthand (alternative to content.text)",
-                                                  "type": "string",
-                                                  "maxLength": 5000
-                                                },
-                                                "content": {
-                                                  "description": "Content wrapper with text",
-                                                  "type": "object",
-                                                  "properties": {"text": {
-                                                    "description": "Node text content (must be non-empty)",
-                                                    "type": "string",
-                                                    "maxLength": 5000
-                                                  }}
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "text": {
-                                            "description": "Flat text shorthand (alternative to content.text)",
-                                            "type": "string",
-                                            "maxLength": 5000
-                                          },
-                                          "content": {
-                                            "description": "Content wrapper with text",
-                                            "type": "object",
-                                            "properties": {"text": {
-                                              "description": "Node text content (must be non-empty)",
-                                              "type": "string",
-                                              "maxLength": 5000
-                                            }}
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "text": {
-                                      "description": "Flat text shorthand (alternative to content.text)",
-                                      "type": "string",
-                                      "maxLength": 5000
-                                    },
-                                    "content": {
-                                      "description": "Content wrapper with text",
-                                      "type": "object",
-                                      "properties": {"text": {
-                                        "description": "Node text content (must be non-empty)",
-                                        "type": "string",
-                                        "maxLength": 5000
-                                      }}
-                                    }
-                                  }
-                                }
-                              },
-                              "text": {
-                                "description": "Flat text shorthand (alternative to content.text)",
-                                "type": "string",
-                                "maxLength": 5000
-                              },
-                              "content": {
-                                "description": "Content wrapper with text",
-                                "type": "object",
-                                "properties": {"text": {
-                                  "description": "Node text content (must be non-empty)",
-                                  "type": "string",
-                                  "maxLength": 5000
-                                }}
-                              }
-                            }
-                          }
-                        },
-                        "text": {
-                          "description": "Flat text shorthand (alternative to content.text)",
-                          "type": "string",
-                          "maxLength": 5000
-                        },
-                        "content": {
-                          "description": "Content wrapper with text",
-                          "type": "object",
-                          "properties": {"text": {
-                            "description": "Node text content (must be non-empty)",
-                            "type": "string",
-                            "maxLength": 5000
-                          }}
-                        }
-                      }
+                      "properties": {}
                     }
-                  },
-                  "text": {
-                    "description": "Flat text shorthand (alternative to content.text)",
-                    "type": "string",
-                    "maxLength": 5000
                   },
                   "content": {
                     "description": "Content wrapper with text",
                     "type": "object",
-                    "properties": {"text": {
-                      "description": "Node text content (must be non-empty)",
-                      "type": "string",
-                      "maxLength": 5000
-                    }}
+                    "properties": {
+                      "notes": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Optional longer supporting text",
+                        "type": "string",
+                        "maxLength": 10000
+                      },
+                      "link_url": {
+                        "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                        "description": "Optional external link associated with the created object",
+                        "type": "string",
+                        "maxLength": 2000
+                      },
+                      "text": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Primary visible label/content",
+                        "type": "string",
+                        "maxLength": 5000
+                      },
+                      "tags": {
+                        "maxItems": 50,
+                        "description": "Optional semantic tags/labels",
+                        "type": "array",
+                        "items": {
+                          "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                          "type": "string",
+                          "maxLength": 200
+                        }
+                      }
+                    }
                   }
                 }
               }
             }}
           },
           "title": {
+            "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
             "description": "Optional mindmap title",
             "type": "string",
             "maxLength": 1000
@@ -1291,398 +452,110 @@
             "type": "object",
             "properties": {
               "left": {
-                "description": "Left branch",
-                "type": "object",
-                "properties": {"children": {
-                  "minItems": 1,
-                  "maxItems": 200,
-                  "description": "Ordered child nodes for this branch direction",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "children": {
-                        "maxItems": 200,
-                        "description": "Child nodes (depth 2)",
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "children": {
-                              "maxItems": 200,
-                              "description": "Child nodes (depth 3)",
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "children": {
-                                    "maxItems": 200,
-                                    "description": "Child nodes (depth 4)",
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "children": {
-                                          "maxItems": 200,
-                                          "description": "Child nodes (depth 5)",
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "children": {
-                                                "maxItems": 200,
-                                                "description": "Child nodes (depth 6)",
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "children": {
-                                                      "maxItems": 200,
-                                                      "description": "Child nodes (depth 7)",
-                                                      "type": "array",
-                                                      "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "children": {
-                                                            "maxItems": 200,
-                                                            "description": "Child nodes (depth 8 \u2014 leaf level)",
-                                                            "type": "array",
-                                                            "items": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "text": {
-                                                                  "description": "Flat text shorthand (alternative to content.text)",
-                                                                  "type": "string",
-                                                                  "maxLength": 5000
-                                                                },
-                                                                "content": {
-                                                                  "description": "Content wrapper with text",
-                                                                  "type": "object",
-                                                                  "properties": {"text": {
-                                                                    "description": "Node text content (must be non-empty)",
-                                                                    "type": "string",
-                                                                    "maxLength": 5000
-                                                                  }}
-                                                                }
-                                                              }
-                                                            }
-                                                          },
-                                                          "text": {
-                                                            "description": "Flat text shorthand (alternative to content.text)",
-                                                            "type": "string",
-                                                            "maxLength": 5000
-                                                          },
-                                                          "content": {
-                                                            "description": "Content wrapper with text",
-                                                            "type": "object",
-                                                            "properties": {"text": {
-                                                              "description": "Node text content (must be non-empty)",
-                                                              "type": "string",
-                                                              "maxLength": 5000
-                                                            }}
-                                                          }
-                                                        }
-                                                      }
-                                                    },
-                                                    "text": {
-                                                      "description": "Flat text shorthand (alternative to content.text)",
-                                                      "type": "string",
-                                                      "maxLength": 5000
-                                                    },
-                                                    "content": {
-                                                      "description": "Content wrapper with text",
-                                                      "type": "object",
-                                                      "properties": {"text": {
-                                                        "description": "Node text content (must be non-empty)",
-                                                        "type": "string",
-                                                        "maxLength": 5000
-                                                      }}
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              "text": {
-                                                "description": "Flat text shorthand (alternative to content.text)",
-                                                "type": "string",
-                                                "maxLength": 5000
-                                              },
-                                              "content": {
-                                                "description": "Content wrapper with text",
-                                                "type": "object",
-                                                "properties": {"text": {
-                                                  "description": "Node text content (must be non-empty)",
-                                                  "type": "string",
-                                                  "maxLength": 5000
-                                                }}
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "text": {
-                                          "description": "Flat text shorthand (alternative to content.text)",
-                                          "type": "string",
-                                          "maxLength": 5000
-                                        },
-                                        "content": {
-                                          "description": "Content wrapper with text",
-                                          "type": "object",
-                                          "properties": {"text": {
-                                            "description": "Node text content (must be non-empty)",
-                                            "type": "string",
-                                            "maxLength": 5000
-                                          }}
-                                        }
-                                      }
-                                    }
-                                  },
-                                  "text": {
-                                    "description": "Flat text shorthand (alternative to content.text)",
-                                    "type": "string",
-                                    "maxLength": 5000
-                                  },
-                                  "content": {
-                                    "description": "Content wrapper with text",
-                                    "type": "object",
-                                    "properties": {"text": {
-                                      "description": "Node text content (must be non-empty)",
-                                      "type": "string",
-                                      "maxLength": 5000
-                                    }}
-                                  }
-                                }
-                              }
-                            },
-                            "text": {
-                              "description": "Flat text shorthand (alternative to content.text)",
-                              "type": "string",
-                              "maxLength": 5000
-                            },
-                            "content": {
-                              "description": "Content wrapper with text",
-                              "type": "object",
-                              "properties": {"text": {
-                                "description": "Node text content (must be non-empty)",
-                                "type": "string",
-                                "maxLength": 5000
-                              }}
-                            }
-                          }
-                        }
-                      },
-                      "text": {
-                        "description": "Flat text shorthand (alternative to content.text)",
-                        "type": "string",
-                        "maxLength": 5000
-                      },
-                      "content": {
-                        "description": "Content wrapper with text",
+                "maxItems": 200,
+                "description": "Ordered branch-root nodes on the left side",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "children": {
+                      "maxItems": 200,
+                      "description": "Child nodes, nested to any depth",
+                      "type": "array",
+                      "items": {
                         "type": "object",
-                        "properties": {"text": {
-                          "description": "Node text content (must be non-empty)",
+                        "properties": {}
+                      }
+                    },
+                    "content": {
+                      "description": "Content wrapper with text",
+                      "type": "object",
+                      "properties": {
+                        "notes": {
+                          "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                          "description": "Optional longer supporting text",
+                          "type": "string",
+                          "maxLength": 10000
+                        },
+                        "link_url": {
+                          "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                          "description": "Optional external link associated with the created object",
+                          "type": "string",
+                          "maxLength": 2000
+                        },
+                        "text": {
+                          "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                          "description": "Primary visible label/content",
                           "type": "string",
                           "maxLength": 5000
-                        }}
+                        },
+                        "tags": {
+                          "maxItems": 50,
+                          "description": "Optional semantic tags/labels",
+                          "type": "array",
+                          "items": {
+                            "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                            "type": "string",
+                            "maxLength": 200
+                          }
+                        }
                       }
                     }
                   }
-                }}
+                }
               },
               "right": {
-                "description": "Right branch",
-                "type": "object",
-                "properties": {"children": {
-                  "minItems": 1,
-                  "maxItems": 200,
-                  "description": "Ordered child nodes for this branch direction",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "children": {
-                        "maxItems": 200,
-                        "description": "Child nodes (depth 2)",
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "children": {
-                              "maxItems": 200,
-                              "description": "Child nodes (depth 3)",
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "children": {
-                                    "maxItems": 200,
-                                    "description": "Child nodes (depth 4)",
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "children": {
-                                          "maxItems": 200,
-                                          "description": "Child nodes (depth 5)",
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "children": {
-                                                "maxItems": 200,
-                                                "description": "Child nodes (depth 6)",
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "children": {
-                                                      "maxItems": 200,
-                                                      "description": "Child nodes (depth 7)",
-                                                      "type": "array",
-                                                      "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "children": {
-                                                            "maxItems": 200,
-                                                            "description": "Child nodes (depth 8 \u2014 leaf level)",
-                                                            "type": "array",
-                                                            "items": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "text": {
-                                                                  "description": "Flat text shorthand (alternative to content.text)",
-                                                                  "type": "string",
-                                                                  "maxLength": 5000
-                                                                },
-                                                                "content": {
-                                                                  "description": "Content wrapper with text",
-                                                                  "type": "object",
-                                                                  "properties": {"text": {
-                                                                    "description": "Node text content (must be non-empty)",
-                                                                    "type": "string",
-                                                                    "maxLength": 5000
-                                                                  }}
-                                                                }
-                                                              }
-                                                            }
-                                                          },
-                                                          "text": {
-                                                            "description": "Flat text shorthand (alternative to content.text)",
-                                                            "type": "string",
-                                                            "maxLength": 5000
-                                                          },
-                                                          "content": {
-                                                            "description": "Content wrapper with text",
-                                                            "type": "object",
-                                                            "properties": {"text": {
-                                                              "description": "Node text content (must be non-empty)",
-                                                              "type": "string",
-                                                              "maxLength": 5000
-                                                            }}
-                                                          }
-                                                        }
-                                                      }
-                                                    },
-                                                    "text": {
-                                                      "description": "Flat text shorthand (alternative to content.text)",
-                                                      "type": "string",
-                                                      "maxLength": 5000
-                                                    },
-                                                    "content": {
-                                                      "description": "Content wrapper with text",
-                                                      "type": "object",
-                                                      "properties": {"text": {
-                                                        "description": "Node text content (must be non-empty)",
-                                                        "type": "string",
-                                                        "maxLength": 5000
-                                                      }}
-                                                    }
-                                                  }
-                                                }
-                                              },
-                                              "text": {
-                                                "description": "Flat text shorthand (alternative to content.text)",
-                                                "type": "string",
-                                                "maxLength": 5000
-                                              },
-                                              "content": {
-                                                "description": "Content wrapper with text",
-                                                "type": "object",
-                                                "properties": {"text": {
-                                                  "description": "Node text content (must be non-empty)",
-                                                  "type": "string",
-                                                  "maxLength": 5000
-                                                }}
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "text": {
-                                          "description": "Flat text shorthand (alternative to content.text)",
-                                          "type": "string",
-                                          "maxLength": 5000
-                                        },
-                                        "content": {
-                                          "description": "Content wrapper with text",
-                                          "type": "object",
-                                          "properties": {"text": {
-                                            "description": "Node text content (must be non-empty)",
-                                            "type": "string",
-                                            "maxLength": 5000
-                                          }}
-                                        }
-                                      }
-                                    }
-                                  },
-                                  "text": {
-                                    "description": "Flat text shorthand (alternative to content.text)",
-                                    "type": "string",
-                                    "maxLength": 5000
-                                  },
-                                  "content": {
-                                    "description": "Content wrapper with text",
-                                    "type": "object",
-                                    "properties": {"text": {
-                                      "description": "Node text content (must be non-empty)",
-                                      "type": "string",
-                                      "maxLength": 5000
-                                    }}
-                                  }
-                                }
-                              }
-                            },
-                            "text": {
-                              "description": "Flat text shorthand (alternative to content.text)",
-                              "type": "string",
-                              "maxLength": 5000
-                            },
-                            "content": {
-                              "description": "Content wrapper with text",
-                              "type": "object",
-                              "properties": {"text": {
-                                "description": "Node text content (must be non-empty)",
-                                "type": "string",
-                                "maxLength": 5000
-                              }}
-                            }
-                          }
-                        }
-                      },
-                      "text": {
-                        "description": "Flat text shorthand (alternative to content.text)",
-                        "type": "string",
-                        "maxLength": 5000
-                      },
-                      "content": {
-                        "description": "Content wrapper with text",
+                "maxItems": 200,
+                "description": "Ordered branch-root nodes on the right side",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "children": {
+                      "maxItems": 200,
+                      "description": "Child nodes, nested to any depth",
+                      "type": "array",
+                      "items": {
                         "type": "object",
-                        "properties": {"text": {
-                          "description": "Node text content (must be non-empty)",
+                        "properties": {}
+                      }
+                    },
+                    "content": {
+                      "description": "Content wrapper with text",
+                      "type": "object",
+                      "properties": {
+                        "notes": {
+                          "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                          "description": "Optional longer supporting text",
+                          "type": "string",
+                          "maxLength": 10000
+                        },
+                        "link_url": {
+                          "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                          "description": "Optional external link associated with the created object",
+                          "type": "string",
+                          "maxLength": 2000
+                        },
+                        "text": {
+                          "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                          "description": "Primary visible label/content",
                           "type": "string",
                           "maxLength": 5000
-                        }}
+                        },
+                        "tags": {
+                          "maxItems": 50,
+                          "description": "Optional semantic tags/labels",
+                          "type": "array",
+                          "items": {
+                            "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                            "type": "string",
+                            "maxLength": 200
+                          }
+                        }
                       }
                     }
                   }
-                }}
+                }
               }
             }
           },
@@ -1704,6 +577,7 @@
                 ]
               },
               "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
                 "description": "Frame id (required when target_type is FRAME)",
                 "type": "string",
                 "maxLength": 200
@@ -1720,6 +594,131 @@
           "mutation": {"$ref": "#/components/schemas/MutationMetadata"},
           "error": {"$ref": "#/components/schemas/AgentError"}
         }
+      },
+      "AgentCreateDatabaseTableRequest": {
+        "type": "object",
+        "properties": {
+          "percent_bounds": {
+            "description": "Optional preferred region as zone percentage",
+            "type": "object",
+            "properties": {
+              "right_pct": {
+                "description": "Right edge as 0-1 fraction of zone width",
+                "type": "number"
+              },
+              "top_pct": {
+                "description": "Top edge as 0-1 fraction of zone height",
+                "type": "number"
+              },
+              "bottom_pct": {
+                "description": "Bottom edge as 0-1 fraction of zone height",
+                "type": "number"
+              },
+              "left_pct": {
+                "description": "Left edge as 0-1 fraction of zone width",
+                "type": "number"
+              }
+            }
+          },
+          "payload": {
+            "description": "Database-table data specification (required)",
+            "type": "object",
+            "properties": {
+              "input": {
+                "description": "Tabular data input specification (required)",
+                "type": "object",
+                "properties": {
+                  "raw_text": {
+                    "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                    "description": "Raw tabular text data (required)",
+                    "type": "string",
+                    "maxLength": 500000
+                  },
+                  "pad_missing_cells": {
+                    "description": "Pad ragged rows with empty cells to match max column count",
+                    "type": "boolean"
+                  },
+                  "format_hint": {
+                    "default": "AUTO",
+                    "description": "Format hint for parsing (defaults to AUTO)",
+                    "type": "string",
+                    "maxLength": 10,
+                    "enum": [
+                      "AUTO",
+                      "CSV",
+                      "TSV",
+                      "PIPE"
+                    ]
+                  },
+                  "first_row_is_header": {
+                    "description": "Treat the first row as a header row",
+                    "type": "boolean"
+                  },
+                  "trim_whitespace": {
+                    "description": "Trim whitespace from cell values",
+                    "type": "boolean"
+                  }
+                },
+                "required": ["raw_text"]
+              },
+              "name": {
+                "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]+)$",
+                "description": "Optional database-table display name",
+                "type": "string",
+                "maxLength": 1000
+              }
+            },
+            "required": ["input"]
+          },
+          "absolute_bounds": {
+            "description": "Optional preferred region in absolute canvas units",
+            "type": "object",
+            "properties": {
+              "x": {
+                "description": "Left position in canvas units",
+                "type": "number"
+              },
+              "width": {
+                "description": "Width in canvas units",
+                "type": "number"
+              },
+              "y": {
+                "description": "Top position in canvas units",
+                "type": "number"
+              },
+              "height": {
+                "description": "Height in canvas units",
+                "type": "number"
+              }
+            }
+          },
+          "target": {
+            "description": "Optional insertion target (defaults to ZONE_ROOT)",
+            "type": "object",
+            "properties": {
+              "insert_index": {
+                "description": "Insertion index within the target container",
+                "type": "integer"
+              },
+              "target_type": {
+                "description": "Placement target type: ZONE_ROOT (default) or FRAME",
+                "type": "string",
+                "maxLength": 20,
+                "enum": [
+                  "ZONE_ROOT",
+                  "FRAME"
+                ]
+              },
+              "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
+                "description": "Frame id (required when target_type is FRAME)",
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "required": ["payload"]
       },
       "CreateFlowchartResult": {
         "type": "object",
@@ -1742,22 +741,7 @@
       "AgentError": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "string",
-            "enum": [
-              "AGENT_ERROR_CODE_UNSPECIFIED",
-              "INVALID_ARGUMENT",
-              "SPACE_NOT_FOUND",
-              "ZONE_NOT_FOUND",
-              "FRAME_NOT_FOUND",
-              "OBJECT_NOT_FOUND",
-              "NO_EMPTY_REGION",
-              "NO_VISUAL_NEIGHBOR",
-              "PLACEMENT_CONFLICT",
-              "UNSUPPORTED_OPERATION",
-              "INTERNAL_ERROR"
-            ]
-          },
+          "code": {"$ref": "#/components/schemas/AgentErrorCode"},
           "message": {"type": "string"}
         }
       },
@@ -1781,6 +765,22 @@
           }
         },
         "required": ["status"]
+      },
+      "AgentErrorCode": {
+        "type": "string",
+        "enum": [
+          "AGENT_ERROR_CODE_UNSPECIFIED",
+          "INVALID_ARGUMENT",
+          "SPACE_NOT_FOUND",
+          "ZONE_NOT_FOUND",
+          "FRAME_NOT_FOUND",
+          "OBJECT_NOT_FOUND",
+          "NO_EMPTY_REGION",
+          "NO_VISUAL_NEIGHBOR",
+          "PLACEMENT_CONFLICT",
+          "UNSUPPORTED_OPERATION",
+          "INTERNAL_ERROR"
+        ]
       },
       "VaniError": {
         "description": "Standard Vani error envelope.",
@@ -1843,12 +843,13 @@
             "type": "object",
             "properties": {
               "manual_spacing": {
-                "description": "Manual spacing value in canvas units",
+                "description": "Explicit spacing in canvas units (>= 0)",
                 "type": "number"
               },
               "auto_spacing": {
-                "description": "Use automatic spacing (true to enable)",
-                "type": "boolean"
+                "description": "Let the server compute spacing; send an empty object to enable",
+                "type": "object",
+                "properties": {}
               }
             }
           },
@@ -1861,6 +862,7 @@
               "type": "object",
               "properties": {
                 "title": {
+                  "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
                   "description": "Column title (required, non-empty)",
                   "type": "string",
                   "maxLength": 1000
@@ -1872,19 +874,63 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "text": {
-                        "description": "Flat text shorthand (alternative to content.text)",
+                      "due_date_text": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Optional user-facing due date text (not rendered yet)",
                         "type": "string",
-                        "maxLength": 5000
+                        "maxLength": 1000
+                      },
+                      "assignee": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Optional assignee/owner label (not rendered yet)",
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "priority": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Optional priority label (not rendered yet)",
+                        "type": "string",
+                        "maxLength": 1000
                       },
                       "content": {
-                        "description": "Content wrapper with text",
+                        "description": "Visible content and lightweight semantic metadata",
                         "type": "object",
-                        "properties": {"text": {
-                          "description": "Node text content (must be non-empty)",
-                          "type": "string",
-                          "maxLength": 5000
-                        }}
+                        "properties": {
+                          "notes": {
+                            "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                            "description": "Optional longer supporting text",
+                            "type": "string",
+                            "maxLength": 10000
+                          },
+                          "link_url": {
+                            "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                            "description": "Optional external link associated with the created object",
+                            "type": "string",
+                            "maxLength": 2000
+                          },
+                          "text": {
+                            "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                            "description": "Primary visible label/content",
+                            "type": "string",
+                            "maxLength": 5000
+                          },
+                          "tags": {
+                            "maxItems": 50,
+                            "description": "Optional semantic tags/labels",
+                            "type": "array",
+                            "items": {
+                              "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                              "type": "string",
+                              "maxLength": 200
+                            }
+                          }
+                        }
+                      },
+                      "status": {
+                        "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                        "description": "Optional status label (not rendered yet)",
+                        "type": "string",
+                        "maxLength": 1000
                       }
                     }
                   }
@@ -1894,6 +940,7 @@
             }
           },
           "title": {
+            "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
             "description": "Optional kanban board title",
             "type": "string",
             "maxLength": 1000
@@ -1948,6 +995,7 @@
                 ]
               },
               "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
                 "description": "Frame id (required when target_type is FRAME)",
                 "type": "string",
                 "maxLength": 200
@@ -2002,16 +1050,18 @@
             "type": "object",
             "properties": {
               "manual_spacing": {
-                "description": "Manual spacing value in canvas units",
+                "description": "Explicit spacing in canvas units (>= 0)",
                 "type": "number"
               },
               "auto_spacing": {
-                "description": "Use automatic spacing (true to enable)",
-                "type": "boolean"
+                "description": "Let the server compute spacing; send an empty object to enable",
+                "type": "object",
+                "properties": {}
               }
             }
           },
           "title": {
+            "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
             "description": "Optional stack title",
             "type": "string",
             "maxLength": 1000
@@ -2045,22 +1095,40 @@
             "type": "array",
             "items": {
               "type": "object",
-              "properties": {
-                "text": {
-                  "description": "Flat text shorthand (alternative to content.text)",
-                  "type": "string",
-                  "maxLength": 5000
-                },
-                "content": {
-                  "description": "Content wrapper with text",
-                  "type": "object",
-                  "properties": {"text": {
-                    "description": "Node text content (must be non-empty)",
+              "properties": {"content": {
+                "description": "Visible content and lightweight semantic metadata",
+                "type": "object",
+                "properties": {
+                  "notes": {
+                    "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                    "description": "Optional longer supporting text",
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "link_url": {
+                    "pattern": "^https?://[^\\s<>\"]{1,2000}$",
+                    "description": "Optional external link associated with the created object",
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "text": {
+                    "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
+                    "description": "Primary visible label/content",
                     "type": "string",
                     "maxLength": 5000
-                  }}
+                  },
+                  "tags": {
+                    "maxItems": 50,
+                    "description": "Optional semantic tags/labels",
+                    "type": "array",
+                    "items": {
+                      "pattern": "^(?:[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;\\\\'\\/!\\u0080-\\uFFFF\\s\"]+)$",
+                      "type": "string",
+                      "maxLength": 200
+                    }
+                  }
                 }
-              }
+              }}
             }
           },
           "layout_hint": {
@@ -2091,6 +1159,7 @@
                 ]
               },
               "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
                 "description": "Frame id (required when target_type is FRAME)",
                 "type": "string",
                 "maxLength": 200
@@ -2197,11 +1266,13 @@
                       ]
                     },
                     "text": {
+                      "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
                       "description": "Display text for the node (required, non-empty)",
                       "type": "string",
                       "maxLength": 5000
                     },
                     "node_id": {
+                      "pattern": "^(?:[A-Za-z_0-9- ]+)$",
                       "description": "Unique node identifier within this flowchart (required, non-empty)",
                       "type": "string",
                       "maxLength": 200
@@ -2221,6 +1292,7 @@
                   "type": "object",
                   "properties": {
                     "from_node_id": {
+                      "pattern": "^(?:[A-Za-z_0-9- ]+)$",
                       "description": "Source node id (required)",
                       "type": "string",
                       "maxLength": 200
@@ -2250,6 +1322,7 @@
                       ]
                     },
                     "label": {
+                      "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
                       "description": "Optional text label on the connector",
                       "type": "string",
                       "maxLength": 2000
@@ -2268,6 +1341,7 @@
                       ]
                     },
                     "to_node_id": {
+                      "pattern": "^(?:[A-Za-z_0-9- ]+)$",
                       "description": "Target node id (required)",
                       "type": "string",
                       "maxLength": 200
@@ -2290,6 +1364,7 @@
                 ]
               },
               "title": {
+                "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
                 "description": "Optional flowchart title",
                 "type": "string",
                 "maxLength": 1000
@@ -2337,6 +1412,7 @@
                 ]
               },
               "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
                 "description": "Frame id (required when target_type is FRAME)",
                 "type": "string",
                 "maxLength": 200
@@ -2396,6 +1472,7 @@
                 "type": "object",
                 "properties": {
                   "raw_text": {
+                    "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
                     "description": "Raw tabular text data (required)",
                     "type": "string",
                     "maxLength": 500000
@@ -2428,6 +1505,7 @@
                 "required": ["raw_text"]
               },
               "title": {
+                "pattern": "^[0-9a-zA-Z_~`#%&\\^\\*\\(\\)\\{\\}\\[\\]\\+\\*\\|=\\-\\.\\$@\\?,:;>\\\\'\\/!\\u0080-\\uFFFF\\s<\"]*$",
                 "description": "Optional table title",
                 "type": "string",
                 "maxLength": 1000
@@ -2475,6 +1553,7 @@
                 ]
               },
               "frame_id": {
+                "pattern": "^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$",
                 "description": "Frame id (required when target_type is FRAME)",
                 "type": "string",
                 "maxLength": 200
@@ -2485,27 +1564,96 @@
         "required": ["payload"]
       }
     },
-    "securitySchemes": {"iam-oauth2-schema": {
-      "flows": {"authorizationCode": {
-        "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
-        "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
-        "scopes": {
-          "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
-          "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
-          "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
-          "Vani.spaces.DELETE": "Delete workspaces and folders",
-          "Vani.teams.CREATE": "Create new teams and assign team memberships",
-          "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
-          "Vani.editions.CREATE": "Create new document editions and version snapshots",
-          "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
-          "Vani.editions.READ": "Read document editions, version history, and edition metadata",
-          "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
-          "Vani.teams.DELETE": "Delete teams and remove team memberships",
-          "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state"
-        }
-      }},
-      "type": "oauth2"
-    }}
+    "responses": {
+      "RateLimitExceededThisOperationAllows30Re": {
+        "description": "Rate limit exceeded - this operation allows 30 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "SuccessfulResponse": {
+        "description": "Successful response",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
+      },
+      "InvalidRequestValidationFailed6": {
+        "description": "Invalid request - validation failed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "NotFoundAResourceNamedInThePathDoesNotEx10": {
+        "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "InternalServerErrorTheRequestWasWellForm": {
+        "description": "Internal server error - the request was well-formed but could not be completed",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "UnauthorizedMissingOrInvalidAccessToken9": {
+        "description": "Unauthorized - missing or invalid access token",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      }
+    },
+    "securitySchemes": {
+      "vani-api-key": {
+        "in": "header",
+        "name": "x-vani-apikey",
+        "description": "Edition-scoped API key. ACCEPTED, NOT YET REQUIRED: the bearer token alone authorises every operation today, which is why each one lists a token-only alternative first and a token-plus-key alternative second. Sending the key is harmless and forward-compatible -- the server reads it, and the requirement is expected to become mandatory, at which point the token-only alternative disappears from this contract. The key never authorises on its own. Read or create your edition's key from the edition settings. The two operations on the /editions collection itself never carry one: a key belongs to an edition, so the calls that list or create editions cannot present it.",
+        "type": "apiKey"
+      },
+      "iam-oauth2-schema": {
+        "flows": {"authorizationCode": {
+          "tokenUrl": "https://accounts.zoho.com/oauth/v2/token",
+          "authorizationUrl": "https://accounts.zoho.com/oauth/v2/auth",
+          "scopes": {
+            "Vani.teams.UPDATE": "Update team memberships, roles, and collaboration settings",
+            "Vani.spaces.UPDATE": "Update workspaces, folders, and organizational settings",
+            "Vani.spaces.DELETE": "Delete workspaces and folders",
+            "Vani.zones.READ": "Read zones including tables, cells, and paragraph content",
+            "Vani.editions.UPDATE": "Update existing document editions, modify version metadata and publishing state",
+            "Vani.spaces.CREATE": "Create new workspaces, folders, and organizational structure",
+            "Vani.teams.CREATE": "Create new teams and assign team memberships",
+            "Vani.spaces.READ": "Read workspaces, folders, and organizational structure",
+            "Vani.editions.CREATE": "Create new document editions and version snapshots",
+            "Vani.zones.CREATE": "Create zones including tables, cells, and paragraph content",
+            "Vani.teams.READ": "Read team memberships, roles, and collaboration settings",
+            "Vani.editions.READ": "Read document editions, version history, and edition metadata",
+            "Vani.teams.DELETE": "Delete teams and remove team memberships"
+          }
+        }},
+        "x-vani-data-centre": "com",
+        "description": "OAuth 2.0 through Zoho Accounts for the .com data centre (the default). Authorisation is NOT served by the API server -- it is a separate host, and each data centre has its own. If your edition is on another data centre, keep these paths and substitute its host from x-vani-accounts-hosts on this scheme. An OAuth client is valid only in the data centre it was registered in, so register at that data centre's api-console. Note that the accounts host does not simply mirror the API host's TLD: Canada authorises at accounts.zohocloud.ca.",
+        "x-vani-accounts-hosts": {
+          "com": "accounts.zoho.com",
+          "eu": "accounts.zoho.eu",
+          "ae": "accounts.zoho.ae",
+          "in": "accounts.zoho.in",
+          "ca": "accounts.zohocloud.ca",
+          "sa": "accounts.zoho.sa",
+          "com.au": "accounts.zoho.com.au"
+        },
+        "type": "oauth2"
+      }
+    },
+    "parameters": {
+      "ZoneId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "zone_id",
+        "description": "The unique identifier of the zone",
+        "required": true
+      },
+      "SpaceId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "space_id",
+        "description": "The unique identifier of the space",
+        "required": true
+      },
+      "EditionId": {
+        "schema": {"type": "string"},
+        "in": "path",
+        "name": "edition_id",
+        "description": "The unique identifier of the edition",
+        "required": true
+      }
+    }
   },
   "servers": [{
     "variables": {"dc": {
@@ -2513,12 +1661,12 @@
       "description": "Data-centre TLD for your edition.",
       "enum": [
         "com",
-        "ae",
+        "in",
+        "eu",
         "ca",
         "com.au",
-        "eu",
-        "in",
-        "sa"
+        "sa",
+        "ae"
       ]
     }},
     "description": "Vani API server. Select the data centre your edition is hosted in.",
@@ -2528,7 +1676,13 @@
   "paths": {
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/flowchart": {"post": {
       "summary": "Create a flowchart from node and edge graph specifications",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2546,38 +1700,17 @@
             }
           ]}}}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -2588,8 +1721,14 @@
       "tags": ["Structured Creation"]
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/table": {"post": {
-      "summary": "Create a table from raw tabular text data",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "summary": "Create a new table on the board by parsing raw CSV, TSV or pipe-delimited text, with optional header row, whitespace trimming and ragged-row padding. Use for a plain layout table; use createDatabaseTable for a typed, queryable one.",
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2607,38 +1746,17 @@
             }
           ]}}}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -2650,7 +1768,13 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/stack": {"post": {
       "summary": "Create a stack structure from an ordered list of item specifications",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2668,38 +1792,17 @@
             }
           ]}}}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -2711,7 +1814,13 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/kanban": {"post": {
       "summary": "Create a kanban board structure from column and item specifications",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2729,38 +1838,17 @@
             }
           ]}}}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
-        }
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
@@ -2772,7 +1860,13 @@
     }},
     "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/mindmap": {"post": {
       "summary": "Create a mindmap structure from a hierarchical outline specification",
-      "security": [{"iam-oauth2-schema": ["Vani.spaces.CREATE"]}],
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
+        {
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
+        }
+      ],
       "x-vani-transitional": true,
       "requestBody": {
         "required": true,
@@ -2790,38 +1884,54 @@
             }
           ]}}}
         },
-        "400": {
-          "description": "Invalid request - validation failed",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        },
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-        }
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
+      ],
+      "x-vani-read-only": false,
+      "x-vani-destructive": false,
+      "x-vani-throttle": {
+        "duration": "1M",
+        "threshold": 30
+      },
+      "tags": ["Structured Creation"]
+    }},
+    "/sdk/v1/editions/{edition_id}/spaces/{space_id}/zones/{zone_id}/create/database-table": {"post": {
+      "summary": "Create a typed database_table from raw tabular text data",
+      "security": [
+        {"iam-oauth2-schema": ["Vani.spaces.CREATE"]},
         {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "edition_id",
-          "description": "The unique identifier of the edition",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "space_id",
-          "description": "The unique identifier of the space",
-          "required": true
-        },
-        {
-          "schema": {"type": "string"},
-          "in": "path",
-          "name": "zone_id",
-          "description": "The unique identifier of the zone",
-          "required": true
+          "vani-api-key": [],
+          "iam-oauth2-schema": ["Vani.spaces.CREATE"]
         }
+      ],
+      "x-vani-transitional": true,
+      "requestBody": {
+        "required": true,
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentCreateDatabaseTableRequest"}}}
+      },
+      "operationId": "createDatabaseTable",
+      "responses": {
+        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+      },
+      "x-vani-operation-type": "CREATE",
+      "parameters": [
+        {"$ref": "#/components/parameters/EditionId"},
+        {"$ref": "#/components/parameters/SpaceId"},
+        {"$ref": "#/components/parameters/ZoneId"}
       ],
       "x-vani-read-only": false,
       "x-vani-destructive": false,
