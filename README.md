@@ -156,10 +156,10 @@ file for setup.
 
 A few Vani-specific conventions worth knowing before you generate a client.
 
-**Responses are enveloped.** Most endpoints return
-`{"status": ..., "data": ..., "message": ...}`. The exception is
-`GET /vani/api/v1/openapi`, which returns the OpenAPI document itself — an
-OpenAPI document inside an envelope would no longer be one.
+**Responses are enveloped.** Every endpoint in these documents returns
+`{"status": ..., "data": ..., "message": ...}`. There is no exception — unwrap
+`data` once and the shape below it is what the operation's response schema
+describes.
 
 **Numbers are strings.** Every numeric field is typed `string` with the numeric
 `format` preserved. Vani IDs are 64-bit, and JavaScript loses precision above
