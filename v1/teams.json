@@ -137,11 +137,7 @@
         "description": "Rate limit exceeded - this operation allows 30 requests per minute per user",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
-      "SuccessfulResponse": {
-        "description": "Successful response",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-      },
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -404,7 +400,25 @@
         },
         "operationId": "createTeamMember",
         "responses": {
-          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Success": {"value": {
+                "data": {"added_members": [{
+                  "role_name": "MEMBER",
+                  "invited_time": "Mon, 03 Feb 2025, 23:17:12",
+                  "edition_id": "97375109",
+                  "mail_id": "sophia.bennett@boxicle.com",
+                  "added_by": "96384499",
+                  "team_id": "1505000000051031"
+                }]},
+                "message": "Team member added successfully.",
+                "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000051031/members",
+                "status": "success"
+              }}}
+            }}
+          },
           "400": {
             "description": "Invalid request - validation failed",
             "content": {"application/json": {
@@ -414,13 +428,13 @@
                   "error": {"details": {
                     "failed_members": [{
                       "error_message": "Member already part of team",
-                      "mail_id": "lena.fischer@example.com",
+                      "mail_id": "olivia.morgan@boxicle.com",
                       "error_code": "T1013"
                     }],
                     "error_code": "T1017",
                     "message": "Team member add failed"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/members",
+                  "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/members",
                   "status": "error"
                 }},
                 "License Limit Reached": {"value": {
@@ -432,7 +446,7 @@
                     "error_code": "T1017",
                     "message": "Team member add failed"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/members",
+                  "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/members",
                   "status": "error"
                 }}
               }
@@ -444,19 +458,54 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000032033",
+                  "edition_id": "96499735",
+                  "current_user_id": "97377569",
                   "error_code": "A1003",
-                  "team_id": "40000000000027028",
+                  "team_id": "3009000000002003",
                   "message": "The user doesn't have permission to perform this action"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/members",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/members",
                 "status": "error"
               }}}
             }}
           },
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+          "206": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Partial Success": {"value": {
+                "data": {
+                  "failed_members": [{
+                    "error_message": "Member already invited",
+                    "mail_id": "sophia.bennett@boxicle.com",
+                    "error_code": "T1014"
+                  }],
+                  "added_members": [
+                    {
+                      "role_name": "MEMBER",
+                      "invited_time": "Mon, 03 Feb 2025, 23:16:13",
+                      "edition_id": "97375109",
+                      "mail_id": "olivia.morgan@boxicle.com",
+                      "added_by": "96384499",
+                      "team_id": "1505000000051031"
+                    },
+                    {
+                      "role_name": "TEAM_ADMIN",
+                      "added_time": "Mon, 03 Feb 2025, 23:16:12",
+                      "mail_id": "liam.parker@boxicle.com",
+                      "added_by": "96384499",
+                      "team_id": "1505000000051031"
+                    }
+                  ]
+                },
+                "message": "Partial success: Some members added, others failed.",
+                "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000051031/members",
+                "status": "success"
+              }}}
+            }}
+          },
           "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
         },
         "x-vani-operation-type": "CREATE",
@@ -493,110 +542,125 @@
                     "role_name": "MEMBER",
                     "added_time": "Tue, 21 Jan 2025, 13:29:58",
                     "modified_time": "Tue, 21 Jan 2025, 13:29:58",
-                    "mail_id": "alex.morgan@example.com",
+                    "mail_id": "emma.carter@boxicle.com",
                     "added_by": "85572741",
-                    "display_name": "Ana Silva",
-                    "zuid": "40000000000003004"
+                    "display_name": "Emma Carter",
+                    "zuid": "96384499"
                   }]},
                   "message": "Team members fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000025026/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/693000000450001/members",
+                  "status": "success"
+                }},
+                "Using Filter Fields 2": {"value": {
+                  "data": {"team_admins": [{
+                    "added_time": "Tue, 21 Jan 2025, 17:05:47",
+                    "mail_id": "ryan.mitchell@boxicle.com",
+                    "added_by": "96384499"
+                  }]},
+                  "message": "Team members fetched successfully.",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/693000000450001/members",
+                  "status": "success"
+                }},
+                "Success 2": {"value": {
+                  "data": {
+                    "next_from": 1,
+                    "team_admins": [{
+                      "role_name": "TEAM_ADMIN",
+                      "added_time": "Tue, 30 Sep 2025, 12:10:11",
+                      "modified_time": "Tue, 30 Sep 2025, 12:10:11",
+                      "mail_id": "user3@example.com",
+                      "added_by": "81864203",
+                      "display_name": "Sakthii5.2",
+                      "zuid": "82512958"
+                    }]
+                  },
+                  "message": "Team members fetched successfully.",
+                  "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/members",
                   "status": "success"
                 }},
                 "Using Filter Fields": {"value": {
                   "data": {"team_members": [
                     {
                       "added_time": "Tue, 21 Jan 2025, 13:29:58",
-                      "mail_id": "alex.morgan@example.com",
+                      "mail_id": "emma.carter@boxicle.com",
                       "added_by": "85572741"
                     },
                     {
                       "added_time": "Sat, 30 Nov 2024, 22:32:11",
-                      "mail_id": "priya.nair@example.com",
+                      "mail_id": "ryan.mitchell@boxicle.com",
                       "added_by": "85572741"
                     }
                   ]},
                   "message": "Team members fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000025026/members",
-                  "status": "success"
-                }},
-                "Using Filter Fields (2)": {"value": {
-                  "data": {"team_admins": [{
-                    "added_time": "Tue, 21 Jan 2025, 17:05:47",
-                    "mail_id": "priya.nair@example.com",
-                    "added_by": "96384499"
-                  }]},
-                  "message": "Team members fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000025026/members",
-                  "status": "success"
-                }},
-                "Success (2)": {"value": {
-                  "data": {"team_admins": [{
-                    "role_name": "TEAM_ADMIN",
-                    "added_time": "Tue, 21 Jan 2025, 17:05:47",
-                    "modified_time": "Tue, 21 Jan 2025, 17:05:47",
-                    "mail_id": "priya.nair@example.com",
-                    "added_by": "96384499",
-                    "display_name": "Omar Haddad",
-                    "zuid": "40000000000003004"
-                  }]},
-                  "message": "Team members fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000020021/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/693000000450001/members",
                   "status": "success"
                 }},
                 "Success": {"value": {
-                  "data": {"team_members": [
-                    {
-                      "role_name": "MEMBER",
-                      "added_time": "Tue, 21 Jan 2025, 13:29:58",
-                      "modified_time": "Tue, 21 Jan 2025, 13:29:58",
-                      "mail_id": "alex.morgan@example.com",
-                      "added_by": "85572741",
-                      "display_name": "Ana Silva",
-                      "zuid": "40000000000003004"
-                    },
-                    {
-                      "role_name": "TEAM_ADMIN",
-                      "added_time": "Sat, 30 Nov 2024, 22:32:11",
-                      "modified_time": "Sat, 30 Nov 2024, 22:32:11",
-                      "mail_id": "priya.nair@example.com",
-                      "added_by": "85572741",
-                      "display_name": "Omar Haddad",
-                      "zuid": "40000000000024025"
-                    }
-                  ]},
+                  "data": {
+                    "next_from": 3,
+                    "team_members": [
+                      {
+                        "role_name": "MEMBER",
+                        "added_time": "Thu, 14 May 2026, 20:34:50",
+                        "modified_time": "Thu, 14 May 2026, 20:34:50",
+                        "mail_id": "user1@example.com",
+                        "added_by": "82512958",
+                        "display_name": "Jayasree",
+                        "zuid": "64167940"
+                      },
+                      {
+                        "role_name": "MEMBER",
+                        "added_time": "Thu, 04 Jun 2026, 20:51:19",
+                        "modified_time": "Wed, 24 Jun 2026, 16:46:50",
+                        "mail_id": "user2@example.com",
+                        "added_by": "82512958",
+                        "display_name": "sakthii corp",
+                        "zuid": "81864203"
+                      },
+                      {
+                        "role_name": "TEAM_ADMIN",
+                        "added_time": "Tue, 30 Sep 2025, 12:10:11",
+                        "modified_time": "Tue, 30 Sep 2025, 12:10:11",
+                        "mail_id": "user3@example.com",
+                        "added_by": "81864203",
+                        "display_name": "Sakthii5.2",
+                        "zuid": "82512958"
+                      }
+                    ]
+                  },
                   "message": "Team members fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000025026/members",
+                  "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/members",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {
-                "User Is Not Part of the Team (2)": {"value": {
-                  "error": {"details": {
-                    "edition_id": "40000000000000001",
-                    "current_user_id": "40000000000003004",
-                    "error_code": "T1006",
-                    "team_id": "40000000000018019",
-                    "message": "User is not a member of the team"
-                  }},
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000018019/members",
-                  "status": "error"
-                }},
                 "User Is Not Part of the Team": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000000001",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "75918186",
+                    "current_user_id": "96384499",
                     "error_code": "T1006",
-                    "team_id": "40000000000018019",
+                    "team_id": "693000000008463",
                     "message": "User is not a member of the team"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000018019/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/693000000008463/members",
+                  "status": "error"
+                }},
+                "User Is Not Part of the Team 2": {"value": {
+                  "error": {"details": {
+                    "edition_id": "75918186",
+                    "current_user_id": "96384499",
+                    "error_code": "T1006",
+                    "team_id": "693000000008463",
+                    "message": "User is not a member of the team"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/693000000008463/members",
                   "status": "error"
                 }}
               }
@@ -608,26 +672,26 @@
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {
-                "Team Not Found (2)": {"value": {
+                "Team Not Found 2": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000000001",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "75918186",
+                    "current_user_id": "96384499",
                     "error_code": "T1008",
-                    "team_id": "40000000000029030",
+                    "team_id": "69300000045001",
                     "message": "Team not found"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000029030/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/69300000045001/members",
                   "status": "error"
                 }},
                 "Team Not Found": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000000001",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "75918186",
+                    "current_user_id": "96384499",
                     "error_code": "T1008",
-                    "team_id": "40000000000027028",
+                    "team_id": "3009000000002003",
                     "message": "Team not found"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000027028/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/3009000000002003/members",
                   "status": "error"
                 }}
               }
@@ -717,33 +781,76 @@
               "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
               "examples": {"Success": {"value": {
                 "data": {
-                  "edition_id": "40000000000004005",
-                  "removed_zuid": "40000000000032033",
-                  "current_user_id": "40000000000003004",
-                  "team_id": "40000000000031032"
+                  "edition_id": "97375109",
+                  "removed_zuid": "97377569",
+                  "current_user_id": "96384499",
+                  "team_id": "1505000000051031"
                 },
                 "message": "Team member deleted successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000031032/members",
+                "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000051031/members",
                 "status": "success"
               }}}
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
-          "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
+          "401": {
+            "description": "Unauthorized - missing or invalid access token",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Unauthorized": {"value": {
+                "error": {"details": {
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action"
+                }},
+                "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/members/80022267",
+                "status": "error"
+              }}}
+            }}
+          },
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "403": {
+            "description": "Forbidden - the caller is authenticated but not allowed to perform this operation",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Super Admin Cannot Be Removed from the Team": {"value": {
+                  "error": {"details": {
+                    "edition_id": "96499735",
+                    "current_user_id": "96384499",
+                    "error_code": "A1004",
+                    "team_id": "3009000000002003",
+                    "message": "Super admin can't be removed from the team"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/members",
+                  "status": "error"
+                }},
+                "Cannot Remove Self from the Team": {"value": {
+                  "error": {"details": {
+                    "edition_id": "112255940",
+                    "current_user_id": "82512958",
+                    "error_code": "M1002",
+                    "team_id": "5777000000002017",
+                    "message": "User cannot remove self"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/members/82512958",
+                  "status": "error"
+                }}
+              }
+            }}
+          },
           "404": {
             "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Member Not Part of the Team": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "T1012",
-                  "team_id": "40000000000031032",
+                  "team_id": "1505000000051031",
                   "message": "Member not part of team"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000031032/members",
+                "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000051031/members",
                 "status": "error"
               }}}
             }}
@@ -787,31 +894,31 @@
                 "Success \u2013 Member Role Assigned": {"value": {
                   "data": {
                     "new_role": "MEMBER",
-                    "edition_id": "40000000000004005",
-                    "current_user_id": "40000000000003004",
-                    "team_id": "40000000000031032",
-                    "zuid": "40000000000007008"
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "team_id": "1505000000051031",
+                    "zuid": "98722154"
                   },
                   "message": "Team member updated successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000031032/members",
+                  "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000051031/members",
                   "status": "success"
                 }},
                 "Success \u2013 Admin Role Assigned": {"value": {
                   "data": {
                     "new_role": "TEAM_ADMIN",
-                    "edition_id": "40000000000000001",
-                    "current_user_id": "40000000000003004",
-                    "team_id": "40000000000034035",
-                    "zuid": "40000000000035036"
+                    "edition_id": "75918186",
+                    "current_user_id": "96384499",
+                    "team_id": "693000000436009",
+                    "zuid": "81479212"
                   },
                   "message": "Team member updated successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000034035/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/693000000436009/members",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
@@ -819,49 +926,99 @@
               "examples": {
                 "Non-Team Member Attempted Role Update": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000000001",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "75918186",
+                    "current_user_id": "96384499",
                     "error_code": "T1006",
-                    "team_id": "40000000000034035",
+                    "team_id": "693000000436009",
                     "message": "User is not a member of the team"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000034035/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/693000000436009/members",
                   "status": "error"
                 }},
                 "Unauthorized": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000000001",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "75918186",
+                    "current_user_id": "96384499",
                     "error_code": "A1002",
-                    "team_id": "40000000000034035",
+                    "team_id": "693000000436009",
                     "message": "Only admin can do this action"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000034035/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/teams/693000000436009/members",
                   "status": "error"
                 }}
               }
             }}
           },
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "403": {
+            "description": "Forbidden - the caller is authenticated but not allowed to perform this operation",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Cannot Update Own Role": {"value": {
+                  "error": {"details": {
+                    "edition_id": "112255940",
+                    "current_user_id": "82512958",
+                    "error_code": "M1003",
+                    "team_id": "5777000000002017",
+                    "message": "Inactive user role cannot be updated",
+                    "zuid": "64167940"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/members/64167940",
+                  "status": "error"
+                }},
+                "Super Admin Role Cannot Be Updated": {"value": {
+                  "error": {"details": {
+                    "edition_id": "97375109",
+                    "current_user_id": "85572741",
+                    "error_code": "A1006",
+                    "team_id": "1505000000002005",
+                    "message": "Super admin can't be updated",
+                    "zuid": "96384499"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000002005/members",
+                  "status": "error"
+                }}
+              }
+            }}
+          },
           "404": {
             "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Member Not Part of the Team": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "T1012",
-                  "team_id": "40000000000031032",
+                  "team_id": "1505000000051031",
                   "message": "Member not part of team",
-                  "zuid": "40000000000036037"
+                  "zuid": "80215739"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000031032/members",
+                "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000051031/members",
                 "status": "error"
               }}}
             }}
           },
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Member Already Has the Specified Role": {"value": {
+                "error": {"details": {
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
+                  "error_code": "M1001",
+                  "team_id": "693000000436009",
+                  "message": "The member already has the specified role",
+                  "zuid": "81479212"
+                }},
+                "request_uri": "/vani/api/v1/editions/75918186/teams/693000000436009/members",
+                "status": "error"
+              }}}
+            }}
+          }
         },
         "x-vani-operation-type": "UPDATE",
         "parameters": [
@@ -897,24 +1054,24 @@
               "Using Filter Fields": {"value": {
                 "data": {"requests": {"status": "REQUESTED"}},
                 "message": "Team requests fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000308309/teams/40000000000309310/requests/my-requests",
+                "request_uri": "/vani/api/v1/editions/80473965/teams/1664000000002003/requests/my-requests",
                 "status": "success"
               }},
               "Success": {"value": {
                 "data": {"requests": {
                   "requested_time": "Wed, 06 Aug 2025, 12:35:45",
                   "requested_by": "80473960",
-                  "request_id": "40000000000306307",
+                  "request_id": "730000009272023",
                   "status": "REQUESTED"
                 }},
                 "message": "Team requests fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests/my-requests",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/my-requests",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {
@@ -923,18 +1080,35 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"No Pending Request Found": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000099100",
+                "edition_id": "96499735",
+                "current_user_id": "80473960",
                 "error_code": "R1007",
-                "team_id": "40000000000027028",
+                "team_id": "3009000000002003",
                 "message": "Team join request not found"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests/my-requests",
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/my-requests",
               "status": "error"
             }}}
           }}
         },
-        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+        "409": {
+          "description": "Conflict - the requested change conflicts with the current resource state",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Member Already Part of the Team": {"value": {
+              "error": {"details": {
+                "edition_id": "96499735",
+                "current_user_id": "80473960",
+                "error_code": "T1013",
+                "team_id": "3009000000002003",
+                "message": "Member already part of team"
+              }},
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/my-requests",
+              "status": "error"
+            }}}
+          }}
+        }
       },
       "x-vani-operation-type": "READ",
       "parameters": [
@@ -970,46 +1144,46 @@
                 "Using Filter Fields": {"value": {
                   "data": {"team": {
                     "team_member_count": "5",
-                    "team_id": "40000000000012013",
-                    "created_by_name": "Lena Fischer",
-                    "team_name": "Kestrel Co"
+                    "team_id": "1303000000002003",
+                    "created_by_name": "Dan",
+                    "team_name": "GraphZen"
                   }},
                   "message": "Teams fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013",
+                  "request_uri": "/vani/api/v1/editions/60029715808/teams/1303000000002003",
                   "status": "success"
                 }},
                 "Success": {"value": {
                   "data": {"team": {
                     "created_time": "Tue, 28 May 2024, 15:34:44",
                     "team_member_count": "5",
-                    "team_id": "40000000000012013",
-                    "created_by_name": "Lena Fischer",
-                    "zsoid": "40000000000005006",
+                    "team_id": "1303000000002003",
+                    "created_by_name": "Dan",
+                    "zsoid": "60029715808",
                     "created_by": "60029267674",
-                    "uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013/members",
-                    "team_name": "Kestrel Co"
+                    "uri": "/vani/api/v1/editions/60029715808/teams/1303000000002003/members",
+                    "team_name": "GraphZen"
                   }},
                   "message": "Teams fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013",
+                  "request_uri": "/vani/api/v1/editions/60029715808/teams/1303000000002003",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "T1006",
-                  "team_id": "40000000000018019",
+                  "team_id": "693000000008463",
                   "message": "User is not a member of the team"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000018019",
+                "request_uri": "/vani/api/v1/editions/75918186/teams/693000000008463",
                 "status": "error"
               }}}
             }}
@@ -1021,13 +1195,13 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Team Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "T1008",
-                  "team_id": "40000000000016017",
+                  "team_id": "300900000000200",
                   "message": "Team not found"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000016017",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/300900000000200",
                 "status": "error"
               }}}
             }}
@@ -1070,42 +1244,42 @@
               "examples": {
                 "Description Update": {"value": {
                   "data": {
-                    "edition_id": "40000000000004005",
-                    "current_user_id": "40000000000003004",
-                    "team_id": "40000000000020021",
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "team_id": "1505000000002005",
                     "new_description": "Visualize Graph Instantly"
                   },
                   "message": "Team updated successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000020021",
+                  "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000002005",
                   "status": "success"
                 }},
                 "Name Update": {"value": {
                   "data": {
-                    "edition_id": "40000000000004005",
-                    "current_user_id": "40000000000003004",
-                    "team_id": "40000000000020021",
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "team_id": "1505000000002005",
                     "new_name": "GraphSnap"
                   },
                   "message": "Team updated successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000020021",
+                  "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000002005",
                   "status": "success"
                 }},
                 "Success": {"value": {
                   "data": {
-                    "edition_id": "40000000000004005",
-                    "current_user_id": "40000000000003004",
-                    "team_id": "40000000000020021",
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "team_id": "1505000000002005",
                     "new_name": "GraphSnap",
                     "new_description": "Visualize Graph Instantly"
                   },
                   "message": "Team updated successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000020021",
+                  "request_uri": "/vani/api/v1/editions/97375109/teams/1505000000002005",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {
@@ -1114,13 +1288,13 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Team Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "T1008",
-                  "team_id": "40000000000022023",
+                  "team_id": "442100000000200",
                   "message": "Team not found"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/teams/40000000000022023",
+                "request_uri": "/vani/api/v1/editions/97375109/teams/442100000000200",
                 "status": "error"
               }}}
             }}
@@ -1156,20 +1330,55 @@
       },
       "operationId": "acceptTeamRequest",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Success - TEAM MEMBER": {"value": {
+                "data": {
+                  "role_name": "MEMBER",
+                  "edition_id": "112255940",
+                  "updated_at": "Fri, 21 Aug 2026, 20:04:43",
+                  "team_id": "5777000000002017",
+                  "request_id": "730000017057001",
+                  "zuid": "97049596",
+                  "status": "ACCEPTED"
+                },
+                "message": "Team join request accepted successfully",
+                "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/requests/730000017057001/accept",
+                "status": "success"
+              }},
+              "Success - TEAM ADMIN": {"value": {
+                "data": {
+                  "role_name": "TEAM_ADMIN",
+                  "edition_id": "96499735",
+                  "updated_at": "Wed, 06 Aug 2025, 00:54:48",
+                  "team_id": "3009000000002003",
+                  "request_id": "730000009261046",
+                  "zuid": "80473960",
+                  "status": "ACCEPTED"
+                },
+                "message": "Team join request accepted successfully",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/730000009261046/accept",
+                "status": "success"
+              }}
+            }
+          }}
+        },
         "400": {
           "description": "Invalid request - validation failed",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Invalid Request ID": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "R1003",
-                "team_id": "40000000000027028",
+                "team_id": "3009000000002003",
                 "message": "Invalid request ID"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests/40000000000315316/accept",
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/730000009261019/accept",
               "status": "error"
             }}}
           }}
@@ -1180,20 +1389,50 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "A1003",
-                "team_id": "40000000000027028",
+                "team_id": "3009000000002003",
                 "message": "The user doesn't have permission to perform this action"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests/40000000000315316/accept",
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/730000009261019/accept",
               "status": "error"
             }}}
           }}
         },
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
-        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+        "409": {
+          "description": "Conflict - the requested change conflicts with the current resource state",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "License limit reached": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "L1001",
+                  "team_id": "3009000000002003",
+                  "message": "License limit reached"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/730000009261019/accept",
+                "status": "error"
+              }},
+              "Member Already Part of the Team": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "T1013",
+                  "team_id": "3009000000002003",
+                  "message": "Member already part of team"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/730000009261019/accept",
+                "status": "error"
+              }}
+            }
+          }}
+        }
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
@@ -1220,20 +1459,38 @@
       ],
       "operationId": "rejectTeamRequest",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {"Success": {"value": {
+              "data": {
+                "edition_id": "112255940",
+                "updated_at": "Fri, 21 Aug 2026, 19:49:36",
+                "team_id": "5777000000002017",
+                "request_id": "730000017057001",
+                "zuid": "97049596",
+                "status": "REJECTED"
+              },
+              "message": "Team join request rejected successfully",
+              "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/requests/730000017057001/reject",
+              "status": "success"
+            }}}
+          }}
+        },
         "400": {
           "description": "Invalid request - validation failed",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Invalid Request ID": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "R1003",
-                "team_id": "40000000000027028",
+                "team_id": "3009000000002003",
                 "message": "Invalid request ID"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests/40000000000317318/reject",
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/73000000926104/reject",
               "status": "error"
             }}}
           }}
@@ -1244,20 +1501,37 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "A1003",
-                "team_id": "40000000000027028",
+                "team_id": "3009000000002003",
                 "message": "The user doesn't have permission to perform this action"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests/40000000000315316/reject",
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/730000009261019/reject",
               "status": "error"
             }}}
           }}
         },
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
-        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+        "409": {
+          "description": "Conflict - the requested change conflicts with the current resource state",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Already Rejected": {"value": {
+              "error": {"details": {
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
+                "error_code": "R1012",
+                "team_id": "3009000000002003",
+                "message": "Team join request is already rejected"
+              }},
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests/730000009261046/reject",
+              "status": "error"
+            }}}
+          }}
+        }
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
@@ -1284,11 +1558,59 @@
       ],
       "operationId": "getMyPermissionInTeam",
       "responses": {
-        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
-        "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {"Success": {"value": {
+              "data": {"user_permission_info": {
+                "edition_id": "96499735",
+                "role": "TEAM_ADMIN",
+                "current_user_id": "96384499",
+                "team_id": "3009000000002003"
+              }},
+              "message": "User permissions fetched successfully",
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/users/me/permission",
+              "status": "success"
+            }}}
+          }}
+        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"User Is Not a Team Member": {"value": {
+              "error": {"details": {
+                "edition_id": "75918186",
+                "current_user_id": "96384499",
+                "error_code": "T1006",
+                "team_id": "693000000002001",
+                "message": "User is not a member of the team"
+              }},
+              "request_uri": "/vani/api/v1/editions/75918186/teams/693000000002001/users/me/permission",
+              "status": "error"
+            }}}
+          }}
+        },
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
-        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Team Not Found": {"value": {
+              "error": {"details": {
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
+                "error_code": "T1008",
+                "team_id": "300900000002003",
+                "message": "Team not found"
+              }},
+              "request_uri": "/vani/api/v1/editions/96499735/teams/300900000002003/users/me/permission",
+              "status": "error"
+            }}}
+          }}
+        },
         "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
@@ -1316,12 +1638,60 @@
         ],
         "operationId": "createTeamRequest",
         "responses": {
-          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Success": {"value": {
+                "data": {
+                  "edition_id": "96499735",
+                  "updated_at": "Wed, 06 Aug 2025, 10:07:21",
+                  "team_id": "3009000000002003",
+                  "request_id": "730000009272001",
+                  "zuid": "80473960",
+                  "status": "PENDING"
+                },
+                "message": "Team join request created successfully",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests",
+                "status": "success"
+              }}}
+            }}
+          },
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Member Already Part of the Team": {"value": {
+                  "error": {"details": {
+                    "edition_id": "96499735",
+                    "current_user_id": "80473960",
+                    "error_code": "T1013",
+                    "team_id": "3009000000002003",
+                    "message": "Member already part of team"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests",
+                  "status": "error"
+                }},
+                "Request Already Exists": {"value": {
+                  "error": {"details": {
+                    "edition_id": "96499735",
+                    "current_user_id": "80473960",
+                    "error_code": "R1013",
+                    "team_id": "3009000000002003",
+                    "message": "Team join request already exists for the user"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests",
+                  "status": "error"
+                }}
+              }
+            }}
+          }
         },
         "x-vani-operation-type": "CREATE",
         "parameters": [
@@ -1354,48 +1724,48 @@
               "examples": {
                 "Using Filter Fields": {"value": {
                   "data": {"requests": [{
-                    "name": "Tom Baker",
+                    "name": "Emma Carter",
                     "status": "REQUESTED"
                   }]},
                   "message": "Team requests fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests",
+                  "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests",
                   "status": "success"
                 }},
                 "No Pending Join Requests": {"value": {
                   "data": {"requests": []},
                   "message": "Team requests fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests",
+                  "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests",
                   "status": "success"
                 }},
                 "Success": {"value": {
                   "data": {"requests": [{
                     "requested_time": "Wed, 06 Aug 2025, 12:35:45",
                     "requested_by": "80473960",
-                    "name": "Tom Baker",
-                    "request_id": "40000000000306307",
+                    "name": "Emma Carter",
+                    "request_id": "730000009272023",
                     "status": "REQUESTED"
                   }]},
                   "message": "Team requests fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests",
+                  "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "A1002",
-                  "team_id": "40000000000027028",
+                  "team_id": "3009000000002003",
                   "message": "Only admin can do this action"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/requests",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/requests",
                 "status": "error"
               }}}
             }}
@@ -1436,83 +1806,54 @@
           "description": "Successful response",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
-            "examples": {
-              "Succcess": {"value": {
-                "data": {"user_permission_info": {
-                  "edition_id": "40000000000002003",
-                  "role": "TEAM_ADMIN",
-                  "current_user_id": "40000000000003004",
-                  "team_id": "40000000000027028",
-                  "zuid": "40000000000036037"
-                }},
-                "message": "User permissions fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/users/40000000000036037/permission",
-                "status": "success"
+            "examples": {"Succcess": {"value": {
+              "data": {"user_permission_info": {
+                "edition_id": "96499735",
+                "role": "TEAM_ADMIN",
+                "current_user_id": "96384499",
+                "team_id": "3009000000002003",
+                "zuid": "80215739"
               }},
-              "Success": {"value": {
-                "data": {"user_permission_info": {
-                  "edition_id": "40000000000002003",
-                  "role": "TEAM_ADMIN",
-                  "current_user_id": "40000000000003004",
-                  "team_id": "40000000000027028"
-                }},
-                "message": "User permissions fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/users/me/permission",
-                "status": "success"
-              }}
-            }
-          }}
-        },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
-        "401": {
-          "description": "Unauthorized - missing or invalid access token",
-          "content": {"application/json": {
-            "schema": {"$ref": "#/components/schemas/VaniError"},
-            "examples": {"Unauthorized": {"value": {
-              "error": {"details": {
-                "edition_id": "40000000000000001",
-                "current_user_id": "40000000000003004",
-                "error_code": "A1002",
-                "team_id": "40000000000034035",
-                "message": "Only admin can do this action"
-              }},
-              "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000034035/users/40000000000123124/permission",
-              "status": "error"
+              "message": "User permissions fetched successfully",
+              "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/users/80215739/permission",
+              "status": "success"
             }}}
           }}
         },
-        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
-        "404": {
-          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
+        "401": {
+          "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {
               "User Is Not a Team Member": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "T1006",
-                  "team_id": "40000000000027028",
+                  "team_id": "3009000000002003",
                   "message": "User is not a member of the team",
-                  "zuid": "40000000000123124"
+                  "zuid": "80585905"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/users/40000000000123124/permission",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/users/80585905/permission",
                 "status": "error"
               }},
-              "Team Not Found": {"value": {
+              "Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "error_code": "T1008",
-                  "team_id": "40000000000210211",
-                  "message": "Team not found"
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
+                  "error_code": "A1002",
+                  "team_id": "693000000436009",
+                  "message": "Only admin can do this action"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000210211/users/me/permission",
+                "request_uri": "/vani/api/v1/editions/75918186/teams/693000000436009/users/80585905/permission",
                 "status": "error"
               }}
             }
           }}
         },
+        "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
         "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
@@ -1546,33 +1887,47 @@
             "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
             "examples": {"Success": {"value": {
               "data": {"user_permission_info": {
-                "edition_id": "40000000000000001",
+                "edition_id": "75918186",
                 "teams": [
                   {
                     "role": "TEAM_ADMIN",
-                    "team_id": 40000000000164165
+                    "team_id": 693000000435005
                   },
                   {
                     "role": "MEMBER",
-                    "team_id": 40000000000034035
+                    "team_id": 693000000436009
                   },
                   {
                     "role": "MEMBER",
-                    "team_id": 40000000000025026
+                    "team_id": 693000000450001
                   }
                 ],
-                "current_user_id": "40000000000003004"
+                "current_user_id": "96384499"
               }},
               "message": "User permissions fetched successfully",
-              "request_uri": "/vani/api/v1/editions/40000000000000001/teams/users/me/permission",
+              "request_uri": "/vani/api/v1/editions/75918186/teams/users/me/permission",
               "status": "success"
             }}}
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
-        "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+        "404": {
+          "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Invalid Edition": {"value": {
+              "error": {"details": {
+                "current_user_id": "96384499",
+                "error_code": "E1017",
+                "message": "Invalid edition"
+              }},
+              "request_uri": "/vani/api/v1/editions/02345/teams/users/me/permission",
+              "status": "error"
+            }}}
+          }}
+        },
         "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
       },
       "x-vani-operation-type": "READ",
@@ -1606,50 +1961,50 @@
                   {
                     "created_time": "Wed, 12 Jun 2024, 11:22:30",
                     "team_member_count": "8",
-                    "team_id": "40000000000013014",
-                    "created_by_name": "Diego Alvarez",
-                    "zsoid": "40000000000005006",
+                    "team_id": "1303000000003021",
+                    "created_by_name": "Alice",
+                    "zsoid": "60029715808",
                     "created_by": "60029269987",
-                    "uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000013014",
-                    "team_name": "Northwind"
+                    "uri": "/vani/api/v1/editions/60029715808/teams/1303000000003021",
+                    "team_name": "CloudSpark"
                   },
                   {
                     "created_time": "Tue, 28 May 2024, 15:34:44",
                     "team_member_count": "5",
-                    "team_id": "40000000000012013",
+                    "team_id": "1303000000002003",
                     "is_default": "true",
-                    "created_by_name": "Lena Fischer",
-                    "zsoid": "40000000000005006",
+                    "created_by_name": "Dan",
+                    "zsoid": "60029715808",
                     "created_by": "60029267674",
-                    "uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013",
-                    "team_name": "Kestrel Co"
+                    "uri": "/vani/api/v1/editions/60029715808/teams/1303000000002003",
+                    "team_name": "GraphZen"
                   }
                 ]},
                 "message": "Teams fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000005006/teams",
+                "request_uri": "/vani/api/v1/editions/60029715808/teams",
                 "status": "success"
               }},
               "Using Filter Fields": {"value": {
                 "data": {"teams": [
                   {
                     "team_member_count": "5",
-                    "team_id": "40000000000012013",
-                    "team_name": "Kestrel Co"
+                    "team_id": "1303000000002003",
+                    "team_name": "GraphZen"
                   },
                   {
                     "team_member_count": "8",
-                    "team_id": "40000000000013014",
-                    "team_name": "Northwind"
+                    "team_id": "1303000000003021",
+                    "team_name": "CloudSpark"
                   }
                 ]},
                 "message": "Teams fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000005006/teams",
+                "request_uri": "/vani/api/v1/editions/60029715808/teams",
                 "status": "success"
               }},
               "Success : User in Organization, Not in Any Team": {"value": {
                 "data": {"teams": []},
                 "message": "User is not a member of any team",
-                "request_uri": "/vani/api/v1/editions/40000000000014015/teams",
+                "request_uri": "/vani/api/v1/editions/98587682/teams",
                 "status": "success"
               }},
               "Pagination with Sorting by Created Time (Descending)": {"value": {
@@ -1657,27 +2012,27 @@
                   {
                     "created_time": "Wed, 12 Jun 2024, 11:22:30",
                     "team_member_count": "8",
-                    "team_id": "40000000000013014",
-                    "created_by_name": "Diego Alvarez",
-                    "zsoid": "40000000000005006",
+                    "team_id": "1303000000003021",
+                    "created_by_name": "Alice",
+                    "zsoid": "60029715808",
                     "created_by": "60029269987",
-                    "uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000013014",
-                    "team_name": "Northwind"
+                    "uri": "/vani/api/v1/editions/60029715808/teams/1303000000003021",
+                    "team_name": "CloudSpark"
                   },
                   {
                     "created_time": "Tue, 28 May 2024, 15:34:44",
                     "team_member_count": "5",
-                    "team_id": "40000000000012013",
+                    "team_id": "1303000000002003",
                     "is_default": "true",
-                    "created_by_name": "Lena Fischer",
-                    "zsoid": "40000000000005006",
+                    "created_by_name": "Dan",
+                    "zsoid": "60029715808",
                     "created_by": "60029267674",
-                    "uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013",
-                    "team_name": "Kestrel Co"
+                    "uri": "/vani/api/v1/editions/60029715808/teams/1303000000002003",
+                    "team_name": "GraphZen"
                   }
                 ]},
                 "message": "Teams fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000005006/teams",
+                "request_uri": "/vani/api/v1/editions/60029715808/teams",
                 "status": "success"
               }},
               "Success": {"value": {
@@ -1685,33 +2040,33 @@
                   {
                     "created_time": "Tue, 28 May 2024, 15:34:44",
                     "team_member_count": "5",
-                    "team_id": "40000000000012013",
+                    "team_id": "1303000000002003",
                     "is_default": "true",
-                    "created_by_name": "Lena Fischer",
-                    "zsoid": "40000000000005006",
+                    "created_by_name": "Dan",
+                    "zsoid": "60029715808",
                     "created_by": "60029267674",
-                    "uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013",
-                    "team_name": "Kestrel Co"
+                    "uri": "/vani/api/v1/editions/60029715808/teams/1303000000002003",
+                    "team_name": "GraphZen"
                   },
                   {
                     "created_time": "Wed, 12 Jun 2024, 11:22:30",
                     "team_member_count": "8",
-                    "team_id": "40000000000013014",
-                    "created_by_name": "Diego Alvarez",
-                    "zsoid": "40000000000005006",
+                    "team_id": "1303000000003021",
+                    "created_by_name": "Alice",
+                    "zsoid": "60029715808",
                     "created_by": "60029269987",
-                    "uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000013014",
-                    "team_name": "Northwind"
+                    "uri": "/vani/api/v1/editions/60029715808/teams/1303000000003021",
+                    "team_name": "CloudSpark"
                   }
                 ]},
                 "message": "Teams fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000005006/teams",
+                "request_uri": "/vani/api/v1/editions/60029715808/teams",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},

@@ -6,7 +6,7 @@
       "operations": 171,
       "role": "bundled",
       "paths": 131,
-      "schemas": 719,
+      "schemas": 722,
       "description": "REST API for Vani, Zoho's collaborative whiteboard. Manage editions, teams, spaces and zones; create and edit the objects on a zone canvas; and build whole structures \u2014 mindmaps, flowcharts, kanban boards and tables \u2014 in a single call.\n\nThis document contains every Vani API operation. The per-resource documents beside it (editions, teams, spaces, zones, elements, and the rest) are subsets of this one. Generate a client from this file OR from the per-resource files, not both: they describe the same operations, so generating from both produces duplicate types.",
       "title": "Vani API",
       "tags": [
@@ -166,7 +166,7 @@
       "role": "resource",
       "surface": "sdk",
       "paths": 26,
-      "schemas": 61,
+      "schemas": 62,
       "description": "Deterministic placement, alignment, tidy layout, spatial queries, and connector routing.",
       "title": "Layout & Placement",
       "tags": [
@@ -221,7 +221,7 @@
       "role": "resource",
       "surface": "sdk",
       "paths": 4,
-      "schemas": 513,
+      "schemas": 515,
       "description": "Low-level batch read and mutation escape hatch over zones, frames, and objects.",
       "title": "Data",
       "tags": ["Data"]

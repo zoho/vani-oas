@@ -472,7 +472,7 @@
       }
     },
     "responses": {
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -593,7 +593,7 @@
       },
       "operationId": "editText",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -603,7 +603,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -639,7 +639,7 @@
       },
       "operationId": "applyTextStyle",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -649,7 +649,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},

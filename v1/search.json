@@ -44,7 +44,7 @@
       }
     },
     "responses": {
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -256,7 +256,7 @@
               "Success - No match found": {"value": {
                 "data": {"search_result": []},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/comments/search",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/comments/search",
                 "status": "success"
               }},
               "Success": {"value": {
@@ -264,17 +264,17 @@
                   "zone_id": "db069372-0246-42e8-a049-bdcbd84b292c",
                   "space_name": "test duplicate project",
                   "comment_id": "551335F3-BD3E-415A-95DC-74F241507E75",
-                  "space_id": "40000000000216217",
-                  "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000216217/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
+                  "space_id": "3009000000303003",
+                  "uri": "/vani/api/v1/editions/96499735/spaces/3009000000303003/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
                 }]},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/comments/search",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/comments/search",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -315,7 +315,7 @@
               "Success - No match found": {"value": {
                 "data": {"search_result": []},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000212213/zones/search",
+                "request_uri": "/vani/api/v1/editions/75918186/teams/693000000002001/zones/search",
                 "status": "success"
               }},
               "Success": {"value": {
@@ -324,81 +324,81 @@
                     "zone_id": "865efd0a-9b1b-418c-a894-82b63417063f",
                     "space_name": "New Space",
                     "zone_name": "duplicate zone with template1",
-                    "space_id": "40000000000158159",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000158159/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=865efd0a-9b1b-418c-a894-82b63417063f"
+                    "space_id": "693000000603451",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000603451/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=865efd0a-9b1b-418c-a894-82b63417063f"
                   },
                   {
                     "zone_id": "ea2f15ae-4e53-49f1-ad1e-e30eae16f31b",
                     "space_name": "New Space",
                     "zone_name": "Zone 1",
-                    "space_id": "40000000000269270",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000269270/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=ea2f15ae-4e53-49f1-ad1e-e30eae16f31b"
+                    "space_id": "693000000603389",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000603389/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=ea2f15ae-4e53-49f1-ad1e-e30eae16f31b"
                   },
                   {
                     "zone_id": "09a45216-f714-4d96-aa78-e857738060c6",
                     "space_name": "New Space",
                     "zone_name": "Zone 1",
-                    "space_id": "40000000000270271",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000270271/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=09a45216-f714-4d96-aa78-e857738060c6"
+                    "space_id": "693000000603293",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000603293/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=09a45216-f714-4d96-aa78-e857738060c6"
                   },
                   {
                     "zone_id": "6a392f16-55ab-417d-8170-d8f1b6e17148",
                     "space_name": "New Space test",
                     "zone_name": "Zone 1",
-                    "space_id": "40000000000271272",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000271272/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6a392f16-55ab-417d-8170-d8f1b6e17148"
+                    "space_id": "693000000603341",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000603341/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6a392f16-55ab-417d-8170-d8f1b6e17148"
                   },
                   {
                     "zone_id": "2da6aa5e-8a20-4d6a-955a-e97fc4b2bd9f",
                     "space_name": "New Space test",
                     "zone_name": "Zone 1",
-                    "space_id": "40000000000160161",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000160161/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=2da6aa5e-8a20-4d6a-955a-e97fc4b2bd9f"
+                    "space_id": "693000000599045",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000599045/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=2da6aa5e-8a20-4d6a-955a-e97fc4b2bd9f"
                   },
                   {
                     "zone_id": "ea5e020b-4e3b-4e5d-8229-b38c5f8a3084",
                     "space_name": "duplicate zone b",
                     "zone_name": "duplicate zone",
-                    "space_id": "40000000000149150",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000149150/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=ea5e020b-4e3b-4e5d-8229-b38c5f8a3084"
+                    "space_id": "693000000562297",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000562297/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=ea5e020b-4e3b-4e5d-8229-b38c5f8a3084"
                   },
                   {
                     "zone_id": "9a853213-9f1a-488d-bbcf-9efcb3e2d419",
                     "space_name": "duplicate zone b",
                     "zone_name": "duplicate zone",
-                    "space_id": "40000000000149150",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000149150/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9a853213-9f1a-488d-bbcf-9efcb3e2d419"
+                    "space_id": "693000000562297",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000562297/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9a853213-9f1a-488d-bbcf-9efcb3e2d419"
                   },
                   {
                     "zone_id": "64d56703-7071-4670-8153-33819171239f",
                     "space_name": "duplicate zone b",
                     "zone_name": "Copy of duplicate zone with template1",
-                    "space_id": "40000000000149150",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000149150/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=64d56703-7071-4670-8153-33819171239f"
+                    "space_id": "693000000562297",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000562297/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=64d56703-7071-4670-8153-33819171239f"
                   },
                   {
                     "zone_id": "cfcdde4d-13dc-4148-b5e4-a8adb64195a9",
                     "space_name": "New Space",
                     "zone_name": "duplicate zone with template1",
-                    "space_id": "40000000000272273",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000272273/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=cfcdde4d-13dc-4148-b5e4-a8adb64195a9"
+                    "space_id": "693000000573098",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000573098/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=cfcdde4d-13dc-4148-b5e4-a8adb64195a9"
                   },
                   {
                     "zone_id": "6b6f718a-300d-4f8e-b9e8-ff53426d8874",
                     "space_name": "MOVE",
                     "zone_name": "Copy(2) of duplicate zone with template1",
-                    "space_id": "40000000000172173",
-                    "uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000172173/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6b6f718a-300d-4f8e-b9e8-ff53426d8874"
+                    "space_id": "693000000569219",
+                    "uri": "/vani/api/v1/editions/75918186/spaces/693000000569219/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6b6f718a-300d-4f8e-b9e8-ff53426d8874"
                   }
                 ]},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000164165/zones/search",
+                "request_uri": "/vani/api/v1/editions/75918186/teams/693000000435005/zones/search",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -439,7 +439,7 @@
               "Success - No match found": {"value": {
                 "data": {"search_result": []},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/frames/search",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/frames/search",
                 "status": "success"
               }},
               "Success": {"value": {
@@ -449,8 +449,8 @@
                     "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "Who can use Vani?",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "frame_id": "8F6541AF-A759-4FBF-9912-A3A73DEAEA33"
                   },
                   {
@@ -458,8 +458,8 @@
                     "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "Who can use Vani?",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "frame_id": "05752704-A388-4EDC-B089-4E0372EC4552"
                   },
                   {
@@ -467,8 +467,8 @@
                     "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "Who can use Vani?",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "frame_id": "08C5C1E6-3F2B-410F-8C2B-F5E8DA2E26AA"
                   },
                   {
@@ -476,8 +476,8 @@
                     "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "Who can use Vani?",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "frame_id": "F361DC68-C12D-4FF0-95AF-A8CF0519C7DD"
                   },
                   {
@@ -485,8 +485,8 @@
                     "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "Who can use Vani?",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "frame_id": "2DE1E10D-EF27-4874-A9E7-15FD434AFC01"
                   },
                   {
@@ -494,8 +494,8 @@
                     "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "Who can use Vani?",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                     "frame_id": "EF5A9085-BA1C-4915-BF06-4BBCB37E2386"
                   },
                   {
@@ -503,8 +503,8 @@
                     "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "FAQs",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
                     "frame_id": "13188A26-7AC3-49D1-A763-69A4AF710071"
                   },
                   {
@@ -512,8 +512,8 @@
                     "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "FAQs",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
                     "frame_id": "659A0F55-6B2B-4259-BE4A-DD49A71BB75E"
                   },
                   {
@@ -521,8 +521,8 @@
                     "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "FAQs",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
                     "frame_id": "F08026FB-2CAC-457F-BB63-C916EAB745B8"
                   },
                   {
@@ -530,19 +530,19 @@
                     "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
                     "space_name": "Vani - Getting Started",
                     "zone_name": "FAQs",
-                    "space_id": "40000000000050051",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                    "space_id": "3009000000002013",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
                     "frame_id": "C5270404-5149-461B-9F7C-7FD6259900EE"
                   }
                 ]},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/frames/search",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/frames/search",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -583,7 +583,7 @@
               "Success - No match found": {"value": {
                 "data": {"search_result": {}},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/search",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/search",
                 "status": "success"
               }},
               "Success - Filter by types": {"value": {
@@ -592,28 +592,28 @@
                     "zone_id": "db069372-0246-42e8-a049-bdcbd84b292c",
                     "space_name": "test duplicate project",
                     "comment_id": "551335F3-BD3E-415A-95DC-74F241507E75",
-                    "space_id": "40000000000216217",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000216217/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
+                    "space_id": "3009000000303003",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000303003/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
                   }],
                   "zones": [
                     {
                       "zone_id": "9aeb2e5c-c91e-497b-83f1-e20865b5543f",
                       "space_name": "Vani - Getting Started",
                       "zone_name": "Things to know",
-                      "space_id": "40000000000050051",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9aeb2e5c-c91e-497b-83f1-e20865b5543f"
+                      "space_id": "3009000000002013",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9aeb2e5c-c91e-497b-83f1-e20865b5543f"
                     },
                     {
                       "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                       "space_name": "Vani - Getting Started",
                       "zone_name": "Who can use Vani?",
-                      "space_id": "40000000000050051",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4"
+                      "space_id": "3009000000002013",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4"
                     }
                   ]
                 }},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/search",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/search",
                 "status": "success"
               }},
               "Success": {"value": {
@@ -622,8 +622,8 @@
                     "zone_id": "db069372-0246-42e8-a049-bdcbd84b292c",
                     "space_name": "test duplicate project",
                     "comment_id": "577B2B70-B190-4574-A0C0-D5DF8ACD9F0D",
-                    "space_id": "40000000000216217",
-                    "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000216217/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
+                    "space_id": "3009000000303003",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000303003/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=db069372-0246-42e8-a049-bdcbd84b292c"
                   }],
                   "frames": [
                     {
@@ -631,8 +631,8 @@
                       "zone_id": "6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                       "space_name": "Vani - Getting Started",
                       "zone_name": "Who can use Vani?",
-                      "space_id": "40000000000050051",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
+                      "space_id": "3009000000002013",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6ac7327e-19ea-441c-aeb8-7ed2689d9aa4",
                       "frame_id": "08C5C1E6-3F2B-410F-8C2B-F5E8DA2E26AA"
                     },
                     {
@@ -640,8 +640,8 @@
                       "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
                       "space_name": "Vani - Getting Started",
                       "zone_name": "FAQs",
-                      "space_id": "40000000000050051",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "space_id": "3009000000002013",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
                       "frame_id": "13188A26-7AC3-49D1-A763-69A4AF710071"
                     },
                     {
@@ -649,8 +649,8 @@
                       "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
                       "space_name": "Vani - Getting Started",
                       "zone_name": "FAQs",
-                      "space_id": "40000000000050051",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "space_id": "3009000000002013",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
                       "frame_id": "A6D8C018-5CDD-4F58-ADAC-7C4D98D67E54"
                     },
                     {
@@ -658,8 +658,8 @@
                       "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
                       "space_name": "Vani - Getting Started",
                       "zone_name": "FAQs",
-                      "space_id": "40000000000050051",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "space_id": "3009000000002013",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
                       "frame_id": "9D189640-16D9-4C33-A6C5-407098D9B08E"
                     },
                     {
@@ -667,8 +667,8 @@
                       "zone_id": "f3dd023d-6a37-4237-9740-183c8041c2f2",
                       "space_name": "Vani - Getting Started",
                       "zone_name": "FAQs",
-                      "space_id": "40000000000050051",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
+                      "space_id": "3009000000002013",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=f3dd023d-6a37-4237-9740-183c8041c2f2",
                       "frame_id": "02A3F8FC-2F14-4EB3-BD21-2910A58920B2"
                     },
                     {
@@ -676,8 +676,8 @@
                       "zone_id": "9aeb2e5c-c91e-497b-83f1-e20865b5543f",
                       "space_name": "Vani - Getting Started",
                       "zone_name": "Things to know",
-                      "space_id": "40000000000050051",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000050051/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9aeb2e5c-c91e-497b-83f1-e20865b5543f",
+                      "space_id": "3009000000002013",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000002013/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=9aeb2e5c-c91e-497b-83f1-e20865b5543f",
                       "frame_id": "F746EDA0-910D-465A-A494-2BD4ED80A4B5"
                     }
                   ],
@@ -687,47 +687,47 @@
                       "zone_id": "2109e8c5-cbe7-42b7-b8e6-a900983e83cc",
                       "space_name": "New Space",
                       "zone_name": "Swot analysis - Research & Reference",
-                      "space_id": "40000000000064065",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000064065/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=2109e8c5-cbe7-42b7-b8e6-a900983e83cc"
+                      "space_id": "3009000000100307",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000100307/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=2109e8c5-cbe7-42b7-b8e6-a900983e83cc"
                     },
                     {
                       "zone_id": "46985e9f-2d53-47a7-b3c7-2dbbfc639531",
                       "space_name": "New Space",
                       "zone_name": "Zone 1 - final",
-                      "space_id": "40000000000063064",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000063064/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=46985e9f-2d53-47a7-b3c7-2dbbfc639531"
+                      "space_id": "3009000000100187",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000100187/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=46985e9f-2d53-47a7-b3c7-2dbbfc639531"
                     },
                     {
                       "zone_id": "6bd164bb-8308-4446-93a0-8bf432527172",
                       "space_name": "Team culture guide",
                       "zone_name": "Zone 1 - final",
-                      "space_id": "40000000000262263",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000262263/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6bd164bb-8308-4446-93a0-8bf432527172"
+                      "space_id": "3009000000095122",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000095122/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=6bd164bb-8308-4446-93a0-8bf432527172"
                     },
                     {
                       "zone_id": "cf3b11a1-df3d-42ab-b937-aab048579ff5",
                       "space_name": "Service blueprint",
                       "zone_name": "Service blueprint - Plan & Ship",
-                      "space_id": "40000000000263264",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000263264/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=cf3b11a1-df3d-42ab-b937-aab048579ff5"
+                      "space_id": "3009000000093216",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000093216/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=cf3b11a1-df3d-42ab-b937-aab048579ff5"
                     },
                     {
                       "zone_id": "d58ca262-9c23-49ef-b116-96e424c7ca0d",
                       "space_name": "PEST analysis",
                       "zone_name": "Zone 1",
-                      "space_id": "40000000000264265",
-                      "uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000264265/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=d58ca262-9c23-49ef-b116-96e424c7ca0d"
+                      "space_id": "3009000000093625",
+                      "uri": "/vani/api/v1/editions/96499735/spaces/3009000000093625/zones?action_type=GET_SPACE_DATA_WITH_ZONE_DATA&zone_id=d58ca262-9c23-49ef-b116-96e424c7ca0d"
                     }
                   ]
                 }},
                 "message": "Content search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/teams/40000000000027028/search",
+                "request_uri": "/vani/api/v1/editions/96499735/teams/3009000000002003/search",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -788,56 +788,79 @@
             "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
             "examples": {
               "Success - No match found": {"value": {
-                "data": {"search_result": []},
+                "data": {
+                  "next_from": 0,
+                  "search_result": []
+                },
                 "message": "Team member search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000034035/members/search",
+                "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/members/search",
                 "status": "success"
               }},
               "Success - Pagination": {"value": {
-                "data": {"search_result": [{
-                  "role_name": "MEMBER",
-                  "added_time": "Fri, 27 Sep 2024, 15:01:26",
-                  "modified_time": "Fri, 27 Sep 2024, 15:01:26",
-                  "mail_id": "tom.baker@example.com",
-                  "added_by": "60029267674",
-                  "display_name": "Diego Alvarez",
-                  "zuid": "40000000000273274"
-                }]},
+                "data": {
+                  "next_from": 1,
+                  "search_result": [{
+                    "role_name": "MEMBER",
+                    "added_time": "Fri, 21 Aug 2026, 20:22:50",
+                    "modified_time": "Fri, 21 Aug 2026, 20:22:50",
+                    "mail_id": "user4@example.com",
+                    "added_by": "82512958",
+                    "subscriber_state": "ACTIVE",
+                    "display_name": "sakthii Admin",
+                    "zuid": "97049596"
+                  }]
+                },
                 "message": "Team member search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013/members/search",
+                "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/members/search",
                 "status": "success"
               }},
               "Success": {"value": {
-                "data": {"search_result": [{
-                  "role_name": "MEMBER",
-                  "added_time": "Fri, 27 Sep 2024, 15:01:26",
-                  "modified_time": "Fri, 27 Sep 2024, 15:01:26",
-                  "mail_id": "tom.baker@example.com",
-                  "added_by": "60029267674",
-                  "display_name": "Diego Alvarez",
-                  "zuid": "40000000000273274"
-                }]},
+                "data": {
+                  "next_from": 2,
+                  "search_result": [
+                    {
+                      "role_name": "MEMBER",
+                      "modified_time": "Fri, 21 Aug 2026, 20:22:50",
+                      "added_time": "Fri, 21 Aug 2026, 20:22:50",
+                      "mail_id": "user4@example.com",
+                      "added_by": "82512958",
+                      "subscriber_state": "ACTIVE",
+                      "display_name": "sakthii Admin",
+                      "zuid": "97049596"
+                    },
+                    {
+                      "role_name": "TEAM_ADMIN",
+                      "modified_time": "Tue, 30 Sep 2025, 12:10:11",
+                      "added_time": "Tue, 30 Sep 2025, 12:10:11",
+                      "mail_id": "user3@example.com",
+                      "added_by": "81864203",
+                      "subscriber_state": "ACTIVE",
+                      "display_name": "Sakthii5.2",
+                      "zuid": "82512958"
+                    }
+                  ]
+                },
                 "message": "Team member search completed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000005006/teams/40000000000012013/members/search",
+                "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000002017/members/search",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000000001",
-                "current_user_id": "40000000000003004",
+                "edition_id": "75918186",
+                "current_user_id": "96384499",
                 "error_code": "T1006",
-                "team_id": "40000000000212213",
+                "team_id": "693000000002001",
                 "message": "User is not a member of the team"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000212213/members/search",
+              "request_uri": "/vani/api/v1/editions/75918186/teams/693000000002001/members/search",
               "status": "error"
             }}}
           }}
@@ -849,13 +872,12 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Failure - Team Not Found": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000000001",
-                "current_user_id": "40000000000003004",
-                "error_code": "T1008",
-                "team_id": "40000000000275276",
-                "message": "Team not found"
+                "edition_id": "112255940",
+                "current_user_id": "82512958",
+                "error_code": "T1023",
+                "message": "Invalid team"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000000001/teams/40000000000275276/members/search",
+              "request_uri": "/vani/api/v1/editions/112255940/teams/5777000000009999/members/search",
               "status": "error"
             }}}
           }}

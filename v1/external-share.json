@@ -121,16 +121,12 @@
       }
     },
     "responses": {
-      "SuccessfulResponse": {
-        "description": "Successful response",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-      },
-      "InvalidRequestValidationFailed6": {
-        "description": "Invalid request - validation failed",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-      },
       "RateLimitExceededThisOperationAllows10Re": {
         "description": "Rate limit exceeded - this operation allows 10 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "InvalidRequestValidationFailed": {
+        "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
       "RateLimitExceededThisOperationAllows60Re": {
@@ -282,7 +278,7 @@
               "Using Filter Fields": {"value": {
                 "data": {"external_share_edition_enabled": true},
                 "message": "External share status fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000108109/teams/40000000000295296/externalshares/status",
+                "request_uri": "/vani/api/v1/editions/888012145/teams/4855000000002003/externalshares/status",
                 "status": "success"
               }},
               "Fetch Success": {"value": {
@@ -292,13 +288,13 @@
                   "external_share_allowed": true
                 },
                 "message": "External share allowed status fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000287288/teams/40000000000288289/externalshares/status",
+                "request_uri": "/vani/api/v1/editions/82513223/teams/1629000000002003/externalshares/status",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -347,7 +343,32 @@
         },
         "operationId": "createExternalShare",
         "responses": {
-          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Success": {"value": {
+                "data": {
+                  "is_password_enabled": true,
+                  "zone_ids": [{
+                    "zone_id": "9e7a947b-470b-46e7-be64-4a617abadf43",
+                    "permission": "VIEWER"
+                  }],
+                  "password": "1",
+                  "share_type": "PARTIAL_ZONES",
+                  "shared_time": 1752045010623,
+                  "external_share_url": "https://app.vanipublic.com/external/open/92c8c172434d1eb794100b0e52303ddaf6ec81d29608502e2b8bce9a5aab731144024ea162631784c784141d8d79c5e3e433279e6f2a4f0841ecfb01ea995155",
+                  "expiration_time": 1754627011000,
+                  "shared_by": 82512958,
+                  "permission": "VIEWER",
+                  "space_id": "1629000000297013"
+                },
+                "message": "Space externally shared successfully",
+                "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
+                "status": "success"
+              }}}
+            }}
+          },
           "400": {
             "description": "Invalid request - validation failed",
             "content": {"application/json": {
@@ -355,22 +376,22 @@
               "examples": {
                 "Invalid Zone ID": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000287288",
-                    "current_user_id": "40000000000291292",
+                    "edition_id": "82513223",
+                    "current_user_id": "82512958",
                     "error_code": "EX1006",
                     "message": "External share zones are invalid or not available"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
                   "status": "error"
                 }},
                 "Invalid Expiry Time": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000287288",
-                    "current_user_id": "40000000000291292",
+                    "edition_id": "82513223",
+                    "current_user_id": "82512958",
                     "error_code": "EX1000",
                     "message": "External share expiration time is invalid"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
                   "status": "error"
                 }}
               }
@@ -378,8 +399,53 @@
           },
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "403": {
+            "description": "Forbidden - the caller is authenticated but not allowed to perform this operation",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "External Sharing Is Disabled": {"value": {
+                  "error": {"details": {
+                    "edition_id": "82513223",
+                    "current_user_id": "82512958",
+                    "error_code": "EX1003",
+                    "message": "External share is not allowed for this team"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
+                  "status": "error"
+                }},
+                "External Sharing is Restricted For Free Plan": {"value": {
+                  "error": {"details": {
+                    "edition_id": "97054676",
+                    "current_user_id": "97049596",
+                    "error_code": "EX1004",
+                    "message": "External share is not available for edition"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/97054676/spaces/1435000000039005/externalshares",
+                  "status": "error"
+                }}
+              }
+            }}
+          },
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Already Externally Shared": {"value": {
+                "error": {"details": {
+                  "edition_id": "112255940",
+                  "current_user_id": "82512958",
+                  "error_code": "EX1019",
+                  "message": "External share limit reached for the project.",
+                  "space_id": "5777000000929039"
+                }},
+                "request_uri": "/vani/api/v1/editions/112255940/spaces/5777000000929039/externalshares",
+                "status": "error"
+              }}}
+            }}
+          }
         },
         "x-vani-operation-type": "CREATE",
         "parameters": [
@@ -412,11 +478,11 @@
               "examples": {
                 "Using Filter Fields": {"value": {
                   "data": {
-                    "shared_time": 40000000000290291,
-                    "space_id": 40000000000109110
+                    "shared_time": 1753678990289,
+                    "space_id": "4855000000088149"
                   },
                   "message": "External share space info fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000108109/spaces/40000000000109110/externalshares",
+                  "request_uri": "/vani/api/v1/editions/888012145/spaces/4855000000088149/externalshares",
                   "status": "success"
                 }},
                 "Success": {"value": {
@@ -428,15 +494,15 @@
                     }],
                     "password": "1",
                     "share_type": "PARTIAL_ZONES",
-                    "shared_time": 40000000000280281,
+                    "shared_time": 1752045307273,
                     "external_share_url": "https://app.vanipublic.com/external/open/7b540cd851d86a3cf77b1050c19b88e02d51249cd6c08db6cf99e33e5dc14bccff15aae2435c3dc2bb534e88ab4afc2811a930ea68a6012700e7634857017d12",
-                    "expiration_time": 40000000000289290,
+                    "expiration_time": 1754723516000,
                     "shared_by": 82512958,
                     "permission": "VIEWER",
-                    "space_id": "40000000000286287"
+                    "space_id": "1629000000297013"
                   },
                   "message": "External share space info fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
                   "status": "success"
                 }}
               }
@@ -448,12 +514,12 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Not Externally Shared": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000287288",
-                  "current_user_id": "40000000000291292",
-                  "error_code": "S1031",
+                  "edition_id": "82513223",
+                  "current_user_id": "82512958",
+                  "error_code": "S1046",
                   "message": "Space is not externally shared"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
                 "status": "error"
               }}}
             }}
@@ -464,12 +530,12 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000108109",
-                  "current_user_id": "40000000000135136",
+                  "edition_id": "888012145",
+                  "current_user_id": "888015717",
                   "error_code": "EX1007",
                   "message": "The user doesn't have permission to fetch external share info"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000108109/spaces/40000000000293294/externalshares",
+                "request_uri": "/vani/api/v1/editions/888012145/spaces/485500000008849/externalshares",
                 "status": "error"
               }}}
             }}
@@ -513,13 +579,13 @@
               "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
               "examples": {"Success": {"value": {
                 "data": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000302303",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "space_id": "3009000000675145",
                   "external_share_removed": true
                 },
                 "message": "External share space removed successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000302303/externalshares",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000675145/externalshares",
                 "status": "success"
               }}}
             }}
@@ -530,12 +596,12 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Space Is Not an External Share": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000287288",
-                  "current_user_id": "40000000000291292",
-                  "error_code": "S1031",
+                  "edition_id": "82513223",
+                  "current_user_id": "82512958",
+                  "error_code": "S1046",
                   "message": "Space is not externally shared"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
                 "status": "error"
               }}}
             }}
@@ -548,13 +614,13 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Space Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "S1009",
                   "message": "Space not found",
-                  "space_id": "40000000000304305"
+                  "space_id": "300900000675145"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000304305/externalshares",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000675145/externalshares",
                 "status": "error"
               }}}
             }}
@@ -603,15 +669,15 @@
                     }],
                     "password": "1",
                     "share_type": "PARTIAL_ZONES",
-                    "shared_time": 40000000000280281,
+                    "shared_time": 1752045307273,
                     "external_share_url": "https://app.localvanipublic.net/external/open/ea6e71f11f7803677667dec29fc1ea2ea829c2b748a992203c8a3eea26b853568c231f96663a6b841b11c071352ee65b844d010ea52cf7e3810a7bc43c2b8c7f",
-                    "expiration_time": 40000000000281282,
+                    "expiration_time": 1754627011000,
                     "shared_by": 82512958,
                     "permission": "COMMENTER",
-                    "space_id": "40000000000286287"
+                    "space_id": "1629000000297013"
                   },
                   "message": "External share space updated successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
                   "status": "success"
                 }},
                 "Success": {"value": {
@@ -623,15 +689,15 @@
                     }],
                     "password": "1",
                     "share_type": "PARTIAL_ZONES",
-                    "shared_time": 40000000000280281,
+                    "shared_time": 1752045307273,
                     "external_share_url": "https://app.localvanipublic.net/external/open/e9ee62de0dd78b71ca86147cefb21346908ca9fe277f6be74969d56d23b6ee72ffb5f9a320efe03c02077df9a4d020f251823e81a63cc07b83691170a575ba8f",
-                    "expiration_time": 40000000000281282,
+                    "expiration_time": 1754627011000,
                     "shared_by": 82512958,
                     "permission": "COMMENTER",
-                    "space_id": "40000000000286287"
+                    "space_id": "1629000000297013"
                   },
                   "message": "External share space updated successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
+                  "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
                   "status": "success"
                 }}
               }
@@ -641,16 +707,28 @@
             "description": "Invalid request - validation failed",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
-              "examples": {"Invalid Expiry Time": {"value": {
-                "error": {"details": {
-                  "edition_id": "40000000000287288",
-                  "current_user_id": "40000000000291292",
-                  "error_code": "EX1000",
-                  "message": "External share expiration time is invalid"
+              "examples": {
+                "All Zone Ids Invalid": {"value": {
+                  "error": {"details": {
+                    "edition_id": "82513223",
+                    "current_user_id": "82512958",
+                    "error_code": "EX1006",
+                    "message": "External share zones are invalid or not available"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
+                  "status": "error"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000287288/spaces/40000000000286287/externalshares",
-                "status": "error"
-              }}}
+                "Invalid Expiry Time": {"value": {
+                  "error": {"details": {
+                    "edition_id": "82513223",
+                    "current_user_id": "82512958",
+                    "error_code": "EX1000",
+                    "message": "External share expiration time is invalid"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/82513223/spaces/1629000000297013/externalshares",
+                  "status": "error"
+                }}
+              }
             }}
           },
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
@@ -699,21 +777,21 @@
                   {
                     "external_share_url": "https://app.vanipublic.com/external/open/418a5ec6abf2bb5b7a0486d5aaae300bcb97a2672a1086e25a81c5853896c92d27a8a01fcb9e42a82fe59e5a3c050fb2390d261c80ae2d4f33b09a56b27f58a5",
                     "permission": "VIEWER",
-                    "space_id": "40000000000284285"
+                    "space_id": "1629000000491005"
                   },
                   {
                     "external_share_url": "https://app.vanipublic.com/external/open/f42bcd0a8025fe33bd45bcb176e270275b48312abef2bf9d468a4939709cf9a68db1f73db4f8bdfee7fc07d948d360e083ee198913c863c624304fc274c8d289",
                     "permission": "VIEWER",
-                    "space_id": "40000000000285286"
+                    "space_id": "1629000000309025"
                   },
                   {
                     "external_share_url": "https://app.vanipublic.com/external/open/c7dab478035f95d89f1ad22b507b7bf98bd26c5f33c8d5123f5e85c34ae796ea09b9dd26ae6c0e6ac575a8e387eb98073530e803ecdd2cfa1ba7747726529492",
                     "permission": "COMMENTER",
-                    "space_id": "40000000000286287"
+                    "space_id": "1629000000297013"
                   }
                 ]},
                 "message": "External share spaces fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000287288/teams/40000000000288289/externalshares",
+                "request_uri": "/vani/api/v1/editions/82513223/teams/1629000000002003/externalshares",
                 "status": "success"
               }},
               "Fetch Success": {"value": {
@@ -725,12 +803,12 @@
                       "permission": "VIEWER"
                     }],
                     "share_type": "PARTIAL_ZONES",
-                    "shared_time": 40000000000276277,
+                    "shared_time": 1743162438306,
                     "external_share_url": "https://app.vanipublic.com/external/open/418a5ec6abf2bb5b7a0486d5aaae300bcb97a2672a1086e25a81c5853896c92d27a8a01fcb9e42a82fe59e5a3c050fb2390d261c80ae2d4f33b09a56b27f58a5",
                     "expiration_time": -1,
                     "shared_by": 82512958,
                     "permission": "VIEWER",
-                    "space_id": "40000000000284285"
+                    "space_id": "1629000000491005"
                   },
                   {
                     "is_password_enabled": false,
@@ -739,12 +817,12 @@
                       "permission": "VIEWER"
                     }],
                     "share_type": "PARTIAL_ZONES",
-                    "shared_time": 40000000000278279,
+                    "shared_time": 1745419204184,
                     "external_share_url": "https://app.vanipublic.com/external/open/f42bcd0a8025fe33bd45bcb176e270275b48312abef2bf9d468a4939709cf9a68db1f73db4f8bdfee7fc07d948d360e083ee198913c863c624304fc274c8d289",
                     "expiration_time": -1,
                     "shared_by": 82512958,
                     "permission": "VIEWER",
-                    "space_id": "40000000000285286"
+                    "space_id": "1629000000309025"
                   },
                   {
                     "is_password_enabled": true,
@@ -759,22 +837,22 @@
                       }
                     ],
                     "share_type": "PARTIAL_ZONES",
-                    "shared_time": 40000000000280281,
+                    "shared_time": 1752045307273,
                     "external_share_url": "https://app.vanipublic.com/external/open/c7dab478035f95d89f1ad22b507b7bf98bd26c5f33c8d5123f5e85c34ae796ea09b9dd26ae6c0e6ac575a8e387eb98073530e803ecdd2cfa1ba7747726529492",
-                    "expiration_time": 40000000000281282,
+                    "expiration_time": 1754627011000,
                     "shared_by": 82512958,
                     "permission": "COMMENTER",
-                    "space_id": "40000000000286287"
+                    "space_id": "1629000000297013"
                   }
                 ]},
                 "message": "External share spaces fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000287288/teams/40000000000288289/externalshares",
+                "request_uri": "/vani/api/v1/editions/82513223/teams/1629000000002003/externalshares",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},

@@ -1573,7 +1573,7 @@
         "description": "Successful response",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
       },
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -1690,7 +1690,7 @@
       },
       "operationId": "createFlowchart",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -1700,7 +1700,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -1736,7 +1736,7 @@
       },
       "operationId": "createTable",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -1746,7 +1746,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -1782,7 +1782,7 @@
       },
       "operationId": "createStack",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -1792,7 +1792,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -1828,7 +1828,7 @@
       },
       "operationId": "createKanban",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -1838,7 +1838,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -1874,7 +1874,7 @@
       },
       "operationId": "createMindmap",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -1884,7 +1884,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -1920,8 +1920,8 @@
       },
       "operationId": "createDatabaseTable",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},

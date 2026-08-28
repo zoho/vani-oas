@@ -191,9 +191,14 @@
                         "emptiness": {
                           "description": "Empty / not-empty",
                           "type": "object",
-                          "properties": {"is_empty": {
-                            "description": "true => IS_EMPTY, false => IS_NOT_EMPTY",
-                            "type": "boolean"
+                          "properties": {"op": {
+                            "description": "IS_EMPTY / IS_NOT_EMPTY",
+                            "type": "string",
+                            "maxLength": 20,
+                            "enum": [
+                              "IS_EMPTY",
+                              "IS_NOT_EMPTY"
+                            ]
                           }}
                         },
                         "column": {
@@ -3264,9 +3269,14 @@
                     "emptiness": {
                       "description": "Empty / not-empty",
                       "type": "object",
-                      "properties": {"is_empty": {
-                        "description": "true => IS_EMPTY, false => IS_NOT_EMPTY",
-                        "type": "boolean"
+                      "properties": {"op": {
+                        "description": "IS_EMPTY / IS_NOT_EMPTY",
+                        "type": "string",
+                        "maxLength": 20,
+                        "enum": [
+                          "IS_EMPTY",
+                          "IS_NOT_EMPTY"
+                        ]
                       }}
                     },
                     "column": {
@@ -3643,7 +3653,7 @@
         "description": "Successful response",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
       },
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -3780,7 +3790,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3829,8 +3839,8 @@
       },
       "operationId": "createDatabaseTableColumn",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3863,7 +3873,7 @@
       "operationId": "getDatabaseTableColumnTypeFeasibility",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3932,8 +3942,8 @@
       },
       "operationId": "deleteDatabaseTableRecords",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3969,8 +3979,8 @@
       },
       "operationId": "updateDatabaseTableRecords",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4012,7 +4022,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4061,7 +4071,7 @@
       },
       "operationId": "mergeTableCells",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -4071,7 +4081,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4108,7 +4118,7 @@
       "operationId": "updateDatabaseTableColumnReorder",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4144,7 +4154,7 @@
       },
       "operationId": "insertTableRows",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -4154,7 +4164,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4196,7 +4206,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4251,7 +4261,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4300,8 +4310,8 @@
       },
       "operationId": "updateDatabaseTableColumns",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4337,7 +4347,7 @@
       },
       "operationId": "deleteTableRows",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -4347,7 +4357,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4383,7 +4393,7 @@
       },
       "operationId": "editTableCellText",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -4393,7 +4403,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4436,7 +4446,7 @@
               }
             ]}}}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4486,7 +4496,7 @@
         "operationId": "updateTableCellText",
         "responses": {
           "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4523,8 +4533,8 @@
       },
       "operationId": "createDatabaseTableQuery",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4560,7 +4570,7 @@
       },
       "operationId": "insertTableColumns",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -4570,7 +4580,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4609,7 +4619,7 @@
       },
       "operationId": "unmergeTableCells",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -4619,7 +4629,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4653,8 +4663,8 @@
       },
       "operationId": "createDatabaseTableRecord",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4690,8 +4700,8 @@
       },
       "operationId": "deleteDatabaseTableColumns",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse2"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse2"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4724,7 +4734,7 @@
       "operationId": "getDatabaseTableSchema",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -4771,8 +4781,8 @@
       },
       "operationId": "deleteTableColumns",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse2"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse2"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},

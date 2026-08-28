@@ -282,7 +282,7 @@
         "description": "Successful response",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
       },
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -431,8 +431,123 @@
       },
       "operationId": "moveZone",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Zone Moved to a New Space": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Mon, 10 Mar 2025, 10:42:20",
+                  "last_modified_time": "Mon, 10 Mar 2025, 10:42:20",
+                  "is_favorite": "false",
+                  "space_name": "Project proposal",
+                  "publish": "false",
+                  "owner_zuid": "96384499",
+                  "can_edit": "true",
+                  "allow_embed": "false",
+                  "team_id": "693000000435005",
+                  "space_id": "693000000569361",
+                  "last_author_zuid": "96384499",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone moved successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000569005/zones/4a971774-9ea7-4f1b-94c8-7199a254d6ba/move",
+                "status": "success"
+              }},
+              "Zone Moved to a New Space with Comments": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Mon, 10 Mar 2025, 10:42:20",
+                  "last_modified_time": "Mon, 10 Mar 2025, 10:42:20",
+                  "is_favorite": "false",
+                  "space_name": "Project proposal",
+                  "publish": "false",
+                  "owner_zuid": "96384499",
+                  "can_edit": "true",
+                  "allow_embed": "false",
+                  "team_id": "693000000435005",
+                  "space_id": "693000000569361",
+                  "last_author_zuid": "96384499",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone moved successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000569005/zones/4a971774-9ea7-4f1b-94c8-7199a254d6ba/move",
+                "status": "success"
+              }},
+              "Zone Moved to an Existing Space with All Versions": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Mon, 10 Mar 2025, 10:30:38",
+                  "last_modified_time": "Mon, 10 Mar 2025, 10:32:00",
+                  "space_name": "MOVE",
+                  "publish": "false",
+                  "owner_zuid": "96384499",
+                  "team_id": "693000000435005",
+                  "allow_embed": "false",
+                  "space_id": "693000000569219",
+                  "last_author_zuid": "96384499",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone moved successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000569005/zones/b313272b-fa45-4111-b61d-de64a0044260/move",
+                "status": "success"
+              }},
+              "Zone Moved to an Existing Space": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Mon, 10 Mar 2025, 10:30:38",
+                  "last_modified_time": "Mon, 10 Mar 2025, 10:32:00",
+                  "space_name": "MOVE",
+                  "publish": "false",
+                  "owner_zuid": "96384499",
+                  "team_id": "693000000435005",
+                  "allow_embed": "false",
+                  "space_id": "693000000569219",
+                  "last_author_zuid": "96384499",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone moved successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000569005/zones/b313272b-fa45-4111-b61d-de64a0044260/move",
+                "status": "success"
+              }},
+              "Zone Moved to an Existing Space with Comments": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Mon, 10 Mar 2025, 10:30:38",
+                  "last_modified_time": "Mon, 10 Mar 2025, 10:32:00",
+                  "space_name": "MOVE",
+                  "publish": "false",
+                  "owner_zuid": "96384499",
+                  "team_id": "693000000435005",
+                  "allow_embed": "false",
+                  "space_id": "693000000569219",
+                  "last_author_zuid": "96384499",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone moved successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000569005/zones/b313272b-fa45-4111-b61d-de64a0044260/move",
+                "status": "success"
+              }},
+              "Zone Moved to a New Space with All Versions": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Mon, 10 Mar 2025, 10:42:20",
+                  "last_modified_time": "Mon, 10 Mar 2025, 10:42:20",
+                  "is_favorite": "false",
+                  "space_name": "Project proposal",
+                  "publish": "false",
+                  "owner_zuid": "96384499",
+                  "can_edit": "true",
+                  "allow_embed": "false",
+                  "team_id": "693000000435005",
+                  "space_id": "693000000569361",
+                  "last_author_zuid": "96384499",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone moved successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000569005/zones/4a971774-9ea7-4f1b-94c8-7199a254d6ba/move",
+                "status": "success"
+              }}
+            }
+          }}
+        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
@@ -440,24 +555,24 @@
             "examples": {
               "Unauthorized to Move Zone to an Existing Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000146147"
+                  "space_id": "693000000481013"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000146147/zones/61fae7ca-ebcc-4ab9-881c-07b1aa9c814b/move",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000481013/zones/61fae7ca-ebcc-4ab9-881c-07b1aa9c814b/move",
                 "status": "error"
               }},
               "Unauthorized to Move Zone to a New Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000170171"
+                  "space_id": "69300000569005"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000170171/zones/4a971774-9ea7-4f1b-94c8-7199a254d6ba/move",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/69300000569005/zones/4a971774-9ea7-4f1b-94c8-7199a254d6ba/move",
                 "status": "error"
               }}
             }
@@ -469,37 +584,37 @@
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {
-              "Zone Not Found (2)": {"value": {
-                "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
-                  "error_code": "Z1008",
-                  "message": "Zone not found",
-                  "space_id": "40000000000166167"
-                }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000166167/zones/F2897959-A91F-4EB8-BE6B-E69411DC83F6/move",
-                "status": "error"
-              }},
               "Target Space Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "S1009",
                   "message": "Space not found",
-                  "space_id": "40000000000170171"
+                  "space_id": "69300000569005"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000170171/zones/b313272b-fa45-4111-b61d-de64a0044260/move",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/69300000569005/zones/b313272b-fa45-4111-b61d-de64a0044260/move",
+                "status": "error"
+              }},
+              "Zone Not Found 2": {"value": {
+                "error": {"details": {
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
+                  "error_code": "Z1008",
+                  "message": "Zone not found",
+                  "space_id": "693000000569005"
+                }},
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000569005/zones/F2897959-A91F-4EB8-BE6B-E69411DC83F6/move",
                 "status": "error"
               }},
               "Zone Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "Z1008",
                   "message": "Zone not found",
-                  "space_id": "40000000000168169"
+                  "space_id": "693000000562766"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000168169/zones/0c77700c-35ef-4614-aad1-b4532d8e0bd3/move",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562766/zones/0c77700c-35ef-4614-aad1-b4532d8e0bd3/move",
                 "status": "error"
               }}
             }
@@ -536,7 +651,43 @@
       },
       "operationId": "shareZonesWithMembers",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {"Success": {"value": {
+              "data": {"added_members": [
+                {
+                  "member_id": "3009000000002003",
+                  "access_state": "PARTIAL ACCESS",
+                  "resources": [{
+                    "member_type": "TEAM",
+                    "added_time": "Tue, 08 Jul 2025, 01:58:52",
+                    "added_by": "96384499",
+                    "resource_type": "document",
+                    "resource_id": "6800EB6E-ED24-4EA6-91C6-805445418B17",
+                    "permission": "restricted"
+                  }]
+                },
+                {
+                  "member_id": "62609972",
+                  "access_state": "PARTIAL ACCESS",
+                  "resources": [{
+                    "member_type": "USER",
+                    "added_time": "Mon, 07 Jul 2025, 18:16:32",
+                    "added_by": "80215739",
+                    "resource_type": "document",
+                    "resource_id": "6800EB6E-ED24-4EA6-91C6-805445418B17",
+                    "permission": "restricted"
+                  }]
+                }
+              ]},
+              "message": "Resource members added successfully",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members",
+              "status": "success"
+            }}}
+          }}
+        },
         "400": {
           "description": "Invalid request - validation failed",
           "content": {"application/json": {
@@ -548,18 +699,18 @@
                     {
                       "error_message": "Resource member present",
                       "error_code": "S1042",
-                      "zuid": "40000000000027028"
+                      "zuid": "3009000000002003"
                     },
                     {
                       "error_message": "Resource member present",
                       "error_code": "S1042",
-                      "zuid": "40000000000027028"
+                      "zuid": "3009000000002003"
                     }
                   ],
-                  "error_code": "R1003",
+                  "error_code": "R1002",
                   "message": "Resource member add failed"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members",
                 "status": "error"
               }},
               "Cannot Restrict The Owner": {"value": {
@@ -567,12 +718,12 @@
                   "failed_members": [{
                     "error_message": "Cannot restrict owner role",
                     "error_code": "S1034",
-                    "zuid": "40000000000036037"
+                    "zuid": "80215739"
                   }],
-                  "error_code": "R1003",
+                  "error_code": "R1002",
                   "message": "Resource member add failed"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members",
                 "status": "error"
               }},
               "Cannot Restrict Non-Space Member": {"value": {
@@ -580,12 +731,12 @@
                   "failed_members": [{
                     "error_message": "Cannot restrict non-project member",
                     "error_code": "S1041",
-                    "zuid": "40000000000188189"
+                    "zuid": "300900000000203"
                   }],
-                  "error_code": "R1003",
+                  "error_code": "R1002",
                   "message": "Resource member add failed"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members",
                 "status": "error"
               }},
               "Cannot Update Own Role": {"value": {
@@ -593,12 +744,12 @@
                   "failed_members": [{
                     "error_message": "Cannot update own role",
                     "error_code": "S1036",
-                    "zuid": "40000000000003004"
+                    "zuid": "96384499"
                   }],
-                  "error_code": "R1003",
+                  "error_code": "R1002",
                   "message": "Resource member add failed"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members",
                 "status": "error"
               }}
             }
@@ -610,13 +761,13 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "A1003",
                 "message": "The user doesn't have permission to perform this action",
-                "space_id": "40000000000190191"
+                "space_id": "3009000000607005"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000190191/zones/members",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000607005/zones/members",
               "status": "error"
             }}}
           }}
@@ -628,14 +779,44 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Space Not found": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "S1009",
                 "message": "Space not found",
-                "space_id": "40000000000186187"
+                "space_id": "300900000618005"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000186187/zones/members",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000618005/zones/members",
               "status": "error"
+            }}}
+          }}
+        },
+        "206": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {"Partial Success": {"value": {
+              "data": {
+                "failed_members": [{
+                  "error_message": "Resource member present",
+                  "error_code": "S1042",
+                  "zuid": "3009000000002003"
+                }],
+                "added_members": [{
+                  "member_id": "85572741",
+                  "access_state": "PARTIAL ACCESS",
+                  "resources": [{
+                    "member_type": "USER",
+                    "added_time": "Wed, 09 Jul 2025, 15:52:18",
+                    "added_by": "96384499",
+                    "resource_type": "document",
+                    "resource_id": "d7ccf816-8293-4a2f-ae83-f10c0e3a6645",
+                    "permission": "restricted"
+                  }]
+                }]
+              },
+              "message": "Partial success: Some resource members added, others failed.",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members",
+              "status": "success"
             }}}
           }}
         },
@@ -669,21 +850,58 @@
       },
       "operationId": "createZone",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Success": {"value": {
+                "data": {"zone_info": {
+                  "created_time": "Fri, 25 Jul 2025, 06:01:52",
+                  "zone_id": "ee01ded6-158e-4729-99b0-257ab23be6d1",
+                  "last_modified_time": "Fri, 25 Jul 2025, 06:01:52",
+                  "zone_name": "Zone 2",
+                  "space_id": "4855000000088149",
+                  "last_author_zuid": "888015717",
+                  "author_zuid": "888015717",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone created successfully.",
+                "request_uri": "/vani/api/v1/editions/888012145/spaces/4855000000088149/zones",
+                "status": "success"
+              }},
+              "Success: Zone Created Using Template": {"value": {
+                "data": {"zone_info": {
+                  "created_time": "Fri, 25 Jul 2025, 06:02:20",
+                  "zone_id": "2bf37964-c959-4e3f-a4ac-ea09e607fb07",
+                  "last_modified_time": "Fri, 25 Jul 2025, 06:02:20",
+                  "zone_name": "Zone with template",
+                  "space_id": "4855000000088149",
+                  "last_author_zuid": "888015717",
+                  "author_zuid": "888015717",
+                  "status": "ACTIVE"
+                }},
+                "message": "Zone created successfully.",
+                "request_uri": "/vani/api/v1/editions/888012145/spaces/4855000000088149/zones",
+                "status": "success"
+              }}
+            }
+          }}
+        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "A1003",
                 "message": "The user doesn't have permission to perform this action",
-                "space_id": "40000000000142143"
+                "space_id": "300900000005397"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000142143/zones",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000005397/zones",
               "status": "error"
             }}}
           }}
@@ -695,18 +913,35 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Template Not Found": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "S1030",
                 "message": "Template not found",
-                "space_id": "40000000000137138"
+                "space_id": "3009000000419047"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000137138/zones",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000419047/zones",
               "status": "error"
             }}}
           }}
         },
-        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+        "409": {
+          "description": "Conflict - the requested change conflicts with the current resource state",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Maximum Zone Limit Reached": {"value": {
+              "error": {"details": {
+                "edition_id": "85572652",
+                "current_user_id": "96384499",
+                "error_code": "Z1010",
+                "message": "Zone creation limit reached",
+                "space_id": "1600000000657005"
+              }},
+              "request_uri": "/vani/api/v1/editions/85572652/spaces/1600000000657005/zones",
+              "status": "error"
+            }}}
+          }}
+        }
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
@@ -742,15 +977,15 @@
                   "created_time": "Tue, 15 Jul 2025, 10:49:13",
                   "zone_id": "c606cdb1-ae46-47a6-847b-0a36caf9f797",
                   "last_modified_time": "Tue, 29 Jul 2025, 13:46:46",
-                  "zone_key": "40000000000130131",
+                  "zone_key": "3009000000701095",
                   "zone_name": "Zone 1",
-                  "space_id": "40000000000132133",
-                  "author_zuid": "40000000000003004",
-                  "last_author_zuid": "40000000000003004",
+                  "space_id": "3009000000701079",
+                  "author_zuid": "96384499",
+                  "last_author_zuid": "96384499",
                   "status": "ACTIVE"
                 }},
                 "message": "Zone metadata fetched successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000132133/zones/c606cdb1-ae46-47a6-847b-0a36caf9f797/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000701079/zones/c606cdb1-ae46-47a6-847b-0a36caf9f797/meta",
                 "status": "success"
               }}}
             }}
@@ -761,13 +996,13 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Zone Inactive": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "Z1011",
                   "message": "Zone is not in an active state",
-                  "space_id": "40000000000134135"
+                  "space_id": "3009000000789069"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000134135/zones/e42f51ec-e4dc-4dc5-9587-7a2e49dcdc2e/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000789069/zones/e42f51ec-e4dc-4dc5-9587-7a2e49dcdc2e/meta",
                 "status": "error"
               }}}
             }}
@@ -778,18 +1013,35 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000134135"
+                  "space_id": "3009000000789069"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000134135/zones/e42f51ec-e4dc-4dc5-9587-7a2e49dcdc2e/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000789069/zones/e42f51ec-e4dc-4dc5-9587-7a2e49dcdc2e/meta",
                 "status": "error"
               }}}
             }}
           },
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "403": {
+            "description": "Forbidden - the caller is authenticated but not allowed to perform this operation",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Restricted Zone": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1033",
+                  "message": "Restricted zone",
+                  "space_id": "3009000000789069"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000789069/zones/e42f51ec-e4dc-4dc5-9587-7a2e49dcdc2e/meta",
+                "status": "error"
+              }}}
+            }}
+          },
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
           "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
         },
@@ -829,18 +1081,18 @@
               "examples": {"Success": {"value": {
                 "data": {
                   "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000102103",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
+                  "space_id": "1505000000022005",
                   "new_name": "Budget Report"
                 },
                 "message": "Zone name updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/meta",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/meta",
                 "status": "success"
               }}}
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
@@ -848,13 +1100,13 @@
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
                   "zone_id": "a5fcca17-e9dd-414f-850d-0b920645b05d",
-                  "edition_id": "40000000000008009",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "98723605",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000176177"
+                  "space_id": "5265000000003011"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000008009/spaces/40000000000176177/zones/a5fcca17-e9dd-414f-850d-0b920645b05d/meta",
+                "request_uri": "/vani/api/v1/editions/98723605/spaces/5265000000003011/zones/a5fcca17-e9dd-414f-850d-0b920645b05d/meta",
                 "status": "error"
               }}}
             }}
@@ -867,18 +1119,36 @@
               "examples": {"Failure: Zone Not Found": {"value": {
                 "error": {"details": {
                   "zone_id": "198356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "Z1008",
                   "message": "Zone not found",
-                  "space_id": "40000000000102103"
+                  "space_id": "1505000000022005"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/198356E6-5F86-45FA-A7D5-ED8BB6D40DAE/meta",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/198356E6-5F86-45FA-A7D5-ED8BB6D40DAE/meta",
                 "status": "error"
               }}}
             }}
           },
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Failure: New Zone Name Is Same as the Current Name": {"value": {
+                "error": {"details": {
+                  "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
+                  "error_code": "Z1001",
+                  "message": "Zone name is same as the new name",
+                  "space_id": "1505000000022005"
+                }},
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/meta",
+                "status": "error"
+              }}}
+            }}
+          }
         },
         "x-vani-operation-type": "UPDATE",
         "parameters": [
@@ -910,8 +1180,8 @@
       },
       "operationId": "insertTemplateIntoZone",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -951,28 +1221,28 @@
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
             "examples": {
-              "Success (2)": {"value": {
+              "Success 2": {"value": {
                 "data": {
                   "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
-                  "edition_id": "40000000000004005",
+                  "edition_id": "97375109",
                   "space_state": "TRASH",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000102103"
+                  "current_user_id": "96384499",
+                  "space_id": "1505000000022005"
                 },
                 "message": "Zone state updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
                 "status": "success"
               }},
               "Success": {"value": {
                 "data": {
                   "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
-                  "edition_id": "40000000000004005",
+                  "edition_id": "97375109",
                   "space_state": "RESTORE",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000102103"
+                  "current_user_id": "96384499",
+                  "space_id": "1505000000022005"
                 },
                 "message": "Zone state updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
                 "status": "success"
               }}
             }
@@ -986,37 +1256,37 @@
               "Failure: Zone Threshold Violation": {"value": {
                 "error": {"details": {
                   "zone_id": "6F961124-4598-47D6-9BDA-1705DFBA07D7",
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "Z1009",
                   "message": "Zone threshold violation",
-                  "space_id": "40000000000102103"
+                  "space_id": "1505000000022005"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/6F961124-4598-47D6-9BDA-1705DFBA07D7/state",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/6F961124-4598-47D6-9BDA-1705DFBA07D7/state",
                 "status": "error"
               }},
               "Failure: Zone Is Already Trashed or Deleted": {"value": {
                 "error": {"details": {
                   "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "Z1005",
                   "message": "Zone is already trashed or deleted",
-                  "space_id": "40000000000102103"
+                  "space_id": "1505000000022005"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
                 "status": "error"
               }},
               "Failure": {"value": {
                 "error": {"details": {
                   "zone_id": "598356E6-5F86-45FA-A7D5-ED8BB6D40DAE",
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "Z1006",
                   "message": "Zone is deleted or already restored",
-                  "space_id": "40000000000102103"
+                  "space_id": "1505000000022005"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/598356E6-5F86-45FA-A7D5-ED8BB6D40DAE/state",
                 "status": "error"
               }}
             }
@@ -1027,28 +1297,28 @@
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {
+              "Unauthorized 2": {"value": {
+                "error": {"details": {
+                  "zone_id": "05A61516-A352-44C6-94C3-BE44F728C9D9",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "300900000009397"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000009397/zones/05A61516-A352-44C6-94C3-BE44F728C9D9/state",
+                "status": "error"
+              }},
               "Unauthorized": {"value": {
                 "error": {"details": {
                   "zone_id": "05A61516-A352-44C6-94C3-BE44F728C9D9",
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000142143"
+                  "space_id": "300900000005397"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000142143/zones/05A61516-A352-44C6-94C3-BE44F728C9D9/state",
-                "status": "error"
-              }},
-              "Unauthorized (2)": {"value": {
-                "error": {"details": {
-                  "zone_id": "05A61516-A352-44C6-94C3-BE44F728C9D9",
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "error_code": "A1003",
-                  "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000174175"
-                }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000174175/zones/05A61516-A352-44C6-94C3-BE44F728C9D9/state",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000005397/zones/05A61516-A352-44C6-94C3-BE44F728C9D9/state",
                 "status": "error"
               }}
             }
@@ -1092,12 +1362,12 @@
                 "data": {"zone_versions": {
                   "restricted_versions": [{
                     "modified_by": "80215739",
-                    "version_id": "40000000000199200"
+                    "version_id": "1373000000529563"
                   }],
                   "allowed_versions": []
                 }},
                 "message": "Zone versions fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000115116/spaces/40000000000200201/zones/1b28dc96-a3bc-45c3-9977-e4089b513a31/version",
+                "request_uri": "/vani/api/v1/editions/80585907/spaces/1373000000529203/zones/1b28dc96-a3bc-45c3-9977-e4089b513a31/version",
                 "status": "success"
               }},
               "Using from and limit Parameters": {"value": {
@@ -1105,11 +1375,11 @@
                   "restricted_versions": [],
                   "allowed_versions": [{
                     "modified_by": "80215739",
-                    "version_id": "40000000000203204"
+                    "version_id": "149000043835113"
                   }]
                 }},
                 "message": "Zone versions fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000204205/spaces/40000000000205206/zones/89cf903a-0701-41b3-823c-f2229436333e/version",
+                "request_uri": "/vani/api/v1/editions/75434908/spaces/149000042348078/zones/89cf903a-0701-41b3-823c-f2229436333e/version",
                 "status": "success"
               }},
               "Using fromDate Parameter": {"value": {
@@ -1119,11 +1389,11 @@
                     "version_time": "Fri, 24 Jan 2025, 11:55:53",
                     "modified_by": "80215739",
                     "description": "",
-                    "version_id": "40000000000203204"
+                    "version_id": "149000043835113"
                   }]
                 }},
                 "message": "Zone versions fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000204205/spaces/40000000000205206/zones/89cf903a-0701-41b3-823c-f2229436333e/version",
+                "request_uri": "/vani/api/v1/editions/75434908/spaces/149000042348078/zones/89cf903a-0701-41b3-823c-f2229436333e/version",
                 "status": "success"
               }},
               "Success": {"value": {
@@ -1132,44 +1402,44 @@
                     "version_time": "Tue, 04 Feb 2025, 12:58:24",
                     "modified_by": "96384499",
                     "description": "activated",
-                    "version_id": "40000000000194195"
+                    "version_id": "1600000000657036"
                   }],
                   "allowed_versions": [
                     {
                       "version_time": "Sun, 16 Feb 2025, 03:09:13",
                       "modified_by": "96384499",
                       "description": "",
-                      "version_id": "40000000000195196"
+                      "version_id": "1505000000099005"
                     },
                     {
                       "version_time": "Sun, 16 Feb 2025, 03:08:50",
                       "modified_by": "96384499",
                       "description": "activated",
-                      "version_id": "40000000000196197"
+                      "version_id": "1505000000097249"
                     }
                   ]
                 }},
                 "message": "Zone versions fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/DBB83581-F98F-4120-9431-FDC16515FE00/version",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/DBB83581-F98F-4120-9431-FDC16515FE00/version",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000139140",
-                "current_user_id": "40000000000003004",
+                "edition_id": "85572652",
+                "current_user_id": "96384499",
                 "error_code": "A1003",
                 "message": "The user doesn't have permission to perform this action",
-                "space_id": "40000000000207208"
+                "space_id": "160000000657005"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000139140/spaces/40000000000207208/zones/ef7b7fe1-327b-4ec1-904d-8232677d689c/version",
+              "request_uri": "/vani/api/v1/editions/85572652/spaces/160000000657005/zones/ef7b7fe1-327b-4ec1-904d-8232677d689c/version",
               "status": "error"
             }}}
           }}
@@ -1181,13 +1451,13 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Zone Not Found": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000204205",
-                "current_user_id": "40000000000036037",
+                "edition_id": "75434908",
+                "current_user_id": "80215739",
                 "error_code": "Z1008",
                 "message": "Zone not found",
-                "space_id": "40000000000205206"
+                "space_id": "149000042348078"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000204205/spaces/40000000000205206/zones/89cf103a-0701-41b3-823c-f2229436333e/version",
+              "request_uri": "/vani/api/v1/editions/75434908/spaces/149000042348078/zones/89cf103a-0701-41b3-823c-f2229436333e/version",
               "status": "error"
             }}}
           }}
@@ -1273,7 +1543,7 @@
                   }
                 }},
                 "message": "Zone metadata fetched successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000129130/zones/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000095397/zones/meta",
                 "status": "success"
               }},
               "Success": {"value": {
@@ -1288,52 +1558,52 @@
                       "created_time": "Tue, 04 Feb 2025, 11:34:28",
                       "last_modified_time": "Tue, 04 Feb 2025, 11:34:39",
                       "zone_name": "Zone 3",
-                      "space_id": "40000000000102103",
-                      "author_zuid": "40000000000003004",
-                      "last_author_zuid": "40000000000003004",
+                      "space_id": "1505000000022005",
+                      "author_zuid": "96384499",
+                      "last_author_zuid": "96384499",
                       "status": "ACTIVE"
                     },
                     "0e1e3a8a-a115-463e-bdb6-f540ab37eeb6": {
                       "created_time": "Tue, 28 Jan 2025, 11:59:50",
                       "last_modified_time": "Tue, 28 Jan 2025, 19:34:28",
                       "zone_name": "Zone 1",
-                      "space_id": "40000000000102103",
-                      "author_zuid": "40000000000003004",
-                      "last_author_zuid": "40000000000003004",
+                      "space_id": "1505000000022005",
+                      "author_zuid": "96384499",
+                      "last_author_zuid": "96384499",
                       "status": "ACTIVE"
                     },
                     "6F961124-4598-47D6-9BDA-1705DFBA07D7": {
                       "created_time": "Tue, 04 Feb 2025, 11:34:26",
                       "last_modified_time": "Tue, 04 Feb 2025, 11:34:35",
                       "zone_name": "Zone 2",
-                      "space_id": "40000000000102103",
-                      "author_zuid": "40000000000003004",
-                      "last_author_zuid": "40000000000003004",
+                      "space_id": "1505000000022005",
+                      "author_zuid": "96384499",
+                      "last_author_zuid": "96384499",
                       "status": "ACTIVE"
                     }
                   }
                 }},
                 "message": "Zone metadata fetched successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/meta",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/meta",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000004005",
-                "current_user_id": "40000000000003004",
+                "edition_id": "97375109",
+                "current_user_id": "96384499",
                 "error_code": "A1003",
                 "message": "The user doesn't have permission to perform this action",
-                "space_id": "40000000000102103"
+                "space_id": "1505000000022005"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/zones/meta",
+              "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/zones/meta",
               "status": "error"
             }}}
           }}
@@ -1390,8 +1660,141 @@
       },
       "operationId": "duplicateZone",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "NEW SPACE - with comments": {"value": {
+                "data": {
+                  "space_id": "693000000598369",
+                  "uri": "/vani/api/v1/editions/75918186/spaces/693000000598369/zones/meta"
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1a-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in the Same Space with Comments": {"value": {
+                "data": {
+                  "zone_id": "f721081a-6208-4058-95a5-fe4d787db67d",
+                  "space_id": 693000000562161
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1a-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated into a New Space": {"value": {
+                "data": {
+                  "space_id": "693000000598369",
+                  "uri": "/vani/api/v1/editions/75918186/spaces/693000000598369/zones/meta"
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1a-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated into a New Space with Space Name": {"value": {
+                "data": {
+                  "space_id": "693000000598439",
+                  "uri": "/vani/api/v1/editions/75918186/spaces/693000000598439/zones/meta"
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1a-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in the Same Space with Members": {"value": {
+                "data": {
+                  "zone_id": "f721081a-6208-4058-95a5-fe4d787db67d",
+                  "space_id": 693000000562161
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1a-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in the Same Space with All Versions": {"value": {
+                "data": {
+                  "zone_id": "f721081a-6208-4058-95a5-fe4d787db67d",
+                  "space_id": 693000000562161
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1a-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in an Existing Space with All Versions": {"value": {
+                "data": {
+                  "zone_id": "64d56703-7071-4670-8153-33819171239f",
+                  "space_id": 693000000562297
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562248/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in an Existing Space": {"value": {
+                "data": {
+                  "zone_id": "64d56703-7071-4670-8153-33819171239f",
+                  "space_id": 693000000562297
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562248/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in an Existing Space with a New Zone Name": {"value": {
+                "data": {
+                  "zone_id": "9a853213-9f1a-488d-bbcf-9efcb3e2d419",
+                  "space_id": 693000000562297
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562248/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in an Existing Space Using Version ID": {"value": {
+                "data": {
+                  "zone_id": "ea5e020b-4e3b-4e5d-8229-b38c5f8a3084",
+                  "space_id": 693000000562297
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562248/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated into a New Space Using Version ID": {"value": {
+                "data": {
+                  "space_id": "693000000603451",
+                  "uri": "/vani/api/v1/editions/75918186/spaces/693000000603451/zones/meta"
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562248/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in an Existing Space with Comments": {"value": {
+                "data": {
+                  "zone_id": "64d56703-7071-4670-8153-33819171239f",
+                  "space_id": 693000000562297
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562248/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated in the Same Space": {"value": {
+                "data": {
+                  "zone_id": "f721081a-6208-4058-95a5-fe4d787db67d",
+                  "space_id": 693000000562161
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1a-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "success"
+              }},
+              "Zone Duplicated into a New Space with All Versions": {"value": {
+                "data": {
+                  "space_id": "693000000598369",
+                  "uri": "/vani/api/v1/editions/75918186/spaces/693000000598369/zones/meta"
+                },
+                "message": "Zone duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1a-4ef9-8f25-75a873ff7f10/duplicate",
+                "status": "success"
+              }}
+            }
+          }}
+        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
@@ -1399,35 +1802,35 @@
             "examples": {
               "Unauthorized to Duplicate Zone in an Existing Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000152153"
+                  "space_id": "69300000562248"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000152153/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/69300000562248/zones/91c26965-0165-4b48-b976-16c924498a8c/duplicate",
                 "status": "error"
               }},
               "Unauthorized to Duplicate Zone in the Same Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000146147"
+                  "space_id": "693000000481013"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000146147/zones/61fae7ca-ebcc-4ab9-881c-07b1aa9c814b/duplicate",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000481013/zones/61fae7ca-ebcc-4ab9-881c-07b1aa9c814b/duplicate",
                 "status": "error"
               }},
               "Unauthorized to Duplicate Zone into a New Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000152153"
+                  "space_id": "69300000562248"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000152153/zones/91c26165-0165-4b48-b976-16c924498a8c/duplicate",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/69300000562248/zones/91c26165-0165-4b48-b976-16c924498a8c/duplicate",
                 "status": "error"
               }}
             }
@@ -1441,35 +1844,35 @@
             "examples": {
               "Zone Not Found in the Existing Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "Z1008",
                   "message": "Zone not found",
-                  "space_id": "40000000000150151"
+                  "space_id": "693000000562248"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000150151/zones/11c26965-0165-4b48-b976-16c924498a8c/duplicate",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562248/zones/11c26965-0165-4b48-b976-16c924498a8c/duplicate",
                 "status": "error"
               }},
               "Zone Not Found in the Same Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "Z1008",
                   "message": "Zone not found",
-                  "space_id": "40000000000144145"
+                  "space_id": "693000000562161"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000144145/zones/8915a5e7-ba1b-4ef9-8f25-75a873ff7f10/duplicate",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000562161/zones/8915a5e7-ba1b-4ef9-8f25-75a873ff7f10/duplicate",
                 "status": "error"
               }},
               "Zone Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "Z1008",
                   "message": "Zone not found",
-                  "space_id": "40000000000160161"
+                  "space_id": "693000000599045"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000160161/zones/2da6aa5e-8a20-4d6a-9551-e97fc4b2bd9f/duplicate",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000599045/zones/2da6aa5e-8a20-4d6a-9551-e97fc4b2bd9f/duplicate",
                 "status": "error"
               }}
             }
@@ -1503,21 +1906,116 @@
         ],
         "operationId": "shareAllZonesWithMember",
         "responses": {
-          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Shared with Team": {"value": {
+                  "data": {"space_resource_info": {
+                    "member_id": "3009000000002003",
+                    "access_state": "FULL ACCESS",
+                    "resources": [
+                      {
+                        "member_type": "TEAM",
+                        "added_time": "Mon, 07 Jul 2025, 18:22:20",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "d7ccf816-8293-4a2f-ae83-f10c0e3a6645",
+                        "permission": "allowed"
+                      },
+                      {
+                        "member_type": "TEAM",
+                        "added_time": "Mon, 07 Jul 2025, 18:22:20",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "31E57A34-3405-41D2-A2B6-7BAACAE9EE02",
+                        "permission": "allowed"
+                      },
+                      {
+                        "member_type": "TEAM",
+                        "added_time": "Mon, 07 Jul 2025, 18:22:20",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "9E23791B-B3AE-4877-9119-3F636DC685AC",
+                        "permission": "allowed"
+                      },
+                      {
+                        "member_type": "TEAM",
+                        "added_time": "Mon, 07 Jul 2025, 18:22:08",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "6800EB6E-ED24-4EA6-91C6-805445418B17",
+                        "permission": "allowed"
+                      }
+                    ],
+                    "space_id": "3009000000618005"
+                  }},
+                  "message": "All resources shared successfully",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members/3009000000002003",
+                  "status": "success"
+                }},
+                "Shared with Member": {"value": {
+                  "data": {"space_resource_info": {
+                    "member_id": "62609972",
+                    "access_state": "FULL ACCESS",
+                    "resources": [
+                      {
+                        "member_type": "USER",
+                        "added_time": "Mon, 07 Jul 2025, 18:13:11",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "d7ccf816-8293-4a2f-ae83-f10c0e3a6645",
+                        "permission": "allowed"
+                      },
+                      {
+                        "member_type": "USER",
+                        "added_time": "Mon, 07 Jul 2025, 18:16:32",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "6800EB6E-ED24-4EA6-91C6-805445418B17",
+                        "permission": "allowed"
+                      },
+                      {
+                        "member_type": "USER",
+                        "added_time": "Mon, 07 Jul 2025, 18:16:32",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "31E57A34-3405-41D2-A2B6-7BAACAE9EE02",
+                        "permission": "allowed"
+                      },
+                      {
+                        "member_type": "USER",
+                        "added_time": "Mon, 07 Jul 2025, 18:13:11",
+                        "added_by": "80215739",
+                        "resource_type": "document",
+                        "resource_id": "9E23791B-B3AE-4877-9119-3F636DC685AC",
+                        "permission": "allowed"
+                      }
+                    ],
+                    "space_id": "3009000000618005"
+                  }},
+                  "message": "All resources shared successfully",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members/62609972",
+                  "status": "success"
+                }}
+              }
+            }}
+          },
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000182183"
+                  "space_id": "3009000000612023"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000182183/zones/members/40000000000184185",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000612023/zones/members/3009000000002004",
                 "status": "error"
               }}}
             }}
@@ -1530,30 +2028,47 @@
               "examples": {
                 "Member Not Found": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000002003",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "96499735",
+                    "current_user_id": "96384499",
                     "error_code": "S1015",
                     "message": "member is not part of the Space",
-                    "space_id": "40000000000120121"
+                    "space_id": "3009000000618005"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members/40000000000184185",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members/3009000000002004",
                   "status": "error"
                 }},
                 "Space Not Found": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000002003",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "96499735",
+                    "current_user_id": "96384499",
                     "error_code": "S1009",
                     "message": "Space not found",
-                    "space_id": "40000000000186187"
+                    "space_id": "300900000618005"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000186187/zones/members/40000000000184185",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000618005/zones/members/3009000000002004",
                   "status": "error"
                 }}
               }
             }}
           },
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Member Already Has Full Access": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1045",
+                  "message": "Member already has full access",
+                  "space_id": "3009000000618005"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members/3009000000002003",
+                "status": "error"
+              }}}
+            }}
+          }
         },
         "x-vani-operation-type": "CREATE",
         "parameters": [
@@ -1587,18 +2102,18 @@
               "examples": {
                 "Get Member Resources \u2013 Full Access": {"value": {
                   "data": {"space_resource_info": {
-                    "member_id": "40000000000003004",
+                    "member_id": "96384499",
                     "access_state": "FULL ACCESS",
                     "resources": [],
-                    "space_id": "40000000000120121"
+                    "space_id": "3009000000618005"
                   }},
                   "message": "User resources fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members/40000000000003004",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members/96384499",
                   "status": "success"
                 }},
                 "Get Member Resources \u2013 Partial Access": {"value": {
                   "data": {"space_resource_info": {
-                    "member_id": "40000000000177178",
+                    "member_id": "62609972",
                     "access_state": "PARTIAL ACCESS",
                     "resources": [
                       {
@@ -1634,29 +2149,29 @@
                         "permission": "allowed"
                       }
                     ],
-                    "space_id": "40000000000120121"
+                    "space_id": "3009000000618005"
                   }},
                   "message": "User resources fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members/40000000000177178",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members/62609972",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000182183"
+                  "space_id": "3009000000612023"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000182183/zones/members/40000000000178179",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000612023/zones/members/9638449",
                 "status": "error"
               }}}
             }}
@@ -1669,24 +2184,24 @@
               "examples": {
                 "Member Not Found": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000002003",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "96499735",
+                    "current_user_id": "96384499",
                     "error_code": "S1015",
                     "message": "member is not part of the Space",
-                    "space_id": "40000000000120121"
+                    "space_id": "3009000000618005"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/zones/members/40000000000178179",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/zones/members/9638449",
                   "status": "error"
                 }},
                 "Space Not Found": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000002003",
-                    "current_user_id": "40000000000003004",
+                    "edition_id": "96499735",
+                    "current_user_id": "96384499",
                     "error_code": "S1009",
                     "message": "Space not found",
-                    "space_id": "40000000000180181"
+                    "space_id": "009000000618005"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000180181/zones/members/40000000000177178",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/009000000618005/zones/members/62609972",
                   "status": "error"
                 }}
               }

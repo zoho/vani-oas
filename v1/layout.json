@@ -212,6 +212,7 @@
                 "type": "boolean"
               },
               "actor_id": {
+                "pattern": "^(?:^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$|^[0-9]+$)$",
                 "description": "Calling actor/agent id",
                 "type": "string",
                 "maxLength": 200
@@ -644,6 +645,14 @@
           "CURRENT_FRAME",
           "TARGET_BOUNDS"
         ]
+      },
+      "GetPlacementFeasibilityResult": {
+        "type": "object",
+        "properties": {
+          "reason": {"type": "string"},
+          "suggested_alternative": {"$ref": "#/components/schemas/CandidateRegion"},
+          "feasible": {"type": "boolean"}
+        }
       },
       "GetObjectPlacementFeasibilityRequest": {
         "type": "object",
@@ -1410,6 +1419,7 @@
                 "type": "boolean"
               },
               "actor_id": {
+                "pattern": "^(?:^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$|^[0-9]+$)$",
                 "description": "Calling actor/agent id",
                 "type": "string",
                 "maxLength": 200
@@ -1593,9 +1603,7 @@
       "GetPlacementFeasibilityResponse": {
         "type": "object",
         "properties": {
-          "reason": {"type": "string"},
-          "suggested_alternative": {"$ref": "#/components/schemas/CandidateRegion"},
-          "feasible": {"type": "boolean"},
+          "result": {"$ref": "#/components/schemas/GetPlacementFeasibilityResult"},
           "error": {"$ref": "#/components/schemas/AgentError"}
         }
       },
@@ -2104,7 +2112,7 @@
         "description": "Successful response",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
       },
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -2222,7 +2230,7 @@
       "operationId": "getAnchoringFrameAlignmentStatus",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2272,7 +2280,7 @@
       "operationId": "updateAnchoringFrameTidy",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2308,7 +2316,7 @@
       },
       "operationId": "querySuggestedPlacementsBatch",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -2318,7 +2326,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2355,7 +2363,7 @@
       "operationId": "updateAnchoringObjectTidy",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2388,7 +2396,7 @@
       "operationId": "getSpatialSearchPlacementFeasibility",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2434,7 +2442,7 @@
       "operationId": "getSpatialSearchSuggestPlacement",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2480,7 +2488,7 @@
       "operationId": "getAnchoringFramePlacementFeasibility",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2530,7 +2538,7 @@
       "operationId": "updateAnchoringFrameAlign",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2567,7 +2575,7 @@
       "operationId": "updateAnchoringObjectPlace",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2600,7 +2608,7 @@
       "operationId": "getAnchoringObjectAlignmentStatus",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2646,7 +2654,7 @@
       "operationId": "getAnchoringObjectTidyFeasibility",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2695,7 +2703,7 @@
       },
       "operationId": "queryEmptyRegionsBatch",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -2705,7 +2713,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2738,7 +2746,7 @@
       "operationId": "getSpatialSearchObjects",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2788,7 +2796,7 @@
       "operationId": "updateAnchoringFramePlace",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2824,7 +2832,7 @@
       },
       "operationId": "queryOccupiedBoundsBatch",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -2834,7 +2842,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2870,8 +2878,8 @@
       },
       "operationId": "reconnectConnection",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2908,7 +2916,7 @@
       "operationId": "updateAnchoringObjectAlign",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2941,7 +2949,7 @@
       "operationId": "getConnectionFeasibility",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2987,7 +2995,7 @@
       "operationId": "getSpatialSearchEmptyRegion",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3033,7 +3041,7 @@
       "operationId": "getSpatialSearchOccupiedBounds",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3079,7 +3087,7 @@
       "operationId": "getSpatialSearchClearance",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3128,8 +3136,8 @@
       },
       "operationId": "queryObjectsBatch",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3165,8 +3173,8 @@
       },
       "operationId": "createConnection",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3199,7 +3207,7 @@
       "operationId": "getAnchoringFrameTidyFeasibility",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3245,7 +3253,7 @@
       "operationId": "getAnchoringObjectPlacementFeasibility",
       "responses": {
         "200": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -3294,7 +3302,7 @@
       },
       "operationId": "queryPlacementFeasibilityBatch",
       "responses": {
-        "201": {
+        "200": {
           "description": "Successful response",
           "content": {"application/json": {"schema": {"allOf": [
             {"$ref": "#/components/schemas/VaniEnvelope"},
@@ -3304,7 +3312,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},

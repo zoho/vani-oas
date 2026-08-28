@@ -184,6 +184,7 @@
       "MathematicalSymbolType": {
         "type": "string",
         "enum": [
+          "MATHEMATICAL_SYMBOL_TYPE_UNSPECIFIED",
           "PLUS",
           "MINUS",
           "MULTIPLY",
@@ -937,7 +938,10 @@
       },
       "VaniGraphicObject_StickyNoteCamelCase": {
         "type": "object",
-        "properties": {"type": {"$ref": "#/components/schemas/VaniGraphicObject_StickyNote_StickyNoteTypeCamelCase"}}
+        "properties": {
+          "layout": {"$ref": "#/components/schemas/LayoutCamelCase"},
+          "type": {"$ref": "#/components/schemas/VaniGraphicObject_StickyNote_StickyNoteTypeCamelCase"}
+        }
       },
       "ReflectionCamelCase": {
         "type": "object",
@@ -1149,11 +1153,12 @@
       },
       "EmptinessCamelCase": {
         "type": "object",
-        "properties": {"isEmpty": {"type": "boolean"}}
+        "properties": {"op": {"$ref": "#/components/schemas/EmptinessOpCamelCase"}}
       },
       "MathematicalSymbolTypeCamelCase": {
         "type": "string",
         "enum": [
+          "MATHEMATICAL_SYMBOL_TYPE_UNSPECIFIED",
           "PLUS",
           "MINUS",
           "MULTIPLY",
@@ -1313,6 +1318,7 @@
       "FlowchartType": {
         "type": "string",
         "enum": [
+          "FLOWCHART_TYPE_UNSPECIFIED",
           "PREDEFINED_PROCESS",
           "INTERNAL_STORAGE",
           "DOCUMENT",
@@ -1418,7 +1424,7 @@
       },
       "Emptiness": {
         "type": "object",
-        "properties": {"is_empty": {"type": "boolean"}}
+        "properties": {"op": {"$ref": "#/components/schemas/EmptinessOp"}}
       },
       "Structure_KanbanCamelCase": {
         "type": "object",
@@ -1478,6 +1484,7 @@
       "BlockArrowType": {
         "type": "string",
         "enum": [
+          "BLOCK_ARROW_TYPE_UNSPECIFIED",
           "SINGLE",
           "CURVED",
           "CALLOUT",
@@ -1627,6 +1634,14 @@
         "type": "object",
         "properties": {"type": {"$ref": "#/components/schemas/Shape_Basic_RoundedRectangle_RoundedRectangleTypeCamelCase"}}
       },
+      "EmptinessOp": {
+        "type": "string",
+        "enum": [
+          "EMPTINESS_OP_UNSPECIFIED",
+          "IS_EMPTY",
+          "IS_NOT_EMPTY"
+        ]
+      },
       "Frame": {
         "type": "object",
         "properties": {
@@ -1635,7 +1650,7 @@
             "type": "array",
             "items": {"$ref": "#/components/schemas/VaniGraphicObject"}
           },
-          "type": {"$ref": "#/components/schemas/Frame_FrameType"},
+          "type": {"$ref": "#/components/schemas/FrameType"},
           "properties": {"$ref": "#/components/schemas/GraphicObjectProperties"},
           "frame_id": {"type": "string"}
         }
@@ -2124,6 +2139,7 @@
       "BasicShapeType": {
         "type": "string",
         "enum": [
+          "BASIC_SHAPE_TYPE_UNSPECIFIED",
           "RECTANGLE",
           "ROUNDED_RECTANGLE",
           "SNIP_RECTANGLE",
@@ -2535,6 +2551,33 @@
             "type": "string"
           }
         }
+      },
+      "FrameType": {
+        "type": "string",
+        "enum": [
+          "FRAME_TYPE_UNSPECIFIED",
+          "A4",
+          "A3",
+          "A5",
+          "A6",
+          "A7",
+          "SLIDE_LANDSCAPE",
+          "SLIDE_PORTRAIT",
+          "DEVICE_PHONE",
+          "DEVICE_TABLET",
+          "DEVICE_DESKTOP",
+          "DEVICE_TV",
+          "DEVICE_WATCH",
+          "SM_TWITTER_POST",
+          "SM_TWITTER_HEADER",
+          "SM_FB_POST",
+          "SM_FB_COVER",
+          "SM_INSTAGRAM_POST",
+          "SM_INSTAGRAM_STORY",
+          "SM_LINKEDIN_POST",
+          "SM_LINKEDIN_COVER",
+          "CUSTOM"
+        ]
       },
       "Structure_Kanban_HorizontalKanbanCamelCase": {
         "type": "object",
@@ -3051,6 +3094,7 @@
       "StarTypeCamelCase": {
         "type": "string",
         "enum": [
+          "STAR_TYPE_UNSPECIFIED",
           "EXPLOSION",
           "POINT",
           "RIBBON",
@@ -3201,6 +3245,7 @@
       "BasicShapeTypeCamelCase": {
         "type": "string",
         "enum": [
+          "BASIC_SHAPE_TYPE_UNSPECIFIED",
           "RECTANGLE",
           "ROUNDED_RECTANGLE",
           "SNIP_RECTANGLE",
@@ -3388,7 +3433,7 @@
             "type": "array",
             "items": {"$ref": "#/components/schemas/VaniGraphicObjectCamelCase"}
           },
-          "type": {"$ref": "#/components/schemas/Frame_FrameTypeCamelCase"},
+          "type": {"$ref": "#/components/schemas/FrameTypeCamelCase"},
           "properties": {"$ref": "#/components/schemas/GraphicObjectPropertiesCamelCase"}
         }
       },
@@ -3405,6 +3450,7 @@
       "BlockArrowTypeCamelCase": {
         "type": "string",
         "enum": [
+          "BLOCK_ARROW_TYPE_UNSPECIFIED",
           "SINGLE",
           "CURVED",
           "CALLOUT",
@@ -3543,6 +3589,7 @@
       "StarType": {
         "type": "string",
         "enum": [
+          "STAR_TYPE_UNSPECIFIED",
           "EXPLOSION",
           "POINT",
           "RIBBON",
@@ -4396,7 +4443,10 @@
       },
       "VaniGraphicObject_StickyNote": {
         "type": "object",
-        "properties": {"type": {"$ref": "#/components/schemas/VaniGraphicObject_StickyNote_StickyNoteType"}}
+        "properties": {
+          "layout": {"$ref": "#/components/schemas/Layout"},
+          "type": {"$ref": "#/components/schemas/VaniGraphicObject_StickyNote_StickyNoteType"}
+        }
       },
       "DatabaseTable_ColumnTypeCamelCase": {
         "type": "string",
@@ -4482,9 +4532,37 @@
           "kit": {"$ref": "#/components/schemas/KitShapeCamelCase"}
         }
       },
+      "FrameTypeCamelCase": {
+        "type": "string",
+        "enum": [
+          "FRAME_TYPE_UNSPECIFIED",
+          "A4",
+          "A3",
+          "A5",
+          "A6",
+          "A7",
+          "SLIDE_LANDSCAPE",
+          "SLIDE_PORTRAIT",
+          "DEVICE_PHONE",
+          "DEVICE_TABLET",
+          "DEVICE_DESKTOP",
+          "DEVICE_TV",
+          "DEVICE_WATCH",
+          "SM_TWITTER_POST",
+          "SM_TWITTER_HEADER",
+          "SM_FB_POST",
+          "SM_FB_COVER",
+          "SM_INSTAGRAM_POST",
+          "SM_INSTAGRAM_STORY",
+          "SM_LINKEDIN_POST",
+          "SM_LINKEDIN_COVER",
+          "CUSTOM"
+        ]
+      },
       "CalloutType": {
         "type": "string",
         "enum": [
+          "CALLOUT_TYPE_UNSPECIFIED",
           "LINE",
           "RECTANGLE_CALLOUT",
           "ROUNDED_RECTANGLE_CALLOUT",
@@ -4551,6 +4629,14 @@
         "enum": [
           "AUTO",
           "MANUAL"
+        ]
+      },
+      "EmptinessOpCamelCase": {
+        "type": "string",
+        "enum": [
+          "EMPTINESS_OP_UNSPECIFIED",
+          "IS_EMPTY",
+          "IS_NOT_EMPTY"
         ]
       },
       "SmoothCubicToCamelCase": {
@@ -4632,31 +4718,6 @@
           "halign": {"$ref": "#/components/schemas/HorizontalAlignType"},
           "list_style": {"$ref": "#/components/schemas/ParaStyle_ListStyle"}
         }
-      },
-      "Frame_FrameTypeCamelCase": {
-        "type": "string",
-        "enum": [
-          "A4",
-          "A5",
-          "A6",
-          "A7",
-          "SLIDE_LANDSCAPE",
-          "SLIDE_PORTRAIT",
-          "DEVICE_PHONE",
-          "DEVICE_TABLET",
-          "DEVICE_DESKTOP",
-          "DEVICE_TV",
-          "DEVICE_WATCH",
-          "SM_TWITTER_POST",
-          "SM_TWITTER_HEADER",
-          "SM_FB_POST",
-          "SM_FB_COVER",
-          "SM_INSTAGRAM_POST",
-          "SM_INSTAGRAM_STORY",
-          "SM_LINKEDIN_POST",
-          "SM_LINKEDIN_COVER",
-          "CUSTOM"
-        ]
       },
       "DomainDiagram_DiagramLayoutCamelCase": {
         "type": "string",
@@ -5124,6 +5185,7 @@
       "CalloutTypeCamelCase": {
         "type": "string",
         "enum": [
+          "CALLOUT_TYPE_UNSPECIFIED",
           "LINE",
           "RECTANGLE_CALLOUT",
           "ROUNDED_RECTANGLE_CALLOUT",
@@ -5172,6 +5234,7 @@
       "FlowchartTypeCamelCase": {
         "type": "string",
         "enum": [
+          "FLOWCHART_TYPE_UNSPECIFIED",
           "PREDEFINED_PROCESS",
           "INTERNAL_STORAGE",
           "DOCUMENT",
@@ -5454,31 +5517,6 @@
       "SmoothQuadraticToCamelCase": {
         "type": "object",
         "properties": {"end": {"$ref": "#/components/schemas/PointCamelCase"}}
-      },
-      "Frame_FrameType": {
-        "type": "string",
-        "enum": [
-          "A4",
-          "A5",
-          "A6",
-          "A7",
-          "SLIDE_LANDSCAPE",
-          "SLIDE_PORTRAIT",
-          "DEVICE_PHONE",
-          "DEVICE_TABLET",
-          "DEVICE_DESKTOP",
-          "DEVICE_TV",
-          "DEVICE_WATCH",
-          "SM_TWITTER_POST",
-          "SM_TWITTER_HEADER",
-          "SM_FB_POST",
-          "SM_FB_COVER",
-          "SM_INSTAGRAM_POST",
-          "SM_INSTAGRAM_STORY",
-          "SM_LINKEDIN_POST",
-          "SM_LINKEDIN_COVER",
-          "CUSTOM"
-        ]
       },
       "DomainDiagram_UmlDiagram": {
         "type": "object",
@@ -5840,7 +5878,7 @@
         "description": "Successful response",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
       },
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -5976,7 +6014,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -6620,8 +6658,8 @@
       },
       "operationId": "updateData",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -6663,7 +6701,7 @@
             }
           ]}}}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -7571,8 +7609,8 @@
       },
       "operationId": "batchUpdateData",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},

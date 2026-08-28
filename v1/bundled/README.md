@@ -1,6 +1,6 @@
 # Bundled specification
 
-`vani-api.json` is the whole Vani API in one document — 171 operations, 719 schemas.
+`vani-api.json` is the whole Vani API in one document — 171 operations, 722 schemas.
 
 Use it when you want a single client for the entire API:
 

@@ -279,11 +279,7 @@
         "description": "Rate limit exceeded - this operation allows 30 requests per minute per user",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
-      "SuccessfulResponse": {
-        "description": "Successful response",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-      },
-      "InvalidRequestValidationFailed6": {
+      "InvalidRequestValidationFailed": {
         "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
@@ -503,21 +499,124 @@
       },
       "operationId": "duplicateSpace",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {
+              "Space Duplicated with Deep Copy": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Sat, 08 Mar 2025, 17:40:07",
+                  "last_modified_time": "Sat, 08 Mar 2025, 17:40:07",
+                  "is_favorite": "false",
+                  "space_name": "Vision board - 1",
+                  "publish": "false",
+                  "owner_zuid": "80215739",
+                  "can_edit": "true",
+                  "team_id": "3009000000002003",
+                  "allow_embed": "false",
+                  "space_id": "3009000000239341",
+                  "last_author_zuid": "80215739",
+                  "status": "ACTIVE"
+                }},
+                "message": "Space duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000232005/duplicate",
+                "status": "success"
+              }},
+              "Space Duplicated in a Different Team": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Sat, 08 Mar 2025, 17:37:07",
+                  "last_modified_time": "Sat, 08 Mar 2025, 17:37:07",
+                  "is_favorite": "false",
+                  "space_name": "Vision board",
+                  "publish": "false",
+                  "owner_zuid": "80215739",
+                  "can_edit": "true",
+                  "team_id": "3009000000002003",
+                  "allow_embed": "false",
+                  "space_id": "3009000000239335",
+                  "last_author_zuid": "80215739",
+                  "status": "ACTIVE"
+                }},
+                "message": "Space duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000232005/duplicate",
+                "status": "success"
+              }},
+              "Space Duplicated with Members and Comments": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Sat, 08 Mar 2025, 17:37:07",
+                  "last_modified_time": "Sat, 08 Mar 2025, 17:37:07",
+                  "is_favorite": "false",
+                  "space_name": "Vision board",
+                  "publish": "false",
+                  "owner_zuid": "80215739",
+                  "can_edit": "true",
+                  "team_id": "3009000000002003",
+                  "allow_embed": "false",
+                  "space_id": "3009000000239335",
+                  "last_author_zuid": "80215739",
+                  "status": "ACTIVE"
+                }},
+                "message": "Space duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000232005/duplicate",
+                "status": "success"
+              }},
+              "Space Duplicated Without New Space Name": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Sat, 08 Mar 2025, 18:12:41",
+                  "is_favorite": "false",
+                  "last_modified_time": "Sat, 08 Mar 2025, 18:12:41",
+                  "space_name": "Copy of Social media strategy and planning",
+                  "publish": "false",
+                  "owner_zuid": "80215739",
+                  "can_edit": "true",
+                  "allow_embed": "false",
+                  "team_id": "3009000000002003",
+                  "space_id": "3009000000239843",
+                  "last_author_zuid": "80215739",
+                  "status": "ACTIVE"
+                }},
+                "message": "Space duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000232005/duplicate",
+                "status": "success"
+              }},
+              "Success": {"value": {
+                "data": {"space_info": {
+                  "created_time": "Fri, 21 Aug 2026, 19:38:07",
+                  "last_modified_time": "Fri, 21 Aug 2026, 19:38:07",
+                  "is_favorite": "false",
+                  "can_edit": "true",
+                  "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000917103",
+                  "team_id": "5777000000002017",
+                  "allow_embed": "false",
+                  "space_name": "Vision board",
+                  "publish": "false",
+                  "owner_zuid": "82512958",
+                  "space_id": "5777000000917103",
+                  "last_author_zuid": "82512958",
+                  "status": "ACTIVE"
+                }},
+                "message": "Space duplicated successfully",
+                "request_uri": "/vani/api/v1/editions/112255940/spaces/5777000000911002/duplicate",
+                "status": "success"
+              }}
+            }
+          }}
+        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000036037",
+                "edition_id": "96499735",
+                "current_user_id": "80215739",
                 "error_code": "A1003",
                 "message": "The user doesn't have permission to perform this action",
-                "space_id": "40000000000045046"
+                "space_id": "3009000000093003"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000045046/duplicate",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093003/duplicate",
               "status": "error"
             }}}
           }}
@@ -529,13 +628,13 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Space Not Found": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000036037",
+                "edition_id": "96499735",
+                "current_user_id": "80215739",
                 "error_code": "S1009",
                 "message": "Space not found",
-                "space_id": "40000000000089090"
+                "space_id": "300900000093003"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000089090/duplicate",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000093003/duplicate",
               "status": "error"
             }}}
           }}
@@ -584,47 +683,48 @@
                 "data": {"space_info": {
                   "is_favorite": "false",
                   "can_edit": "true",
-                  "team_id": "40000000000012013"
+                  "team_id": "1303000000002003"
                 }},
                 "message": "Space fetched successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000005006/spaces/40000000000073074",
+                "request_uri": "/vani/api/v1/editions/60029715808/spaces/1303000000492291",
                 "status": "success"
               }},
               "Success": {"value": {
                 "data": {"space_info": {
-                  "created_time": "Wed, 02 Apr 2025, 14:46:07",
+                  "created_time": "Fri, 21 Aug 2026, 18:25:57",
+                  "last_modified_time": "Fri, 21 Aug 2026, 18:34:26",
                   "is_favorite": "false",
-                  "last_modified_time": "Mon, 14 Apr 2025, 19:01:10",
                   "can_edit": "true",
+                  "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000911002",
+                  "team_id": "5777000000002017",
                   "allow_embed": "false",
-                  "team_id": "40000000000012013",
                   "space_member_count": "1",
-                  "space_name": "New Space",
+                  "space_name": "REST API Doc Space",
                   "publish": "false",
-                  "owner_zuid": "40000000000072073",
-                  "space_id": "40000000000073074",
-                  "last_author_zuid": "40000000000072073",
+                  "owner_zuid": "82512958",
+                  "space_id": "5777000000911002",
+                  "last_author_zuid": "82512958",
                   "status": "ACTIVE"
                 }},
                 "message": "Space fetched successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000005006/spaces/40000000000073074",
+                "request_uri": "/vani/api/v1/editions/112255940/spaces/5777000000911002",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "current_user_id": "40000000000003004",
+                "current_user_id": "96384499",
                 "error_code": "A1003",
                 "message": "The user doesn't have permission to perform this action"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000075076",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000009300",
               "status": "error"
             }}}
           }}
@@ -663,27 +763,104 @@
         },
         "operationId": "createSpaceRequest",
         "responses": {
-          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Role Update Request Created": {"value": {
+                  "data": {
+                    "edition_id": "96499735",
+                    "updated_at": "Wed, 06 Aug 2025, 10:12:18",
+                    "request_id": "3009000000793049",
+                    "space_id": "3009000000694083",
+                    "zuid": "80473960",
+                    "status": "PENDING"
+                  },
+                  "message": "Space join request created successfully",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests",
+                  "status": "success"
+                }},
+                "Success": {"value": {
+                  "data": {
+                    "edition_id": "96499735",
+                    "updated_at": "Wed, 06 Aug 2025, 05:07:43",
+                    "request_id": "3009000000777009",
+                    "space_id": "3009000000694083",
+                    "zuid": "80473960",
+                    "status": "PENDING"
+                  },
+                  "message": "Space join request created successfully",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests",
+                  "status": "success"
+                }}
+              }
+            }}
+          },
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "403": {
+            "description": "Forbidden - the caller is authenticated but not allowed to perform this operation",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Downgrade is not allowed": {"value": {
+                  "error": {"details": {
+                    "edition_id": "96499735",
+                    "current_user_id": "80473960",
+                    "error_code": "R1011",
+                    "message": "Requesting for downgrade is not allowed"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests",
+                  "status": "error"
+                }},
+                "Cannot Update Owner Role": {"value": {
+                  "error": {"details": {
+                    "edition_id": "96499735",
+                    "current_user_id": "96384499",
+                    "error_code": "S1004",
+                    "message": "Cannot update owner role"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests",
+                  "status": "error"
+                }}
+              }
+            }}
+          },
           "404": {
             "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Member Not Part of the Team": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000099100",
+                  "edition_id": "96499735",
+                  "current_user_id": "80473960",
                   "error_code": "T1012",
                   "message": "Member not part of team"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000323324/requests",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests",
                 "status": "error"
               }}}
             }}
           },
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Member Already Has the Specified Role": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "80473960",
+                  "error_code": "M1001",
+                  "message": "The member already has the specified role"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests",
+                "status": "error"
+              }}}
+            }}
+          }
         },
         "x-vani-operation-type": "CREATE",
         "parameters": [
@@ -721,7 +898,7 @@
                       "requested_by": "80215739",
                       "role": "VIEWER",
                       "name": "naga.vg",
-                      "request_id": "40000000000320321",
+                      "request_id": "3009000000789151",
                       "status": "PENDING"
                     },
                     {
@@ -729,37 +906,37 @@
                       "requested_by": "80473960",
                       "role": "VIEWER",
                       "name": "naga.vg",
-                      "request_id": "40000000000321322",
+                      "request_id": "3009000000789147",
                       "status": "PENDING"
                     }
                   ]},
                   "message": "Space join requests fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000132133/requests",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000701079/requests",
                   "status": "success"
                 }},
                 "No Pending Join Requests": {"value": {
                   "data": {"requests": []},
                   "message": "Space join requests fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000323324/requests",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000099100",
+                  "edition_id": "96499735",
+                  "current_user_id": "80473960",
                   "error_code": "A1003",
-                  "team_id": "40000000000323324",
+                  "team_id": "3009000000694083",
                   "message": "The user doesn't have permission to perform this action"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000323324/requests",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests",
                 "status": "error"
               }}}
             }}
@@ -771,13 +948,13 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Space Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "S1009",
-                  "team_id": "40000000000325326",
+                  "team_id": "300900000064083",
                   "message": "Space not found"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000325326/requests",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000064083/requests",
                 "status": "error"
               }}}
             }}
@@ -818,35 +995,48 @@
             "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
             "examples": {"Success": {"value": {
               "data": {"user_permission_info": {
-                "edition_id": "40000000000002003",
+                "edition_id": "96499735",
                 "role": "CREATOR",
-                "current_user_id": "40000000000003004",
-                "space_id": "40000000000045046"
+                "current_user_id": "96384499",
+                "space_id": "3009000000093003"
               }},
               "message": "User permissions fetched successfully",
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000045046/users/me/permission",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093003/users/me/permission",
               "status": "success"
             }}}
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {
           "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
-            "examples": {"Space Not Found": {"value": {
-              "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
-                "error_code": "S1009",
-                "message": "Space not found",
-                "space_id": "40000000000089090"
+            "examples": {
+              "User Is Not a Space Member": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1015",
+                  "message": "Member is not part of the Space",
+                  "space_id": "3009000000298005"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000298005/users/me/permission",
+                "status": "error"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000089090/users/me/permission",
-              "status": "error"
-            }}}
+              "Space Not Found": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1009",
+                  "message": "Space not found",
+                  "space_id": "300900000093003"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000093003/users/me/permission",
+                "status": "error"
+              }}
+            }
           }}
         },
         "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
@@ -875,20 +1065,39 @@
       ],
       "operationId": "acceptSpaceRequest",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {"Success": {"value": {
+              "data": {
+                "role_name": "VIEWER",
+                "edition_id": "96499735",
+                "updated_at": "Wed, 06 Aug 2025, 20:07:20",
+                "request_id": "3009000000789147",
+                "space_id": "3009000000701079",
+                "zuid": "80473960",
+                "status": "ACCEPTED"
+              },
+              "message": "Space join request accepted successfully",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000701079/requests/3009000000789147/accept",
+              "status": "success"
+            }}}
+          }}
+        },
         "400": {
           "description": "Invalid request - validation failed",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Invalid Request Id": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "R1003",
-                "team_id": "40000000000323324",
+                "team_id": "3009000000694083",
                 "message": "Invalid request ID"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000323324/requests/40000000000333334/accept",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests/3009000000777013/accept",
               "status": "error"
             }}}
           }}
@@ -899,13 +1108,13 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000099100",
+                "edition_id": "96499735",
+                "current_user_id": "80473960",
                 "error_code": "A1003",
-                "team_id": "40000000000323324",
+                "team_id": "3009000000694083",
                 "message": "The user doesn't have permission to perform this action"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000323324/requests/40000000000335336/accept",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests/3009000000777109/accept",
               "status": "error"
             }}}
           }}
@@ -946,49 +1155,79 @@
               "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
               "examples": {"Success": {"value": {
                 "data": {
-                  "edition_id": "40000000000004005",
-                  "removed_zuid": "40000000000099100",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000127128"
+                  "edition_id": "97375109",
+                  "removed_zuid": "80473960",
+                  "current_user_id": "96384499",
+                  "space_id": "1505000000039107"
                 },
                 "message": "Space member deleted successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000127128/members",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000039107/members",
                 "status": "success"
               }}}
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000122123"
+                  "space_id": "1505000000045043"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000122123/members",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000045043/members",
                 "status": "error"
               }}}
             }}
           },
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "403": {
+            "description": "Forbidden - the caller is authenticated but not allowed to perform this operation",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Failure : Space owner cannot be removed": {"value": {
+                  "error": {"details": {
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "error_code": "S1002",
+                    "message": "Space owner cannot be removed",
+                    "space_id": "1505000000045043"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000045043/members",
+                  "status": "error"
+                }},
+                "Failure : Cannot remove self": {"value": {
+                  "error": {"details": {
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "error_code": "M1002",
+                    "message": "User cannot remove self",
+                    "space_id": "1505000000045043"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000045043/members/96384499",
+                  "status": "error"
+                }}
+              }
+            }}
+          },
           "404": {
             "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Failure : Member Not in Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000004005",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
                   "error_code": "S1015",
                   "message": "Member is not part of the Space",
-                  "space_id": "40000000000127128"
+                  "space_id": "1505000000039107"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000127128/members",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000039107/members",
                 "status": "error"
               }}}
             }}
@@ -1032,68 +1271,118 @@
                 "Success: Role Updated to Editor": {"value": {
                   "data": {
                     "new_role": "EDITOR",
-                    "edition_id": "40000000000004005",
-                    "current_user_id": "40000000000003004",
-                    "space_id": "40000000000100101",
-                    "zuid": "40000000000099100"
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "space_id": "1505000000005005",
+                    "zuid": "80473960"
                   },
                   "message": "Space member updated successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000100101/members",
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000005005/members",
                   "status": "success"
                 }},
                 "Success: Role Updated to Commenter": {"value": {
                   "data": {
                     "new_role": "COMMENTER",
-                    "edition_id": "40000000000004005",
-                    "current_user_id": "40000000000003004",
-                    "space_id": "40000000000100101",
-                    "zuid": "40000000000099100"
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "space_id": "1505000000005005",
+                    "zuid": "80473960"
                   },
                   "message": "Space member updated successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000100101/members",
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000005005/members",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000125126"
+                  "space_id": "693000000536005"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000125126/members",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000536005/members",
                 "status": "error"
               }}}
             }}
           },
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
+          "403": {
+            "description": "Forbidden - the caller is authenticated but not allowed to perform this operation",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {
+                "Failure: Cannot Update Own Role": {"value": {
+                  "error": {"details": {
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "error_code": "R1001",
+                    "message": "Cannot update own role",
+                    "space_id": "1505000000045043",
+                    "zuid": "96384499"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000045043/members",
+                  "status": "error"
+                }},
+                "Failure: Cannot Update Owner Role": {"value": {
+                  "error": {"details": {
+                    "edition_id": "97375109",
+                    "current_user_id": "96384499",
+                    "error_code": "S1004",
+                    "message": "Cannot update owner role",
+                    "space_id": "1505000000045043",
+                    "zuid": "80473960"
+                  }},
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000045043/members",
+                  "status": "error"
+                }}
+              }
+            }}
+          },
           "404": {
             "description": "Not found - a resource named in the path does not exist, or is not visible to the caller",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Failure: Member Not Part of the Space": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "S1015",
                   "message": "Member is not part of the Space",
-                  "space_id": "40000000000046047",
-                  "zuid": "40000000000123124"
+                  "space_id": "3009000000067027",
+                  "zuid": "80585905"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000046047/members",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000067027/members",
                 "status": "error"
               }}}
             }}
           },
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Failure: Member Already Has the Same Role": {"value": {
+                "error": {"details": {
+                  "edition_id": "97375109",
+                  "current_user_id": "96384499",
+                  "error_code": "M1001",
+                  "message": "The member already has the specified role",
+                  "space_id": "1505000000005005",
+                  "zuid": "80473960"
+                }},
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000005005/members/80473960",
+                "status": "error"
+              }}}
+            }}
+          }
         },
         "x-vani-operation-type": "UPDATE",
         "parameters": [
@@ -1130,16 +1419,16 @@
                 "requested_time": "Wed, 06 Aug 2025, 16:10:51",
                 "requested_by": "80473960",
                 "role": "VIEWER",
-                "request_id": "40000000000321322",
+                "request_id": "3009000000789147",
                 "status": "PENDING"
               }},
               "message": "Space join request fetched successfully",
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000132133/requests/my-requests",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000701079/requests/my-requests",
               "status": "success"
             }}}
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {
@@ -1149,24 +1438,24 @@
             "examples": {
               "Request Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000099100",
+                  "edition_id": "96499735",
+                  "current_user_id": "80473960",
                   "error_code": "R1014",
-                  "team_id": "40000000000323324",
+                  "team_id": "3009000000694083",
                   "message": "Space join request not found"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000323324/requests/my-requests",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests/my-requests",
                 "status": "error"
               }},
               "Space Not Found": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000099100",
+                  "edition_id": "96499735",
+                  "current_user_id": "80473960",
                   "error_code": "S1009",
-                  "team_id": "40000000000327328",
+                  "team_id": "1664000000180003",
                   "message": "Space not found"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000327328/requests/my-requests",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/1664000000180003/requests/my-requests",
                 "status": "error"
               }}
             }
@@ -1199,28 +1488,63 @@
       ],
       "operationId": "rejectSpaceRequest",
       "responses": {
-        "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "200": {
+          "description": "Successful response",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+            "examples": {"Success": {"value": {
+              "data": {
+                "edition_id": "112255940",
+                "updated_at": "Fri, 21 Aug 2026, 20:10:08",
+                "request_id": "5777000000922022",
+                "space_id": "5777000000919096",
+                "zuid": "97049596",
+                "status": "REJECTED"
+              },
+              "message": "Space join request rejected successfully",
+              "request_uri": "/vani/api/v1/editions/112255940/spaces/5777000000919096/requests/5777000000922022/reject",
+              "status": "success"
+            }}}
+          }}
+        },
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000099100",
+                "edition_id": "96499735",
+                "current_user_id": "80473960",
                 "error_code": "A1003",
-                "team_id": "40000000000323324",
+                "team_id": "3009000000694083",
                 "message": "The user doesn't have permission to perform this action"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000323324/requests/40000000000337338/reject",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests/3009000000777117/reject",
               "status": "error"
             }}}
           }}
         },
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
-        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+        "409": {
+          "description": "Conflict - the requested change conflicts with the current resource state",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {"Already Rejected": {"value": {
+              "error": {"details": {
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
+                "error_code": "R1015",
+                "team_id": "3009000000694083",
+                "message": "Space join request is already rejected"
+              }},
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000694083/requests/3009000000777117/reject",
+              "status": "error"
+            }}}
+          }}
+        }
       },
       "x-vani-operation-type": "CREATE",
       "parameters": [
@@ -1253,32 +1577,32 @@
             "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
             "examples": {"Success": {"value": {
               "data": {"user_permission_info": {
-                "edition_id": "40000000000002003",
+                "edition_id": "96499735",
                 "role": "EDITOR",
-                "current_user_id": "40000000000003004",
-                "space_id": "40000000000216217",
-                "zuid": "40000000000036037"
+                "current_user_id": "96384499",
+                "space_id": "3009000000303003",
+                "zuid": "80215739"
               }},
               "message": "User permissions fetched successfully",
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000216217/users/40000000000036037/permission",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000303003/users/80215739/permission",
               "status": "success"
             }}}
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Unauthorized": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "S1020",
                 "message": "User is not the owner of the Space",
-                "space_id": "40000000000214215"
+                "space_id": "3009000000298005"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000214215/users/40000000000036037/permission",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000298005/users/80215739/permission",
               "status": "error"
             }}}
           }}
@@ -1290,14 +1614,14 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"User Is Not a Space Member": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
-                "current_user_id": "40000000000003004",
+                "edition_id": "96499735",
+                "current_user_id": "96384499",
                 "error_code": "S1015",
                 "message": "Member is not part of the Space",
-                "space_id": "40000000000216217",
-                "zuid": "40000000000036037"
+                "space_id": "3009000000303003",
+                "zuid": "80215739"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000216217/users/40000000000036037/permission",
+              "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000303003/users/80215739/permission",
               "status": "error"
             }}}
           }}
@@ -1340,99 +1664,99 @@
             "examples": {
               "Success: Removed from Favorites": {"value": {
                 "data": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "is_favourite": false,
-                  "space_id": "40000000000077078"
+                  "space_id": "3009000000141003"
                 },
                 "message": "Space meta updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000077078/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000141003/meta",
                 "status": "success"
               }},
               "Success: Marked as Embedded": {"value": {
                 "data": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000045046",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "space_id": "3009000000093003",
                   "embed_status": true
                 },
                 "message": "Space meta updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000045046/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093003/meta",
                 "status": "success"
               }},
               "Success: Embed Removed": {"value": {
                 "data": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000045046",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "space_id": "3009000000093003",
                   "embed_status": false
                 },
                 "message": "Space meta updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000045046/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093003/meta",
                 "status": "success"
               }},
               "Success": {"value": {
                 "data": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000077078",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "space_id": "3009000000141003",
                   "new_name": "Never Have | Ever"
                 },
                 "message": "Space meta updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000077078/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000141003/meta",
                 "status": "success"
               }},
               "Success: Marked as Favorite": {"value": {
                 "data": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "is_favourite": true,
-                  "space_id": "40000000000077078"
+                  "space_id": "3009000000141003"
                 },
                 "message": "Space meta updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000077078/meta",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000141003/meta",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {
+              "Unauthorized 2": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "300900000014100"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000014100/meta",
+                "status": "error"
+              }},
+              "Unauthorized 3": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action",
+                  "space_id": "3009000000220049"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000220049/meta",
+                "status": "error"
+              }},
               "Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000000001",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "75918186",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000077078"
+                  "space_id": "3009000000141003"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000077078/meta",
-                "status": "error"
-              }},
-              "Unauthorized (3)": {"value": {
-                "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "error_code": "A1003",
-                  "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000097098"
-                }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000097098/meta",
-                "status": "error"
-              }},
-              "Unauthorized (2)": {"value": {
-                "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "error_code": "A1003",
-                  "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000095096"
-                }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000095096/meta",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/3009000000141003/meta",
                 "status": "error"
               }}
             }
@@ -1440,7 +1764,70 @@
         },
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
-        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+        "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+        "409": {
+          "description": "Conflict - the requested change conflicts with the current resource state",
+          "content": {"application/json": {
+            "schema": {"$ref": "#/components/schemas/VaniError"},
+            "examples": {
+              "Failure: Unable to Remove from Favorites": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1018",
+                  "message": "Space is not favourite",
+                  "space_id": "3009000000141003"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000141003/meta",
+                "status": "error"
+              }},
+              "Same Space Name Exists": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1014",
+                  "message": "Space name is same as the new name",
+                  "space_id": "3009000000141003"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000141003/meta",
+                "status": "error"
+              }},
+              "Failure: Unable to Mark as Favorite": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1017",
+                  "message": "Space is already favourite",
+                  "space_id": "3009000000141003"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000141003/meta",
+                "status": "error"
+              }},
+              "Failure: Unable to Remove Embed": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1022",
+                  "message": "Space is not in an embedded state",
+                  "space_id": "3009000000093003"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093003/meta",
+                "status": "error"
+              }},
+              "Failure: Unable to Mark as Embedded": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "S1021",
+                  "message": "Space is already in an embedded state",
+                  "space_id": "3009000000093003"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093003/meta",
+                "status": "error"
+              }}
+            }
+          }}
+        }
       },
       "x-vani-operation-type": "UPDATE",
       "parameters": [
@@ -1471,7 +1858,65 @@
         },
         "operationId": "createSpaceMembers",
         "responses": {
-          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Success: All User Types": {"value": {
+                  "data": {"added_members": [
+                    {
+                      "role_name": "VIEWER",
+                      "added_type_name": "USER",
+                      "added_time": "Tue, 04 Feb 2025, 11:18:40",
+                      "mail_id": "lucas.bryant@boxicle.com",
+                      "added_by": "96384499",
+                      "display_name": "Lucas Bryant",
+                      "zuid": "98722154"
+                    },
+                    {
+                      "role_name": "EDITOR",
+                      "added_type_name": "TEAM",
+                      "added_time": "Tue, 04 Feb 2025, 11:18:40",
+                      "added_by": "96384499",
+                      "display_name": "TEAM VANI",
+                      "zuid": "1505000000002005"
+                    }
+                  ]},
+                  "message": "Space member added successfully.",
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000039170/members",
+                  "status": "success"
+                }},
+                "Success with Conditional Sharing": {"value": {
+                  "data": {"added_members": [{
+                    "added_type_name": "USER",
+                    "added_time": "Mon, 28 Jul 2025, 02:23:54",
+                    "mail_id": "sophia.bennett@boxicle.com",
+                    "added_by": "888015717",
+                    "display_name": "Sophia Bennett",
+                    "zuid": "98722154"
+                  }]},
+                  "message": "Space member added successfully.",
+                  "request_uri": "/vani/api/v1/editions/888012145/spaces/4855000000088149/members",
+                  "status": "success"
+                }},
+                "Success": {"value": {
+                  "data": {"added_members": [{
+                    "role_name": "VIEWER",
+                    "added_type_name": "USER",
+                    "added_time": "Tue, 04 Feb 2025, 10:26:17",
+                    "mail_id": "sophia.bennett@boxicle.com",
+                    "added_by": "96384499",
+                    "display_name": "Sophia Bennett",
+                    "zuid": "98722154"
+                  }]},
+                  "message": "Space member added successfully.",
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000039170/members",
+                  "status": "success"
+                }}
+              }
+            }}
+          },
           "400": {
             "description": "Invalid request - validation failed",
             "content": {"application/json": {
@@ -1482,12 +1927,12 @@
                     "failed_members": [{
                       "error_message": "User is inactive and cannot be added to project",
                       "error_code": "U1001",
-                      "zuid": "40000000000036037"
+                      "zuid": "80215739"
                     }],
                     "error_code": "S1008",
                     "message": "Space member add failed"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000111112/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000536104/members",
                   "status": "error"
                 }},
                 "Partial Access Is Not Allowed for Free Plan": {"value": {
@@ -1495,12 +1940,12 @@
                     "failed_members": [{
                       "error_message": "Partial access is not allowed for free plan",
                       "error_code": "Z1016",
-                      "zuid": "40000000000118119"
+                      "zuid": "1373000000002001"
                     }],
                     "error_code": "S1008",
                     "message": "Space member add failed"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000115116/spaces/40000000000116117/members",
+                  "request_uri": "/vani/api/v1/editions/80585907/spaces/1373000000696005/members",
                   "status": "error"
                 }},
                 "Cannot Set Full Access with Restrictions": {"value": {
@@ -1508,12 +1953,12 @@
                     "failed_members": [{
                       "error_message": "Restricting full access conflicts with existing permissions",
                       "error_code": "Z1015",
-                      "zuid": "40000000000027028"
+                      "zuid": "3009000000002003"
                     }],
                     "error_code": "S1008",
                     "message": "Space member add failed"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000120121/members",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000618005/members",
                   "status": "error"
                 }},
                 "User Not Part of the Team or Edition": {"value": {
@@ -1521,12 +1966,12 @@
                     "failed_members": [{
                       "error_message": "User is inactive and cannot be added to project",
                       "error_code": "U1001",
-                      "zuid": "40000000000036037"
+                      "zuid": "80215739"
                     }],
                     "error_code": "S1008",
                     "message": "Space member add failed"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/40000000000111112/members",
+                  "request_uri": "/vani/api/v1/editions/75918186/spaces/693000000536104/members",
                   "status": "error"
                 }},
                 "Already Part of Space": {"value": {
@@ -1534,12 +1979,12 @@
                     "failed_members": [{
                       "error_message": "Member already part of Space",
                       "error_code": "S1019",
-                      "zuid": "40000000000007008"
+                      "zuid": "98722154"
                     }],
                     "error_code": "S1008",
                     "message": "Space member add failed"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000106107/members",
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000039170/members",
                   "status": "error"
                 }},
                 "Private Sharing Is Restricted for Free Plan": {"value": {
@@ -1547,12 +1992,12 @@
                     "failed_members": [{
                       "error_message": "Private share is restricted for free plan",
                       "error_code": "Z1014",
-                      "zuid": "40000000000036037"
+                      "zuid": "80215739"
                     }],
                     "error_code": "S1008",
                     "message": "Space member add failed"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000115116/spaces/40000000000116117/members",
+                  "request_uri": "/vani/api/v1/editions/80585907/spaces/1373000000696005/members",
                   "status": "error"
                 }}
               }
@@ -1564,19 +2009,45 @@
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000113114"
+                  "space_id": "300900000014503"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000113114/members",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000014503/members",
                 "status": "error"
               }}}
             }}
           },
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
+          "206": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Partial Success": {"value": {
+                "data": {
+                  "failed_members": [{
+                    "error_message": "Member already part of Space",
+                    "error_code": "S1019",
+                    "zuid": "98722154"
+                  }],
+                  "added_members": [{
+                    "role_name": "EDITOR",
+                    "added_type_name": "TEAM",
+                    "added_time": "Tue, 04 Feb 2025, 11:14:23",
+                    "added_by": "96384499",
+                    "display_name": "CloudSpark",
+                    "zuid": "1505000000002005"
+                  }]
+                },
+                "message": "Partial success: Some members added, others failed.",
+                "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000039170/members",
+                "status": "success"
+              }}}
+            }}
+          },
           "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
         },
         "x-vani-operation-type": "CREATE",
@@ -1612,74 +2083,58 @@
                   "data": {"space_members": [
                     {
                       "role_name": "EDITOR",
-                      "display_name": "Ana Silva",
-                      "zuid": "40000000000099100"
+                      "display_name": "Emma Carter",
+                      "zuid": "80473960"
                     },
                     {
                       "role_name": "VIEWER",
-                      "display_name": "Ruth Bennett",
-                      "zuid": "40000000000020021"
+                      "display_name": "CloudSpark",
+                      "zuid": "1505000000002005"
                     },
                     {
                       "role_name": "CREATOR",
-                      "display_name": "Omar Haddad",
-                      "zuid": "40000000000003004"
+                      "display_name": "Ryan Mitchell",
+                      "zuid": "96384499"
                     }
                   ]},
                   "message": "Space members fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000102103/members",
+                  "request_uri": "/vani/api/v1/editions/97375109/spaces/1505000000022005/members",
                   "status": "success"
                 }},
                 "Success": {"value": {
-                  "data": {"space_members": [
-                    {
-                      "role_name": "EDITOR",
-                      "added_type_name": "USER",
-                      "added_time": "Tue, 04 Feb 2025, 09:40:28",
-                      "mail_id": "alex.morgan@example.com",
-                      "added_by": "96384499",
-                      "display_name": "Ana Silva",
-                      "zuid": "40000000000099100"
-                    },
-                    {
-                      "role_name": "VIEWER",
-                      "added_type_name": "TEAM",
-                      "added_time": "Tue, 21 Jan 2025, 22:43:52",
-                      "added_by": "96384499",
-                      "display_name": "Ruth Bennett",
-                      "zuid": "40000000000020021"
-                    },
-                    {
+                  "data": {
+                    "space_members": [{
                       "role_name": "CREATOR",
                       "added_type_name": "USER",
-                      "added_time": "Tue, 21 Jan 2025, 22:43:45",
-                      "mail_id": "priya.nair@example.com",
-                      "added_by": "96384499",
-                      "display_name": "Omar Haddad",
-                      "zuid": "40000000000003004"
-                    }
-                  ]},
+                      "added_time": "Fri, 21 Aug 2026, 18:25:57",
+                      "mail_id": "user3@example.com",
+                      "added_by": "82512958",
+                      "display_name": "Sakthii5.2",
+                      "zuid": "82512958"
+                    }],
+                    "next_from": 1
+                  },
                   "message": "Space members fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000004005/spaces/40000000000100101/members",
+                  "request_uri": "/vani/api/v1/editions/112255940/spaces/5777000000911002/members",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action",
-                  "space_id": "40000000000104105"
+                  "space_id": "300900000038005"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000104105/members",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000038005/members",
                 "status": "error"
               }}}
             }}
@@ -1780,19 +2235,48 @@
         },
         "operationId": "createSpace",
         "responses": {
-          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {
+                "Create Space Using Template": {"value": {
+                  "data": {
+                    "edition_id": "96499735",
+                    "current_user_id": "96384499",
+                    "space_id": "3009000000145003",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000145003"
+                  },
+                  "message": "Space created successfully.",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/",
+                  "status": "success"
+                }},
+                "Success": {"value": {
+                  "data": {
+                    "edition_id": "96499735",
+                    "current_user_id": "96384499",
+                    "space_id": "3009000000141003",
+                    "uri": "/vani/api/v1/editions/96499735/spaces/3009000000141003"
+                  },
+                  "message": "Space created successfully.",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/",
+                  "status": "success"
+                }}
+              }
+            }}
+          },
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "current_user_id": "40000000000003004",
+                  "current_user_id": "96384499",
                   "error_code": "T1006",
                   "message": "User is not a member of the team"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000000001/spaces/",
+                "request_uri": "/vani/api/v1/editions/75918186/spaces/",
                 "status": "error"
               }}}
             }}
@@ -1805,21 +2289,21 @@
               "examples": {
                 "Template Not Found": {"value": {
                   "error": {"details": {
-                    "edition_id": "40000000000005006",
-                    "current_user_id": "40000000000072073",
+                    "edition_id": "60029715808",
+                    "current_user_id": "60029267674",
                     "error_code": "S1030",
                     "message": "Template not found"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000005006/spaces/",
+                  "request_uri": "/vani/api/v1/editions/60029715808/spaces/",
                   "status": "error"
                 }},
                 "Team Not Found": {"value": {
                   "error": {"details": {
-                    "current_user_id": "40000000000003004",
+                    "current_user_id": "96384499",
                     "error_code": "T1008",
                     "message": "Team not found"
                   }},
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces/",
                   "status": "error"
                 }}
               }
@@ -1874,17 +2358,153 @@
                       "is_favorite": "true",
                       "space_name": "Business case template",
                       "publish": "false",
-                      "owner_zuid": "40000000000003004",
+                      "owner_zuid": "96384499",
                       "can_edit": "true",
-                      "team_id": "40000000000027028",
+                      "team_id": "3009000000002003",
                       "space_member_count": "1",
-                      "space_id": "40000000000039040",
-                      "last_author_zuid": "40000000000003004",
+                      "space_id": "3009000000093779",
+                      "last_author_zuid": "96384499",
                       "status": "ACTIVE"
                     }]
                   },
                   "message": "Space fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
+                  "status": "success"
+                }},
+                "A_T - RECENT_ALL_SPACES_ORG": {"value": {
+                  "data": {
+                    "space_count": 2,
+                    "spaces_info": [
+                      {
+                        "created_time": "Fri, 17 Jan 2025, 12:00:57",
+                        "last_modified_time": "Fri, 17 Jan 2025, 12:40:05",
+                        "is_favorite": "false",
+                        "space_name": "testing library",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_member_count": "0",
+                        "space_id": "3009000000038005",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Fri, 03 Jan 2025, 11:55:58",
+                        "last_modified_time": "Fri, 03 Jan 2025, 11:57:14",
+                        "is_favorite": "false",
+                        "space_name": "Vani - Getting Started",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_member_count": "0",
+                        "space_id": "3009000000002013",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      }
+                    ]
+                  },
+                  "message": "Space fetched successfully.",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
+                  "status": "success"
+                }},
+                "A_T - RECENTLY_TRASHED": {"value": {
+                  "data": {
+                    "space_count": 2,
+                    "spaces_info": [
+                      {
+                        "created_time": "Fri, 24 Jan 2025, 12:26:26",
+                        "last_modified_time": "Fri, 24 Jan 2025, 12:26:26",
+                        "is_favorite": "false",
+                        "space_name": "trash 1",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "state_modified_time": "Fri, 24 Jan 2025, 12:26:36",
+                        "space_id": "3009000000093854",
+                        "last_author_zuid": "96384499",
+                        "status": "TRASH"
+                      },
+                      {
+                        "created_time": "Fri, 24 Jan 2025, 12:26:46",
+                        "last_modified_time": "Fri, 24 Jan 2025, 12:26:46",
+                        "is_favorite": "false",
+                        "space_name": "trash 2",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "state_modified_time": "Fri, 24 Jan 2025, 12:26:51",
+                        "space_id": "3009000000093930",
+                        "last_author_zuid": "96384499",
+                        "status": "TRASH"
+                      }
+                    ]
+                  },
+                  "message": "Space fetched successfully.",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
+                  "status": "success"
+                }},
+                "Using Filter Fields": {"value": {
+                  "data": {
+                    "space_count": 58,
+                    "spaces_info": [
+                      {
+                        "space_name": "Business case template",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      },
+                      {
+                        "space_name": "Customer journey map",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      },
+                      {
+                        "space_name": "Project",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      },
+                      {
+                        "space_name": "New Space",
+                        "owner_zuid": "97377569",
+                        "space_member_count": "2"
+                      },
+                      {
+                        "space_name": "New Space",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      },
+                      {
+                        "space_name": "New Space",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      },
+                      {
+                        "space_name": "New Space",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      },
+                      {
+                        "space_name": "New Space",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      },
+                      {
+                        "space_name": "New Space",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      },
+                      {
+                        "space_name": "New Space",
+                        "owner_zuid": "96384499",
+                        "space_member_count": "1"
+                      }
+                    ]
+                  },
+                  "message": "Space fetched successfully.",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
                   "status": "success"
                 }},
                 "A_T - SHARED_SPACES": {"value": {
@@ -1897,12 +2517,12 @@
                         "is_favorite": "false",
                         "space_name": "New Space",
                         "publish": "false",
-                        "owner_zuid": "40000000000032033",
+                        "owner_zuid": "97377569",
                         "can_edit": "true",
-                        "team_id": "40000000000027028",
+                        "team_id": "3009000000002003",
                         "space_member_count": "3",
-                        "space_id": "40000000000044045",
-                        "last_author_zuid": "40000000000032033",
+                        "space_id": "3009000000058037",
+                        "last_author_zuid": "97377569",
                         "status": "ACTIVE"
                       },
                       {
@@ -1911,12 +2531,12 @@
                         "is_favorite": "false",
                         "space_name": "New Space",
                         "publish": "false",
-                        "owner_zuid": "40000000000003004",
+                        "owner_zuid": "96384499",
                         "can_edit": "true",
-                        "team_id": "40000000000027028",
+                        "team_id": "3009000000002003",
                         "space_member_count": "2",
-                        "space_id": "40000000000045046",
-                        "last_author_zuid": "40000000000003004",
+                        "space_id": "3009000000093003",
+                        "last_author_zuid": "96384499",
                         "status": "ACTIVE"
                       },
                       {
@@ -1925,18 +2545,18 @@
                         "is_favorite": "false",
                         "space_name": "project members test",
                         "publish": "false",
-                        "owner_zuid": "40000000000003004",
+                        "owner_zuid": "96384499",
                         "can_edit": "true",
-                        "team_id": "40000000000027028",
+                        "team_id": "3009000000002003",
                         "space_member_count": "3",
-                        "space_id": "40000000000046047",
-                        "last_author_zuid": "40000000000003004",
+                        "space_id": "3009000000067027",
+                        "last_author_zuid": "96384499",
                         "status": "ACTIVE"
                       }
                     ]
                   },
                   "message": "Space fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
                   "status": "success"
                 }},
                 "A_T - SHARED_BY_OTHERS": {"value": {
@@ -1948,17 +2568,17 @@
                       "is_favorite": "false",
                       "space_name": "New Space",
                       "publish": "false",
-                      "owner_zuid": "40000000000032033",
+                      "owner_zuid": "97377569",
                       "can_edit": "false",
-                      "team_id": "40000000000027028",
+                      "team_id": "3009000000002003",
                       "space_member_count": "3",
-                      "space_id": "40000000000044045",
-                      "last_author_zuid": "40000000000032033",
+                      "space_id": "3009000000058037",
+                      "last_author_zuid": "97377569",
                       "status": "ACTIVE"
                     }]
                   },
                   "message": "Space fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
                   "status": "success"
                 }},
                 "A_T - PUBLISHED_WITH_TEAM": {"value": {
@@ -1971,12 +2591,12 @@
                         "is_favorite": "false",
                         "space_name": "testing library",
                         "publish": "false",
-                        "owner_zuid": "40000000000003004",
+                        "owner_zuid": "96384499",
                         "can_edit": "true",
-                        "team_id": "40000000000027028",
+                        "team_id": "3009000000002003",
                         "space_member_count": "0",
-                        "space_id": "40000000000049050",
-                        "last_author_zuid": "40000000000003004",
+                        "space_id": "3009000000038005",
+                        "last_author_zuid": "96384499",
                         "status": "ACTIVE"
                       },
                       {
@@ -1985,18 +2605,18 @@
                         "is_favorite": "false",
                         "space_name": "Vani - Getting Started",
                         "publish": "false",
-                        "owner_zuid": "40000000000003004",
+                        "owner_zuid": "96384499",
                         "can_edit": "true",
-                        "team_id": "40000000000027028",
+                        "team_id": "3009000000002003",
                         "space_member_count": "0",
-                        "space_id": "40000000000050051",
-                        "last_author_zuid": "40000000000003004",
+                        "space_id": "3009000000002013",
+                        "last_author_zuid": "96384499",
                         "status": "ACTIVE"
                       }
                     ]
                   },
                   "message": "Space fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
                   "status": "success"
                 }},
                 "A_T - SHARED_BY_ME": {"value": {
@@ -2008,61 +2628,324 @@
                       "is_favorite": "false",
                       "space_name": "New Space",
                       "publish": "false",
-                      "owner_zuid": "40000000000003004",
+                      "owner_zuid": "96384499",
                       "can_edit": "true",
-                      "team_id": "40000000000027028",
+                      "team_id": "3009000000002003",
                       "space_member_count": "2",
-                      "space_id": "40000000000045046",
-                      "last_author_zuid": "40000000000003004",
+                      "space_id": "3009000000093003",
+                      "last_author_zuid": "96384499",
                       "status": "ACTIVE"
                     }]
                   },
                   "message": "Space fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
                   "status": "success"
                 }},
-                "A_T - ALL_SPACES": {"value": {
+                "A_T - DRAFT_SPACES": {"value": {
                   "data": {
-                    "space_count": 34,
+                    "space_count": 24,
                     "spaces_info": [
                       {
                         "created_time": "Fri, 24 Jan 2025, 12:25:29",
-                        "is_favorite": "true",
                         "last_modified_time": "Fri, 24 Jan 2025, 12:25:29",
+                        "is_favorite": "true",
                         "space_name": "Business case template",
                         "publish": "false",
-                        "owner_zuid": "40000000000003004",
+                        "owner_zuid": "96384499",
                         "can_edit": "true",
-                        "team_id": "40000000000027028",
-                        "space_member_count": "1",
-                        "space_id": "40000000000039040",
-                        "last_author_zuid": "40000000000003004",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000093779",
+                        "last_author_zuid": "96384499",
                         "status": "ACTIVE"
                       },
                       {
                         "created_time": "Fri, 24 Jan 2025, 12:25:24",
-                        "is_favorite": "false",
                         "last_modified_time": "Fri, 24 Jan 2025, 12:25:24",
+                        "is_favorite": "false",
                         "space_name": "Customer journey map",
                         "publish": "false",
-                        "owner_zuid": "40000000000003004",
+                        "owner_zuid": "96384499",
                         "can_edit": "true",
-                        "team_id": "40000000000027028",
-                        "space_member_count": "1",
-                        "space_id": "40000000000040041",
-                        "last_author_zuid": "40000000000003004",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000093710",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Wed, 22 Jan 2025, 21:42:57",
+                        "last_modified_time": "Wed, 22 Jan 2025, 21:42:57",
+                        "is_favorite": "false",
+                        "space_name": "GET PROJECT TEST",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000090062",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Mon, 27 Jan 2025, 22:07:24",
+                        "last_modified_time": "Mon, 27 Jan 2025, 22:07:24",
+                        "is_favorite": "false",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000098042",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Mon, 27 Jan 2025, 22:13:00",
+                        "last_modified_time": "Mon, 27 Jan 2025, 22:13:00",
+                        "is_favorite": "false",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000100003",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Mon, 27 Jan 2025, 22:13:35",
+                        "last_modified_time": "Mon, 27 Jan 2025, 22:13:35",
+                        "is_favorite": "false",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000100067",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Mon, 27 Jan 2025, 22:14:52",
+                        "last_modified_time": "Mon, 27 Jan 2025, 22:14:52",
+                        "is_favorite": "false",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000100187",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Mon, 27 Jan 2025, 22:17:19",
+                        "last_modified_time": "Mon, 27 Jan 2025, 22:17:19",
+                        "is_favorite": "false",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000100307",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Tue, 28 Jan 2025, 20:22:52",
+                        "last_modified_time": "Tue, 28 Jan 2025, 21:39:33",
+                        "is_favorite": "false",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000111003",
+                        "last_author_zuid": "96384499",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Wed, 29 Jan 2025, 17:43:08",
+                        "last_modified_time": "Wed, 29 Jan 2025, 17:43:08",
+                        "is_favorite": "false",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "96384499",
+                        "can_edit": "true",
+                        "team_id": "3009000000002003",
+                        "space_id": "3009000000126009",
+                        "last_author_zuid": "96384499",
                         "status": "ACTIVE"
                       }
                     ]
                   },
                   "message": "Space fetched successfully.",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/spaces",
+                  "request_uri": "/vani/api/v1/editions/96499735/spaces",
+                  "status": "success"
+                }},
+                "A_T - ALL_SPACES": {"value": {
+                  "data": {
+                    "space_count": 25,
+                    "spaces_info": [
+                      {
+                        "created_time": "Tue, 30 Sep 2025, 13:07:54",
+                        "last_modified_time": "Fri, 03 Jul 2026, 19:51:24",
+                        "is_favorite": "false",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000027003",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "MCP AUTH",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000027003",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Thu, 20 Aug 2026, 11:18:56",
+                        "last_modified_time": "Thu, 20 Aug 2026, 11:29:46",
+                        "is_favorite": "false",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000904056",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "MCP Connector CURVE to LINE Test 2026-08-20",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000904056",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Thu, 20 Aug 2026, 08:38:38",
+                        "last_modified_time": "Thu, 20 Aug 2026, 09:21:47",
+                        "is_favorite": "true",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000899002",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "MCP Full Suite Regression 2026-08-20",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000899002",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Thu, 20 Aug 2026, 10:57:26",
+                        "last_modified_time": "Thu, 20 Aug 2026, 11:30:13",
+                        "is_favorite": "true",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000899158",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "MCP Full Suite Run B 2026-08-20 (renamed)",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000899158",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Tue, 14 Jul 2026, 16:24:35",
+                        "last_modified_time": "Tue, 14 Jul 2026, 19:20:14",
+                        "is_favorite": "false",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000831044",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "MCP issue find",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000831044",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Thu, 20 Aug 2026, 09:13:46",
+                        "last_modified_time": "Thu, 20 Aug 2026, 09:13:46",
+                        "is_favorite": "false",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000899063",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "MCP Suite Moved Zone Target",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000899063",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Thu, 20 Aug 2026, 11:04:26",
+                        "last_modified_time": "Thu, 20 Aug 2026, 11:04:26",
+                        "is_favorite": "false",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000899181",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "MCP Suite NewSpace From Zone",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "state_modified_time": "Thu, 20 Aug 2026, 11:39:08",
+                        "space_id": "5777000000899181",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Thu, 20 Aug 2026, 09:19:24",
+                        "last_modified_time": "Thu, 20 Aug 2026, 09:19:24",
+                        "is_favorite": "false",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000899115",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "MCP Suite Space Copy",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000899115",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Tue, 30 Sep 2025, 12:11:09",
+                        "last_modified_time": "Tue, 30 Sep 2025, 12:11:09",
+                        "is_favorite": "false",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000022031",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000022031",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      },
+                      {
+                        "created_time": "Mon, 13 Oct 2025, 18:08:43",
+                        "last_modified_time": "Mon, 13 Oct 2025, 18:10:13",
+                        "is_favorite": "false",
+                        "can_edit": "true",
+                        "open_url": "https://app.localvanihq.net/edition/112255940/space/5777000000033005",
+                        "team_id": "5777000000002017",
+                        "space_member_count": "1",
+                        "space_name": "New Space",
+                        "publish": "false",
+                        "owner_zuid": "82512958",
+                        "space_id": "5777000000033005",
+                        "last_author_zuid": "82512958",
+                        "status": "ACTIVE"
+                      }
+                    ]
+                  },
+                  "message": "Space fetched successfully.",
+                  "request_uri": "/vani/api/v1/editions/112255940/spaces",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -2208,26 +3091,26 @@
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
             "examples": {
-              "Success (2)": {"value": {
+              "Success 2": {"value": {
                 "data": {
-                  "edition_id": "40000000000002003",
+                  "edition_id": "96499735",
                   "space_state": "RESTORE",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000069070"
+                  "current_user_id": "96384499",
+                  "space_id": "3009000000093854"
                 },
                 "message": "Space state updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000069070/state",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093854/state",
                 "status": "success"
               }},
               "Success": {"value": {
                 "data": {
-                  "edition_id": "40000000000002003",
+                  "edition_id": "96499735",
                   "space_state": "TRASH",
-                  "current_user_id": "40000000000003004",
-                  "space_id": "40000000000069070"
+                  "current_user_id": "96384499",
+                  "space_id": "3009000000093854"
                 },
                 "message": "Space state updated successfully.",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000069070/state",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093854/state",
                 "status": "success"
               }}
             }
@@ -2240,20 +3123,20 @@
             "examples": {
               "Space Is Not in an Active State": {"value": {
                 "error": {"details": {
-                  "current_user_id": "40000000000003004",
+                  "current_user_id": "96384499",
                   "error_code": "S1012",
                   "message": "Space is not in an active state"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000069070/state",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000093854/state",
                 "status": "error"
               }},
               "Space Is Not in a Trashed State": {"value": {
                 "error": {"details": {
-                  "current_user_id": "40000000000003004",
+                  "current_user_id": "96384499",
                   "error_code": "S1011",
                   "message": "Space is not in an trashed state"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000077078/state",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/3009000000141003/state",
                 "status": "error"
               }}
             }
@@ -2264,22 +3147,22 @@
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {
-              "Unauthorized": {"value": {
+              "Unauthorized 2": {"value": {
                 "error": {"details": {
-                  "current_user_id": "40000000000003004",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000091092/state",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000000003/state",
                 "status": "error"
               }},
-              "Unauthorized (2)": {"value": {
+              "Unauthorized": {"value": {
                 "error": {"details": {
-                  "current_user_id": "40000000000003004",
+                  "current_user_id": "96384499",
                   "error_code": "A1003",
                   "message": "The user doesn't have permission to perform this action"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/spaces/40000000000093094/state",
+                "request_uri": "/vani/api/v1/editions/96499735/spaces/300900000009003/state",
                 "status": "error"
               }}
             }

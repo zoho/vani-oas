@@ -109,16 +109,12 @@
         "description": "Rate limit exceeded - this operation allows 30 requests per minute per user",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
-      "SuccessfulResponse": {
-        "description": "Successful response",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniEnvelope"}}}
-      },
-      "InvalidRequestValidationFailed6": {
-        "description": "Invalid request - validation failed",
-        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
-      },
       "RateLimitExceededThisOperationAllows10Re": {
         "description": "Rate limit exceeded - this operation allows 10 requests per minute per user",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
+      },
+      "InvalidRequestValidationFailed": {
+        "description": "Invalid request - validation failed",
         "content": {"application/json": {"schema": {"$ref": "#/components/schemas/VaniError"}}}
       },
       "RateLimitExceededThisOperationAllows500R": {
@@ -292,131 +288,131 @@
                 {
                   "name": "Eisenhower matrix",
                   "description": "The Eisenhower Matrix, also known as the Urgent-Important Matrix, is a productivity tool used to prioritize tasks based on their urgency and importance.",
-                  "id": "40000000000237238",
+                  "id": "2227813839241884264",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "1-on-1 feedback",
                   "description": "Help your mentor or teammate get an idea of what you're going to discuss with them in your 1-on-1 feedback sessions.",
-                  "id": "40000000000238239",
+                  "id": "415170746673786701",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "5 whys",
                   "description": "Find the root cause of a problem by asking &quot;Why?&quot; questions.",
-                  "id": "40000000000239240",
+                  "id": "8825346814681087568",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Guess the Doodle",
                   "description": "Just want to chill with the team for a while? This visual game will help you and your team relax and bond with each other.",
-                  "id": "40000000000240241",
+                  "id": "7193564480716665813",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Impact Effort Matrix",
                   "description": "An impact effort matrix is a tool used in project management to help prioritize tasks based on their level of impact and effort required.",
-                  "id": "40000000000241242",
+                  "id": "4880489140950000824",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Customer problem statement",
                   "description": "Get into your customer's shoes to better understand their problems. ",
-                  "id": "40000000000242243",
+                  "id": "3570349084835838944",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Marketing release checklist",
                   "description": "Got an upcoming release? Here&#39;s an easier way to plan and execute\nyour marketing goals, so that you get everything covered.",
-                  "id": "40000000000243244",
+                  "id": "5252159967532415789",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Never Have I Ever",
                   "description": "Never Have I Ever is a popular card game designed to reveal interesting and embarrassing secrets about the players. It's a great icebreaker and often opens up fun, entertaining conversations.",
-                  "id": "40000000000244245",
+                  "id": "9068022063805355070",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "New teammate onboarding",
                   "description": "Onboard new members of your team with this fun template.",
-                  "id": "40000000000245246",
+                  "id": "8077947179536093903",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "New teammate project milestones",
                   "description": "Help your new teammate understand all about your team's projects, the stuff they need to work on, and the expectations you've set for them.\r\n",
-                  "id": "40000000000246247",
+                  "id": "2197960956629199196",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Sales call follow-up",
                   "description": "This is a quick way to share insights after a sales call and discuss them with your team.",
-                  "id": "40000000000247248",
+                  "id": "1758538615716321335",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Product positioning",
                   "description": "Working on a new product or revising an existing one? Here are some positioning exercises for you and your teammates to brainstorm and fill in.\r\n",
-                  "id": "40000000000248249",
+                  "id": "4786897632740503006",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Strategic goal board",
                   "description": "Chart out some goals and work together with your teammates towards achieving them.\r\n",
-                  "id": "40000000000249250",
+                  "id": "146806559048094029",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Team bookshelf",
                   "description": "Build your team library with book recommendations from everyone.",
-                  "id": "40000000000250251",
+                  "id": "2601700237097182900",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Team coffee discussion",
                   "description": "Bond with your team over coffee, or just about anything you want, and have fun discussions.",
-                  "id": "40000000000251252",
+                  "id": "6282257423499599528",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Team priority : Now, Next, Later",
                   "description": "Working on your next team project? Quickly list down tasks and details, sort the most-important things to do, and keep track of the progress.\r\n",
-                  "id": "40000000000252253",
+                  "id": "1189335149816408152",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Team recipe board",
                   "description": "A fun team activity to share the best and favorite recipes with each other.",
-                  "id": "40000000000253254",
+                  "id": "709495071782421321",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Website signup flow",
                   "description": "A simple sign up flow to capture the visitor-to-subscriber conversion.",
-                  "id": "40000000000254255",
+                  "id": "5772067647393374657",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Weekly team planner",
                   "description": "Plan your week with your teammates using this template.\r\n",
-                  "id": "40000000000255256",
+                  "id": "3212028571933595674",
                   "is_available_for_edition": "true"
                 },
                 {
                   "name": "Book Club Meeting",
                   "description": "Use this template to jot down your bookish discussions and thoughts on what you are reading and keep track of your literary adventures. It is your cozy digital den for all things book-related.",
-                  "id": "40000000000256257",
+                  "id": "2053719903222126011",
                   "is_available_for_edition": "true"
                 }
               ]},
               "message": "Templates fetched successfully",
-              "request_uri": "/vani/api/v1/editions/40000000000108109/templates",
+              "request_uri": "/vani/api/v1/editions/888012145/templates",
               "status": "success"
             }}}
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -456,26 +452,26 @@
               "examples": {
                 "Team Requests Enabled": {"value": {
                   "data": {
-                    "edition_id": "40000000000002003",
+                    "edition_id": "96499735",
                     "status": "true"
                   },
                   "message": "Requests status fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/requests/status",
+                  "request_uri": "/vani/api/v1/editions/96499735/requests/status",
                   "status": "success"
                 }},
                 "Team Requests Disabled": {"value": {
                   "data": {
-                    "edition_id": "40000000000115116",
+                    "edition_id": "80585907",
                     "status": "false"
                   },
                   "message": "Requests status fetched successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000115116/requests/status",
+                  "request_uri": "/vani/api/v1/editions/80585907/requests/status",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -513,45 +509,59 @@
               "examples": {
                 "Team Request Disabled": {"value": {
                   "data": {
-                    "edition_id": "40000000000002003",
+                    "edition_id": "96499735",
                     "status": "false"
                   },
                   "message": "Requests status updated successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/requests/status",
+                  "request_uri": "/vani/api/v1/editions/96499735/requests/status",
                   "status": "success"
                 }},
                 "Team Request Enabled": {"value": {
                   "data": {
-                    "edition_id": "40000000000002003",
+                    "edition_id": "96499735",
                     "status": "true"
                   },
                   "message": "Requests status updated successfully",
-                  "request_uri": "/vani/api/v1/editions/40000000000002003/requests/status",
+                  "request_uri": "/vani/api/v1/editions/96499735/requests/status",
                   "status": "success"
                 }}
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {
             "description": "Unauthorized - missing or invalid access token",
             "content": {"application/json": {
               "schema": {"$ref": "#/components/schemas/VaniError"},
               "examples": {"Unauthorized": {"value": {
                 "error": {"details": {
-                  "edition_id": "40000000000002003",
-                  "current_user_id": "40000000000003004",
-                  "error_code": "A1002",
-                  "message": "Only admin can do this action"
+                  "error_code": "A1003",
+                  "message": "The user doesn't have permission to perform this action"
                 }},
-                "request_uri": "/vani/api/v1/editions/40000000000002003/requests/status",
+                "request_uri": "/vani/api/v1/editions/112255940/requests/status",
                 "status": "error"
               }}}
             }}
           },
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows30Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Already in the Requested State": {"value": {
+                "error": {"details": {
+                  "edition_id": "96499735",
+                  "current_user_id": "96384499",
+                  "error_code": "E1015",
+                  "message": "Team Request status is already in the requested state"
+                }},
+                "request_uri": "/vani/api/v1/editions/96499735/requests/status",
+                "status": "error"
+              }}}
+            }}
+          }
         },
         "x-vani-operation-type": "UPDATE",
         "parameters": [{"$ref": "#/components/parameters/EditionId"}],
@@ -582,14 +592,16 @@
             "examples": {
               "TRAIL PLAN": {"value": {
                 "data": {"subscription_info": {
-                  "edition_id": "40000000000008009",
-                  "expiry_date": "Wed, 05 Mar 2025, 19:06:08",
-                  "purchase_date": "Mon, 03 Feb 2025, 19:06:08",
-                  "plan_name": "TRIAL_PLAN",
+                  "plan_type": "Yearly",
+                  "edition_id": "112255940",
+                  "expiry_date": "Sat, 19 Jun 2027, 00:00:00",
+                  "members_count": "5",
+                  "purchase_date": "Fri, 19 Jun 2026, 18:56:49",
+                  "plan_name": "BUSINESS_PLAN",
                   "status": "Active"
                 }},
                 "message": "Subscription details fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000008009/subscription",
+                "request_uri": "/vani/api/v1/editions/112255940/subscription",
                 "status": "success"
               }},
               "Using Filter Fields": {"value": {
@@ -599,38 +611,38 @@
                   "status": "Active"
                 }},
                 "message": "Subscription details fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/subscription",
+                "request_uri": "/vani/api/v1/editions/96499735/subscription",
                 "status": "success"
               }},
               "FREE PLAN": {"value": {
                 "data": {"subscription_info": {
-                  "edition_id": "40000000000139140",
+                  "edition_id": "85572652",
                   "expiry_date": "-1L",
                   "purchase_date": "Mon, 24 Jun 2024, 11:44:23",
                   "plan_name": "FREE_PLAN",
                   "status": "Modified"
                 }},
                 "message": "Subscription details fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000139140/subscription",
+                "request_uri": "/vani/api/v1/editions/85572652/subscription",
                 "status": "success"
               }},
               "PAID PLAN": {"value": {
                 "data": {"subscription_info": {
                   "plan_type": "Yearly",
-                  "edition_id": "40000000000002003",
+                  "edition_id": "96499735",
                   "expiry_date": "Wed, 04 Feb 2026, 00:00:00",
                   "purchase_date": "Tue, 04 Feb 2025, 00:51:12",
                   "plan_name": "TEAM_PLAN",
                   "status": "Active"
                 }},
                 "message": "Subscription details fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000002003/subscription",
+                "request_uri": "/vani/api/v1/editions/96499735/subscription",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {"$ref": "#/components/responses/NotFoundAResourceNamedInThePathDoesNotEx10"},
@@ -695,43 +707,43 @@
               "Using Filter Fields": {"value": {
                 "data": {"edition_info": {
                   "state": "ACTIVE",
-                  "edition_name": "Blue Harbour",
-                  "edition_owner_id": "40000000000003004"
+                  "edition_name": "QA TEAM",
+                  "edition_owner_id": "96384499"
                 }},
                 "message": "Editions fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000005006",
+                "request_uri": "/vani/api/v1/editions/60029715808",
                 "status": "success"
               }},
               "Success": {"value": {
                 "data": {"edition_info": {
                   "created_time": "Tue, 21 Jan 2025, 17:04:53",
                   "last_modified_time": "Tue, 21 Jan 2025, 17:06:52",
-                  "edition_id": "40000000000004005",
+                  "edition_id": "97375109",
                   "edition_type_name": "TEAM",
                   "state": "ACTIVE",
-                  "edition_name": "Blue Harbour",
-                  "edition_owner_id": "40000000000003004",
-                  "uri": "/vani/api/v1/editions/40000000000004005/teams"
+                  "edition_name": "QA TEAM",
+                  "edition_owner_id": "96384499",
+                  "uri": "/vani/api/v1/editions/97375109/teams"
                 }},
                 "message": "Editions fetched successfully",
-                "request_uri": "/vani/api/v1/editions/40000000000005006",
+                "request_uri": "/vani/api/v1/editions/60029715808",
                 "status": "success"
               }}
             }
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {
           "description": "Unauthorized - missing or invalid access token",
           "content": {"application/json": {
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Failure \u2013 Invalid API Key": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000002003",
+                "edition_id": "96499735",
                 "error_code": "A1008",
                 "message": "Given API Key is not valid."
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000002003",
+              "request_uri": "/vani/api/v1/editions/96499735",
               "status": "error"
             }}}
           }}
@@ -772,16 +784,16 @@
               "data": {"template": {
                 "name": "1-on-1 feedback",
                 "description": "Help your mentor or teammate get an idea of what you're going to discuss with them in your 1-on-1 feedback sessions.",
-                "id": "40000000000238239",
+                "id": "415170746673786701",
                 "is_available_for_edition": "true"
               }},
               "message": "Template fetched successfully",
-              "request_uri": "/vani/api/v1/editions/40000000000108109/templates/40000000000238239",
+              "request_uri": "/vani/api/v1/editions/888012145/templates/415170746673786701",
               "status": "success"
             }}}
           }}
         },
-        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+        "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
         "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
         "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
         "404": {
@@ -790,12 +802,12 @@
             "schema": {"$ref": "#/components/schemas/VaniError"},
             "examples": {"Template not found": {"value": {
               "error": {"details": {
-                "edition_id": "40000000000108109",
-                "current_user_id": "40000000000135136",
+                "edition_id": "888012145",
+                "current_user_id": "888015717",
                 "error_code": "S1030",
                 "message": "Template not found"
               }},
-              "request_uri": "/vani/api/v1/editions/40000000000108109/templates/40000000000258259",
+              "request_uri": "/vani/api/v1/editions/888012145/templates/339360394209299546",
               "status": "error"
             }}}
           }}
@@ -832,7 +844,23 @@
         },
         "operationId": "createEdition",
         "responses": {
-          "201": {"$ref": "#/components/responses/SuccessfulResponse"},
+          "200": {
+            "description": "Successful response",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniEnvelope"},
+              "examples": {"Success": {"value": {
+                "data": {
+                  "edition_id": "98723605",
+                  "current_user_id": "98722154",
+                  "team_id": 5265000000002003,
+                  "team_name": "TeamEdition"
+                },
+                "message": "Team edition created successfully",
+                "request_uri": "/vani/api/v1/editions",
+                "status": "success"
+              }}}
+            }}
+          },
           "400": {
             "description": "Invalid request - validation failed",
             "content": {"application/json": {
@@ -850,7 +878,22 @@
           },
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
-          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows10Re"}
+          "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows10Re"},
+          "409": {
+            "description": "Conflict - the requested change conflicts with the current resource state",
+            "content": {"application/json": {
+              "schema": {"$ref": "#/components/schemas/VaniError"},
+              "examples": {"Edition Already Created": {"value": {
+                "error": {"details": {
+                  "current_user_id": "98722154",
+                  "error_code": "E1001",
+                  "message": "User has already created an edition"
+                }},
+                "request_uri": "/vani/api/v1/editions",
+                "status": "error"
+              }}}
+            }}
+          }
         },
         "x-vani-operation-type": "CREATE",
         "x-vani-read-only": false,
@@ -892,16 +935,16 @@
                 "Using Filter Fields": {"value": {
                   "data": {"editions_info": [
                     {
-                      "edition_name": "Northwind",
-                      "edition_owner_id": "40000000000001002"
+                      "edition_name": "DEVELOPERS",
+                      "edition_owner_id": "69828190"
                     },
                     {
-                      "edition_name": "Acme Design",
-                      "edition_owner_id": "40000000000003004"
+                      "edition_name": "REST API TEAM",
+                      "edition_owner_id": "96384499"
                     },
                     {
-                      "edition_name": "Blue Harbour",
-                      "edition_owner_id": "40000000000003004"
+                      "edition_name": "QA TEAM",
+                      "edition_owner_id": "96384499"
                     }
                   ]},
                   "message": "Editions fetched successfully",
@@ -913,33 +956,33 @@
                     {
                       "created_time": "Sun, 09 Apr 2023, 08:43:02",
                       "last_modified_time": "Sun, 09 Apr 2023, 08:43:02",
-                      "edition_id": "40000000000000001",
+                      "edition_id": "75918186",
                       "edition_type_name": "TEAM",
                       "state": "ACTIVE",
-                      "edition_name": "Northwind",
-                      "edition_owner_id": "40000000000001002",
+                      "edition_name": "DEVELOPERS",
+                      "edition_owner_id": "69828190",
                       "is_default": "true",
-                      "uri": "/vani/api/v1/editions/40000000000000001"
+                      "uri": "/vani/api/v1/editions/75918186"
                     },
                     {
                       "created_time": "Fri, 03 Jan 2025, 11:55:58",
                       "last_modified_time": "Wed, 29 Jan 2025, 18:26:53",
-                      "edition_id": "40000000000002003",
+                      "edition_id": "96499735",
                       "edition_type_name": "TEAM",
                       "state": "ACTIVE",
-                      "edition_name": "Acme Design",
-                      "edition_owner_id": "40000000000003004",
-                      "uri": "/vani/api/v1/editions/40000000000002003"
+                      "edition_name": "REST API TEAM",
+                      "edition_owner_id": "96384499",
+                      "uri": "/vani/api/v1/editions/96499735"
                     },
                     {
                       "created_time": "Tue, 21 Jan 2025, 17:04:53",
                       "last_modified_time": "Tue, 21 Jan 2025, 17:06:52",
-                      "edition_id": "40000000000004005",
+                      "edition_id": "97375109",
                       "edition_type_name": "TEAM",
                       "state": "ACTIVE",
-                      "edition_name": "Blue Harbour",
-                      "edition_owner_id": "40000000000003004",
-                      "uri": "/vani/api/v1/editions/40000000000004005"
+                      "edition_name": "QA TEAM",
+                      "edition_owner_id": "96384499",
+                      "uri": "/vani/api/v1/editions/97375109"
                     }
                   ]},
                   "message": "Editions fetched successfully",
@@ -949,7 +992,7 @@
               }
             }}
           },
-          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed6"},
+          "400": {"$ref": "#/components/responses/InvalidRequestValidationFailed"},
           "401": {"$ref": "#/components/responses/UnauthorizedMissingOrInvalidAccessToken9"},
           "500": {"$ref": "#/components/responses/InternalServerErrorTheRequestWasWellForm"},
           "429": {"$ref": "#/components/responses/RateLimitExceededThisOperationAllows60Re"}
